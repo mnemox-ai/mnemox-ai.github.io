@@ -20,9 +20,9 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #050508;
-  --bg-card: #0a0a10;
-  --bg-card-hover: #0f0f18;
+  --bg: #04060b;
+  --bg-card: #0b1120;
+  --bg-card-hover: #0f1628;
   --cyan: #00e5ff;
   --cyan-dim: #00e5ff33;
   --cyan-glow: #00e5ff15;
@@ -55,32 +55,27 @@ body {
 a { color: var(--cyan); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ===== SCANLINE OVERLAY ===== */
+/* ===== GRADIENT BACKGROUND ===== */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 229, 255, 0.008) 2px,
-    rgba(0, 229, 255, 0.008) 4px
-  );
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 229, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(167, 139, 250, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 229, 255, 0.02) 0%, transparent 50%),
+    linear-gradient(180deg, #04060b 0%, #080d16 30%, #0a1018 60%, #060a12 100%);
   pointer-events: none;
-  z-index: 9999;
+  z-index: -2;
 }
 
-/* ===== GRID BACKGROUND ===== */
+/* ===== NOISE TEXTURE ===== */
 body::after {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0.15;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: -1;
 }
@@ -183,16 +178,52 @@ section {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding-top: 80px;
   position: relative;
+  text-align: center;
+}
+
+.hero-mascot {
+  width: 220px;
+  height: 220px;
+  margin-bottom: 32px;
+  position: relative;
+  animation: mascot-float 5s ease-in-out infinite;
+}
+
+.hero-mascot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 200, 245, 0.15));
+}
+
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Subtle glow behind mascot */
+.hero-mascot::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 200, 245, 0.12), transparent 65%);
+  border-radius: 50%;
+  z-index: -1;
 }
 
 .hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .hero-title {
@@ -200,9 +231,15 @@ section {
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -2px;
+  text-align: center;
 }
 
-.hero-title .line-white { color: #ffffff; }
+.hero-title .line-white {
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 30%, rgba(200, 220, 240, 0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .hero-title .line-cyan {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--cyan);
@@ -214,7 +251,8 @@ section {
   font-size: 17px;
   color: var(--text-dim);
   line-height: 1.8;
-  max-width: 480px;
+  max-width: 540px;
+  text-align: center;
 }
 
 .hero-actions {
@@ -222,6 +260,7 @@ section {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .btn-primary {
@@ -832,7 +871,7 @@ footer {
   nav { padding: 12px 20px; }
   .nav-links { gap: 16px; }
   section { padding: 80px 20px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-grid { flex-direction: column; align-items: center; gap: 20px; }
   .hero-terminal { display: none; }
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
   .ba-container { grid-template-columns: 1fr; }
@@ -855,10 +894,14 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">MNEMOX<span>.</span></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="3.5" fill="none" stroke="#00e5ff" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="8" r="3.5" fill="none" stroke="#ffaa00" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="24" r="3.5" fill="none" stroke="#00ff88" stroke-width="1.5" opacity=".9"/><line x1="11" y1="14.5" x2="21" y2="9.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="11" y1="17.5" x2="21" y2="22.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="24" y1="11.5" x2="24" y2="20.5" stroke="#ffaa00" stroke-width="1" opacity=".25"/><circle cx="8" cy="16" r="1.5" fill="#00e5ff"/><circle cx="24" cy="8" r="1.5" fill="#ffaa00"/><circle cx="24" cy="24" r="1.5" fill="#00ff88"/></svg>
+    <div class="nav-logo">MNEMOX<span>.</span></div>
+  </div>
   <div class="nav-links">
     <a href="#problem">Problem</a>
     <a href="#memory">Memory</a>
+    <a href="#cases">Use Cases</a>
     <a href="#install">Install</a>
     <a href="#tools">Tools</a>
     <a href="#team">Team</a>
@@ -868,16 +911,19 @@ footer {
 
 <!-- HERO -->
 <section id="hero">
+  <div class="hero-mascot">
+    <img src="mne-cat.png" alt="Mne — The Mnemox Memory Cat" />
+  </div>
   <div class="hero-grid">
     <div>
-      <div class="section-label">Memory Infrastructure for AI</div>
       <h1 class="hero-title">
-        <span class="line-white">AI has no</span>
-        <span class="line-white">memory.</span>
-        <span class="line-cyan">We're fixing that.</span>
+        <span class="line-white">Mnemox</span>
       </h1>
+      <p class="hero-desc" style="font-size:20px; margin-top:16px; color:rgba(255,255,255,0.5); font-weight:500; letter-spacing:1px;">
+        The AI that remembers.
+      </p>
       <p class="hero-desc">
-        TradeMemory Protocol gives AI trading agents persistent, structured memory. Record every decision. Discover patterns. Evolve strategy automatically.
+        Give your AI trading agent persistent memory. Record every decision. Discover patterns. Evolve strategy — automatically.
       </p>
       <div class="hero-actions">
         <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-primary" target="_blank">
@@ -933,6 +979,19 @@ footer {
   <div class="stat-item">
     <div class="stat-number">MIT</div>
     <div class="stat-label">Licensed</div>
+  </div>
+</div>
+
+<!-- FEATURED BAR -->
+<div style="max-width:1200px; margin:-20px auto 0; padding:0 40px; position:relative; z-index:2;">
+  <div style="display:flex; align-items:center; justify-content:center; gap:40px; padding:20px 40px; background:var(--bg-card); border:1px solid var(--border); border-radius:8px;">
+    <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#3a3a50; white-space:nowrap;">Featured on</span>
+    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
+    <a href="https://dev.to/mnemox" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">Dev.to</a>
+    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
+    <a href="https://mcpservers.org" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">mcpservers.org</a>
+    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
+    <a href="https://github.com/appcypher/awesome-mcp-servers" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">awesome-mcp-servers</a>
   </div>
 </div>
 
@@ -1075,6 +1134,44 @@ footer {
         <span class="t-success">asia</span> → size × 0.8<br>
         <span class="t-success">london_break</span> → full pos<br>
         <span class="t-success">high_vol</span> → widen stops
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="cases">
+  <div class="reveal">
+    <div class="section-label">Use Cases</div>
+    <h2 class="section-title">Built for real trading.</h2>
+    <p class="section-subtitle">From solo forex traders to crypto bots to institutional research.</p>
+  </div>
+  <div class="layers-grid reveal" style="margin-top:60px">
+    <div class="layer-card l1" style="padding:36px 28px">
+      <div style="font-size:28px; margin-bottom:16px;">📈</div>
+      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;">Forex AI Agent</h3>
+      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;">Connect to MT5, let your AI agent record every XAUUSD trade, learn session patterns, and auto-adjust position sizing.</p>
+      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
+        "After 50 trades, my agent learned to avoid Asian session entries on its own."
+        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Simulated scenario</div>
+      </div>
+    </div>
+    <div class="layer-card l2" style="padding:36px 28px">
+      <div style="font-size:28px; margin-bottom:16px;">🔗</div>
+      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;">Crypto Trading Bot</h3>
+      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;">Works with Binance and Alpaca. Your bot remembers which market conditions led to losses and adjusts next time.</p>
+      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
+        "Stop running the same strategy in every regime. Let your bot know when the market has changed."
+        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Design philosophy</div>
+      </div>
+    </div>
+    <div class="layer-card l3" style="padding:36px 28px">
+      <div style="font-size:28px; margin-bottom:16px;">🧪</div>
+      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;">Backtesting Pipeline</h3>
+      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;">Feed historical trades into L1, run the reflection engine, and let L2/L3 emerge. Test memory-augmented strategies offline.</p>
+      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
+        "The reflection engine found 6 patterns in 200 trades that we missed in manual review."
+        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Simulated scenario</div>
       </div>
     </div>
   </div>
