@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mnemox — Memory Infrastructure for AI</title>
+<meta name="description" content="We build the memory layer AI agents are missing. TradeMemory Protocol: 3-layer memory system for AI trading agents.">
+<meta property="og:title" content="Mnemox — Memory Infrastructure for AI">
+<meta property="og:description" content="We build the memory layer AI agents are missing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mnemox.ai">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #06080c;
+  --bg-card: #0a0d14;
+  --accent: #00b4ff;
+  --accent-dim: #00b4ff22;
+  --accent-glow: #00b4ff15;
+  --text: #e8eaed;
+  --text-dim: #6b7280;
+  --text-ghost: #ffffff06;
+  --border: #ffffff0a;
+  --purple: #7c3aed;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Ghost data background */
+.ghost-data {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.025;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--accent);
+  white-space: pre;
+  padding: 20px;
+}
+
+/* Glows */
+.glow-1 {
+  position: fixed;
+  bottom: -200px; left: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #00b4ff08, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.glow-2 {
+  position: fixed;
+  top: -150px; right: -150px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #00b4ff05, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.glow-3 {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, #7c3aed03, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+.content { position: relative; z-index: 1; }
+
+/* Navigation */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #06080cdd;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  color: var(--text);
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase;
+  transition: opacity 0.3s !important;
+}
+.nav-cta:hover { opacity: 0.85; color: var(--bg) !important; }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 40px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.hero-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+.hero h1 .dim { color: var(--text-dim); }
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.6s;
+}
+.hero-actions {
+  display: flex; gap: 16px; align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  animation-delay: 0.8s;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+.btn-primary:hover { opacity: 0.85; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text-dim);
+  padding: 14px 28px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+/* Section base */
+section { padding: 120px 40px; max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.section-desc {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* Problem section */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 64px;
+  align-items: center;
+}
+.problem-visual {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--text-dim);
+}
+.problem-visual .line {
+  display: flex; justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+.problem-visual .fade { opacity: 0.3; }
+.problem-visual .gone { opacity: 0.1; text-decoration: line-through; }
+.problem-visual .header {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent-dim);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.problem-items { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+.problem-item {
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+  transition: border-color 0.3s;
+}
+.problem-item:hover { border-left-color: var(--accent); }
+.problem-item h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.problem-item p { font-size: 14px; color: var(--text-dim); }
+
+/* Memory layers */
+.layers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+.layer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s;
+}
+.layer-card:hover { border-color: var(--accent-dim); }
+.layer-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+}
+.layer-card.l1::before { background: var(--accent); opacity: 1; }
+.layer-card.l2::before { background: var(--accent); opacity: 0.5; }
+.layer-card.l3::before { background: var(--accent); opacity: 0.25; }
+.layer-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.layer-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.layer-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.layer-example {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: #ffffff04;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* Tools section */
+.tools-wrap { margin-top: 64px; }
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.tool-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+.tool-item:hover { border-color: var(--accent-dim); }
+.tool-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.tool-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* CTA */
+.cta-section {
+  text-align: center;
+  padding: 160px 40px;
+}
+.cta-section .section-title { margin: 0 auto 16px; }
+.cta-section .section-desc { margin: 0 auto 48px; text-align: center; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-left {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--text); }
+
+/* Divider */
+.section-divider {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 20px 60px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  section { padding: 80px 20px; }
+  .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+  .layers-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="ghost-data">
+XAUUSD LONG 2024-01-15 entry=2038.50 sl=2032.00 tp=2055.00 session=london result=WIN +164pips
+XAUUSD SHORT 2024-01-16 entry=2052.30 sl=2058.00 tp=2040.00 session=ny result=LOSS -57pips
+reflection: london_breakout win_rate=0.73 n=41 confidence=high → promote to L3
+XAUUSD LONG 2024-01-17 entry=2041.20 sl=2036.00 tp=2052.00 session=asia result=LOSS -52pips
+pattern: asia_session_entries win_rate=0.52 n=28 → reduce_size 0.8x
+XAUUSD LONG 2024-01-18 entry=2045.80 sl=2040.00 tp=2060.00 session=london result=WIN +142pips
+reflection: pullback_after_trend win_rate=0.81 rsi_below_40=true confidence=high
+XAUUSD SHORT 2024-01-19 entry=2058.90 sl=2065.00 tp=2045.00 session=ny result=WIN +139pips
+strategy_adjustment: nfp_counter_trend → avoid confidence=0.23 n=15
+XAUUSD LONG 2024-01-22 entry=2029.40 sl=2024.00 tp=2042.00 session=london result=WIN +126pips
+L1→L2 promotion: 3 new patterns discovered from 47 trades
+L2→L3 promotion: london_breakout_strategy activated weight=0.85
+XAUUSD SHORT 2024-01-23 entry=2043.60 sl=2050.00 tp=2030.00 session=asia result=LOSS -64pips
+memory_query: session=asia → historical_win_rate=0.52 recommendation=reduce_exposure
+XAUUSD LONG 2024-01-24 entry=2035.70 sl=2030.00 tp=2050.00 session=london result=WIN +143pips
+reflection: vol_breakout_setup detected=true confidence=0.89 action=full_position
+XAUUSD LONG 2024-01-25 entry=2048.20 sl=2042.00 tp=2062.00 session=ny result=WIN +138pips
+pattern: trend_continuation_after_breakout win_rate=0.77 n=33 → monitor
+XAUUSD SHORT 2024-01-26 entry=2061.50 sl=2068.00 tp=2048.00 session=london result=WIN +135pips
+L1→L2 promotion: 2 new patterns discovered from 53 trades
+strategy_adjustment: london_session_bias=long confidence=0.73 active=true
+XAUUSD LONG 2024-01-29 entry=2033.10 sl=2028.00 tp=2048.00 session=london result=WIN +149pips
+</div>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+<div class="glow-3"></div>
+
+<div class="content">
+
+<nav>
+  <div class="nav-logo">MNEMOX<span>.</span></div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#memory">Memory Layers</a>
+    <a href="#tools">Tools</a>
+    <a href="https://github.com/mnemox-ai/tradememory-protocol" class="nav-cta">GitHub</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">Memory Infrastructure for AI</div>
+  <h1>AI has no memory.<br><span class="dim">We're fixing that.</span></h1>
+  <p class="hero-sub">TradeMemory Protocol gives AI trading agents persistent, structured memory. Record every decision. Discover patterns. Evolve strategy. Open source.</p>
+  <div class="hero-actions">
+    <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      View on GitHub
+    </a>
+    <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/QUICK_START.md" class="btn-ghost">Quick Start →</a>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Problem -->
+<section id="problem">
+  <div class="fade-in">
+    <div class="section-label">The Problem</div>
+    <div class="section-title">Your AI forgets everything.</div>
+    <div class="section-desc">Every conversation starts from zero. No memory of past trades, no learned patterns, no accumulated judgment.</div>
+  </div>
+  <div class="problem-grid">
+    <div class="problem-visual fade-in">
+      <div class="line header"><span>SESSION</span><span>STATUS</span></div>
+      <div class="line"><span>Jan 15 — XAUUSD breakout analysis</span><span style="color:var(--accent)">✓ done</span></div>
+      <div class="line fade"><span>Jan 16 — Same setup, no memory of Jan 15</span><span style="color:#ef4444">✗ lost</span></div>
+      <div class="line fade"><span>Jan 17 — Same mistake repeated</span><span style="color:#ef4444">✗ lost</span></div>
+      <div class="line gone"><span>Jan 18 — Pattern forgotten again</span><span>✗ lost</span></div>
+      <div class="line gone"><span>Jan 19 — Still starting from zero...</span><span>✗ lost</span></div>
+    </div>
+    <div class="problem-items fade-in">
+      <div class="problem-item">
+        <h4>No learning loop</h4>
+        <p>AI analyzes, then forgets. It can't say "this setup failed 4 times last month."</p>
+      </div>
+      <div class="problem-item">
+        <h4>Journals are for humans</h4>
+        <p>Trading journals exist, but AI agents can't query them in real-time decisions.</p>
+      </div>
+      <div class="problem-item">
+        <h4>No pattern evolution</h4>
+        <p>Without memory, AI can't discover that London breakouts work but Asian session entries don't.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- Memory Layers -->
+<section id="memory">
+  <div class="fade-in">
+    <div class="section-label">The Solution</div>
+    <div class="section-title">Three layers of memory.</div>
+    <div class="section-desc">Inspired by how veteran traders develop expertise — from raw experience to pattern recognition to intuitive judgment.</div>
+  </div>
+  <div class="layers-grid">
+    <div class="layer-card l1 fade-in">
+      <div class="layer-tag">L1 · Raw Trades</div>
+      <h3>Record Everything</h3>
+      <p>Every trade auto-recorded with full context — entry, exit, SL, TP, session, outcome, and AI reasoning.</p>
+      <div class="layer-example">
+        record_trade(XAUUSD, LONG,<br>
+        entry=2038.50, sl=2032.00,<br>
+        session="london", result=WIN)
+      </div>
+    </div>
+    <div class="layer-card l2 fade-in">
+      <div class="layer-tag">L2 · Patterns</div>
+      <h3>Discover What Works</h3>
+      <p>Reflection engine analyzes history, extracts patterns: which strategies win, which sessions to avoid.</p>
+      <div class="layer-example">
+        london_breakout: 73% win rate<br>
+        asia_entries: 52% win rate<br>
+        nfp_counter: 23% → avoid
+      </div>
+    </div>
+    <div class="layer-card l3 fade-in">
+      <div class="layer-tag">L3 · Strategy</div>
+      <h3>Evolve Judgment</h3>
+      <p>Patterns become real-time adjustments. Memory becomes the AI equivalent of "feel for the market."</p>
+      <div class="layer-example">
+        asia_session → size × 0.8<br>
+        london_breakout → full position<br>
+        high_volatility → widen stops
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- Tools -->
+<section id="tools">
+  <div class="fade-in">
+    <div class="section-label">MCP Protocol</div>
+    <div class="section-title">7 tools. Any AI agent.</div>
+    <div class="section-desc">Built on Anthropic's Model Context Protocol. Works with Claude, GPT, open-source models. Supports MT5, Binance, Alpaca.</div>
+  </div>
+  <div class="tools-wrap fade-in">
+    <div class="tools-grid">
+      <div class="tool-item">
+        <span class="tool-name">record_trade</span>
+        <span class="tool-desc">— Log trades with full context</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">get_trade_history</span>
+        <span class="tool-desc">— Query past trades</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">reflect_on_trades</span>
+        <span class="tool-desc">— Trigger pattern discovery</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">get_patterns</span>
+        <span class="tool-desc">— Retrieve discovered patterns</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">get_strategy_adjustments</span>
+        <span class="tool-desc">— Real-time modifications</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">get_memory_stats</span>
+        <span class="tool-desc">— Memory dashboard</span>
+      </div>
+      <div class="tool-item">
+        <span class="tool-name">search_memory</span>
+        <span class="tool-desc">— Semantic search across layers</span>
+      </div>
+      <div class="tool-item" style="border-color: var(--accent-dim);">
+        <span class="tool-name" style="color: var(--text-dim);">MIT Licensed</span>
+        <span class="tool-desc">— Open source, forever</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="fade-in">
+    <div class="section-label" style="text-align:center">Get Started</div>
+    <div class="section-title">Give your AI agent<br>a memory.</div>
+    <div class="section-desc">36 tests passing. MIT licensed. 5-minute setup.</div>
+    <div class="cta-actions">
+      <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/QUICK_START.md" class="btn-ghost">Read the Docs →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-left">© 2025 Mnemox · Built in Taipei · Memory Infrastructure for AI</div>
+  <div class="footer-links">
+    <a href="https://github.com/mnemox-ai">GitHub</a>
+    <a href="https://dev.to/mnemox">Blog</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Scroll fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
