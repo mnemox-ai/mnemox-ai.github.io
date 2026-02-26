@@ -203,6 +203,10 @@ nav {
 
 .input-section textarea::placeholder {
   color: var(--text-muted);
+  transition: opacity 0.3s;
+}
+.input-section textarea.placeholder-fade::placeholder {
+  opacity: 0;
 }
 
 .input-controls {
@@ -561,10 +565,37 @@ nav {
   font-weight: 700;
 }
 
-/* Reset button */
+/* Action buttons */
 .reset-section {
   text-align: center;
   padding: 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn-copy-ai {
+  padding: 10px 24px;
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.btn-copy-ai:hover {
+  background: var(--cyan);
+  color: var(--bg);
+}
+
+.btn-copy-ai.copied {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
 }
 
 .btn-reset {
@@ -582,6 +613,88 @@ nav {
 .btn-reset:hover {
   color: var(--cyan);
   border-color: var(--cyan-dim);
+}
+
+/* Email collection */
+.email-section {
+  margin-bottom: 16px;
+}
+
+.email-card {
+  background: linear-gradient(135deg, rgba(0, 200, 255, 0.06), rgba(0, 200, 255, 0.02));
+  border: 1px solid var(--cyan-dim);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.email-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.email-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.email-form {
+  display: flex;
+  gap: 8px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.email-form input[type="email"] {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.email-form input[type="email"]:focus {
+  border-color: var(--cyan);
+}
+
+.btn-email {
+  padding: 10px 20px;
+  background: var(--cyan);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+
+.btn-email:hover {
+  opacity: 0.85;
+}
+
+.email-success {
+  color: #10b981;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+}
+
+.email-privacy {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
 }
 
 /* ===== ERROR ===== */
@@ -730,7 +843,21 @@ footer a { color: var(--text-dim); }
       <div class="hint-list" id="hint-list"></div>
     </div>
 
+    <div class="email-section" id="email-section">
+      <div class="email-card">
+        <div class="email-title" data-i18n="email_title">Want the full report?</div>
+        <div class="email-desc" data-i18n="email_desc">Get a detailed competitive analysis with market gaps, positioning strategy, and next steps delivered to your inbox.</div>
+        <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
+          <input type="email" id="email-input" placeholder="you@example.com" required>
+          <button type="submit" class="btn-email" data-i18n="email_send">Send Report</button>
+        </form>
+        <div class="email-success" id="email-success" style="display:none" data-i18n="email_thanks">Thanks! We'll send the report shortly.</div>
+        <div class="email-privacy" data-i18n="email_privacy">No spam. Used only for this report.</div>
+      </div>
+    </div>
+
     <div class="reset-section">
+      <button class="btn-copy-ai" onclick="copyToAI()" data-i18n="copy_to_ai">Copy to AI</button>
       <button class="btn-reset" onclick="resetForm()" data-i18n="check_another">Check Another Idea</button>
     </div>
   </div>
@@ -768,6 +895,13 @@ const i18n = {
     similar_projects: 'Similar Projects',
     pivot_hints: 'Pivot Hints',
     check_another: 'Check Another Idea',
+    copy_to_ai: 'Copy to AI',
+    copied: 'Copied!',
+    email_title: 'Want the full report?',
+    email_desc: 'Get a detailed competitive analysis with market gaps, positioning strategy, and next steps delivered to your inbox.',
+    email_send: 'Send Report',
+    email_thanks: 'Thanks! We\'ll send the report shortly.',
+    email_privacy: 'No spam. Used only for this report.',
     try_again: 'Try Again',
     powered_by: 'Powered by',
     waking: 'Waking up server',
@@ -797,6 +931,13 @@ const i18n = {
     similar_projects: '\u985e\u4f3c\u5c08\u6848',
     pivot_hints: '\u8f49\u5411\u5efa\u8b70',
     check_another: '\u6aa2\u6e2c\u53e6\u4e00\u500b\u60f3\u6cd5',
+    copy_to_ai: '\u8907\u88fd\u7d66 AI',
+    copied: '\u5df2\u8907\u88fd\uff01',
+    email_title: '\u60f3\u8981\u5b8c\u6574\u5831\u544a\uff1f',
+    email_desc: '\u53d6\u5f97\u8a73\u7d30\u7684\u7af6\u722d\u5206\u6790\u2014\u2014\u5305\u542b\u5e02\u5834\u7f3a\u53e3\u3001\u5b9a\u4f4d\u7b56\u7565\u3001\u4e0b\u4e00\u6b65\u884c\u52d5\uff0c\u76f4\u63a5\u5bc4\u5230\u4f60\u7684\u4fe1\u7bb1\u3002',
+    email_send: '\u767c\u9001\u5831\u544a',
+    email_thanks: '\u8b1d\u8b1d\uff01\u6211\u5011\u6703\u5118\u5feb\u5bc4\u51fa\u5831\u544a\u3002',
+    email_privacy: '\u4e0d\u6703\u5bc4\u5ee3\u544a\u3002\u50c5\u7528\u65bc\u672c\u6b21\u5831\u544a\u3002',
     try_again: '\u91cd\u8a66',
     powered_by: '\u7531',
     waking: '\u559a\u9192\u4f3a\u670d\u5668\u4e2d',
@@ -827,11 +968,16 @@ function applyLang() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
+  // Skip placeholder i18n for textarea — handled by suggestion rotation
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    el.placeholder = t(el.dataset.i18nPlaceholder);
+    if (el.id !== 'idea-input') el.placeholder = t(el.dataset.i18nPlaceholder);
   });
   document.getElementById('lang-btn').textContent = t('lang_toggle');
   document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+  // Reset suggestion rotation to current language
+  if (typeof rotatePlaceholder === 'function' && (!textarea || textarea.value.length === 0)) {
+    rotatePlaceholder();
+  }
 }
 
 function toggleLang() {
@@ -871,6 +1017,58 @@ function translateHint(hint) {
   return hint; // Fallback to English
 }
 
+// ===== Smart Placeholder Suggestions =====
+const SUGGESTIONS = {
+  en: [
+    'An MCP server that checks npm for package name conflicts',
+    'AI-powered code review tool that catches security vulnerabilities',
+    'CLI tool to auto-generate changelogs from git commits',
+    'Browser extension that summarizes long articles with AI',
+    'Real-time collaborative markdown editor for teams',
+    'API gateway with built-in rate limiting and analytics',
+    'Personal finance tracker with AI spending insights',
+    'Smart recipe app that suggests meals from fridge ingredients',
+  ],
+  zh: [
+    'LINE Bot \u81ea\u52d5\u5ba2\u670d\u7cfb\u7d71\uff0c\u6574\u5408 AI \u56de\u8986\u5e38\u898b\u554f\u984c',
+    '\u6aa2\u67e5 npm \u5957\u4ef6\u540d\u7a31\u885d\u7a81\u7684 MCP Server',
+    'AI \u7a0b\u5f0f\u78bc\u5be9\u67e5\u5de5\u5177\uff0c\u81ea\u52d5\u6355\u6349\u5b89\u5168\u6f0f\u6d1e',
+    '\u5f9e Git commit \u81ea\u52d5\u7522\u751f CHANGELOG \u7684 CLI \u5de5\u5177',
+    '\u7528 AI \u6458\u8981\u9577\u6587\u7ae0\u7684\u700f\u89bd\u5668\u5916\u639b',
+    '\u5373\u6642\u5354\u4f5c Markdown \u7de8\u8f2f\u5668',
+    '\u500b\u4eba\u8a18\u5e33 App\uff0c\u7528 AI \u5206\u6790\u6d88\u8cbb\u7fd2\u6163',
+    '\u667a\u6167\u98df\u8b5c\uff0c\u6839\u64da\u51b0\u7bb1\u98df\u6750\u63a8\u85a6\u83dc\u8272',
+  ]
+};
+
+let suggestionIdx = 0;
+let suggestionTimer = null;
+
+function rotatePlaceholder() {
+  const list = SUGGESTIONS[lang] || SUGGESTIONS.en;
+  const prefix = lang === 'zh' ? '\u4f8b\u5982\uff1a' : 'e.g. ';
+  // Fade out, change text, fade in
+  textarea.classList.add('placeholder-fade');
+  setTimeout(() => {
+    textarea.placeholder = prefix + list[suggestionIdx % list.length];
+    textarea.classList.remove('placeholder-fade');
+    suggestionIdx++;
+  }, 300);
+}
+
+function startSuggestionRotation() {
+  if (suggestionTimer) return;
+  rotatePlaceholder();
+  suggestionTimer = setInterval(rotatePlaceholder, 3000);
+}
+
+function stopSuggestionRotation() {
+  if (suggestionTimer) {
+    clearInterval(suggestionTimer);
+    suggestionTimer = null;
+  }
+}
+
 // ===== App Logic =====
 const $ = (id) => document.getElementById(id);
 const textarea = $('idea-input');
@@ -878,7 +1076,92 @@ const charCount = $('char-count');
 
 textarea.addEventListener('input', () => {
   charCount.textContent = `${textarea.value.length} / 500`;
+  if (textarea.value.length > 0) {
+    stopSuggestionRotation();
+  } else {
+    startSuggestionRotation();
+  }
 });
+
+textarea.addEventListener('focus', () => {
+  if (textarea.value.length === 0) startSuggestionRotation();
+});
+
+// Start rotation on page load
+startSuggestionRotation();
+
+let lastResultData = null;
+
+function copyToAI() {
+  if (!lastResultData) return;
+  const d = lastResultData;
+  const idea = textarea.value.trim();
+  const signal = d.reality_signal;
+  const likelihood = d.duplicate_likelihood;
+  const similars = (d.top_similars || []).slice(0, 5)
+    .map(s => `- ${s.name}${s.stars ? ` (${s.stars} stars)` : ''}${s.description ? ': ' + s.description.slice(0, 80) : ''}`)
+    .join('\n');
+  const hints = (d.pivot_hints || []).map((h, i) => `${i+1}. ${h}`).join('\n');
+  const sources = (d.meta?.sources_used || []).join(', ');
+
+  const prompt = lang === 'zh'
+    ? `## Idea Reality Check \u7d50\u679c
+
+**\u60f3\u6cd5**: ${idea}
+**\u73fe\u5be6\u4fe1\u865f**: ${signal}/100 (\u7af6\u722d\u7a0b\u5ea6: ${likelihood})
+**\u8cc7\u6599\u4f86\u6e90**: ${sources}
+
+### \u985e\u4f3c\u5c08\u6848
+${similars || '(\u7121)'}
+
+### \u8f49\u5411\u5efa\u8b70
+${hints}
+
+---
+\u8acb\u6839\u64da\u4ee5\u4e0a\u7af6\u722d\u5206\u6790\uff0c\u5e6b\u6211\u5236\u5b9a\u4e00\u500b\u5dee\u7570\u5316\u7b56\u7565\u3002\u6211\u7684\u60f3\u6cd5\u600e\u6a23\u624d\u80fd\u8207\u73fe\u6709\u5c08\u6848\u5340\u5206\u958b\u4f86\uff1f`
+    : `## Idea Reality Check Results
+
+**Idea**: ${idea}
+**Reality Signal**: ${signal}/100 (Competition: ${likelihood})
+**Sources**: ${sources}
+
+### Similar Projects
+${similars || '(none)'}
+
+### Pivot Hints
+${hints}
+
+---
+Based on this competition analysis, help me craft a differentiation strategy. How can my idea stand out from existing projects?`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    const btn = document.querySelector('.btn-copy-ai');
+    btn.textContent = t('copied');
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = t('copy_to_ai');
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function submitEmail(e) {
+  e.preventDefault();
+  const email = $('email-input').value.trim();
+  if (!email) return;
+  // Store email + result data for future backend integration
+  const collected = JSON.parse(localStorage.getItem('irm_emails') || '[]');
+  collected.push({
+    email,
+    idea: textarea.value.trim(),
+    signal: lastResultData?.reality_signal,
+    timestamp: new Date().toISOString(),
+  });
+  localStorage.setItem('irm_emails', JSON.stringify(collected));
+  // Show success
+  $('email-form').style.display = 'none';
+  $('email-success').style.display = '';
+}
 
 function setState(phase, data) {
   $('input-section').style.display = phase === 'idle' || phase === 'results' || phase === 'error' ? '' : 'none';
@@ -905,6 +1188,7 @@ function setState(phase, data) {
   }
 
   if (phase === 'results' && data) {
+    lastResultData = data;
     renderResults(data);
   }
 
