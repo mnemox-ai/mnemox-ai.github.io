@@ -615,88 +615,6 @@ nav {
   border-color: var(--cyan-dim);
 }
 
-/* Email collection */
-.email-section {
-  margin-bottom: 16px;
-}
-
-.email-card {
-  background: linear-gradient(135deg, rgba(0, 200, 255, 0.06), rgba(0, 200, 255, 0.02));
-  border: 1px solid var(--cyan-dim);
-  border-radius: 12px;
-  padding: 24px;
-  text-align: center;
-}
-
-.email-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.email-desc {
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.email-form {
-  display: flex;
-  gap: 8px;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.email-form input[type="email"] {
-  flex: 1;
-  padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.email-form input[type="email"]:focus {
-  border-color: var(--cyan);
-}
-
-.btn-email {
-  padding: 10px 20px;
-  background: var(--cyan);
-  color: var(--bg);
-  border: none;
-  border-radius: 8px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.3s;
-  white-space: nowrap;
-}
-
-.btn-email:hover {
-  opacity: 0.85;
-}
-
-.email-success {
-  color: #10b981;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 0;
-}
-
-.email-privacy {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 8px;
-}
-
 /* ===== ERROR ===== */
 .error {
   display: none;
@@ -843,19 +761,6 @@ footer a { color: var(--text-dim); }
       <div class="hint-list" id="hint-list"></div>
     </div>
 
-    <div class="email-section" id="email-section">
-      <div class="email-card">
-        <div class="email-title" data-i18n="email_title">Want the full report?</div>
-        <div class="email-desc" data-i18n="email_desc">Get a detailed competitive analysis with market gaps, positioning strategy, and next steps delivered to your inbox.</div>
-        <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
-          <input type="email" id="email-input" placeholder="you@example.com" required>
-          <button type="submit" class="btn-email" data-i18n="email_send">Send Report</button>
-        </form>
-        <div class="email-success" id="email-success" style="display:none" data-i18n="email_thanks">Thanks! We'll send the report shortly.</div>
-        <div class="email-privacy" data-i18n="email_privacy">No spam. Used only for this report.</div>
-      </div>
-    </div>
-
     <div class="reset-section">
       <button class="btn-copy-ai" onclick="copyToAI()" data-i18n="copy_to_ai">Copy to AI</button>
       <button class="btn-reset" onclick="resetForm()" data-i18n="check_another">Check Another Idea</button>
@@ -897,11 +802,6 @@ const i18n = {
     check_another: 'Check Another Idea',
     copy_to_ai: 'Copy to AI',
     copied: 'Copied!',
-    email_title: 'Want the full report?',
-    email_desc: 'Get a detailed competitive analysis with market gaps, positioning strategy, and next steps delivered to your inbox.',
-    email_send: 'Send Report',
-    email_thanks: 'Thanks! We\'ll send the report shortly.',
-    email_privacy: 'No spam. Used only for this report.',
     try_again: 'Try Again',
     powered_by: 'Powered by',
     waking: 'Waking up server',
@@ -933,11 +833,6 @@ const i18n = {
     check_another: '\u6aa2\u6e2c\u53e6\u4e00\u500b\u60f3\u6cd5',
     copy_to_ai: '\u8907\u88fd\u7d66 AI',
     copied: '\u5df2\u8907\u88fd\uff01',
-    email_title: '\u60f3\u8981\u5b8c\u6574\u5831\u544a\uff1f',
-    email_desc: '\u53d6\u5f97\u8a73\u7d30\u7684\u7af6\u722d\u5206\u6790\u2014\u2014\u5305\u542b\u5e02\u5834\u7f3a\u53e3\u3001\u5b9a\u4f4d\u7b56\u7565\u3001\u4e0b\u4e00\u6b65\u884c\u52d5\uff0c\u76f4\u63a5\u5bc4\u5230\u4f60\u7684\u4fe1\u7bb1\u3002',
-    email_send: '\u767c\u9001\u5831\u544a',
-    email_thanks: '\u8b1d\u8b1d\uff01\u6211\u5011\u6703\u5118\u5feb\u5bc4\u51fa\u5831\u544a\u3002',
-    email_privacy: '\u4e0d\u6703\u5bc4\u5ee3\u544a\u3002\u50c5\u7528\u65bc\u672c\u6b21\u5831\u544a\u3002',
     try_again: '\u91cd\u8a66',
     powered_by: '\u7531',
     waking: '\u559a\u9192\u4f3a\u670d\u5668\u4e2d',
@@ -1143,24 +1038,6 @@ Based on this competition analysis, help me craft a differentiation strategy. Ho
       btn.classList.remove('copied');
     }, 2000);
   });
-}
-
-function submitEmail(e) {
-  e.preventDefault();
-  const email = $('email-input').value.trim();
-  if (!email) return;
-  // Store email + result data for future backend integration
-  const collected = JSON.parse(localStorage.getItem('irm_emails') || '[]');
-  collected.push({
-    email,
-    idea: textarea.value.trim(),
-    signal: lastResultData?.reality_signal,
-    timestamp: new Date().toISOString(),
-  });
-  localStorage.setItem('irm_emails', JSON.stringify(collected));
-  // Show success
-  $('email-form').style.display = 'none';
-  $('email-success').style.display = '';
 }
 
 function setState(phase, data) {
