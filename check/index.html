@@ -840,6 +840,37 @@ function toggleLang() {
   applyLang();
 }
 
+// ===== Pivot Hint Translation =====
+const HINT_ZH = {
+  'High existing competition detected. Consider a niche differentiator or target an underserved audience segment.':
+    '偵測到高度競爭。建議尋找利基差異化切入點，或鎖定目前服務不足的受眾。',
+  'Consider building an integration or plugin for existing tools rather than a standalone replacement.':
+    '考慮為現有工具開發整合套件或外掛，而非從零打造替代品。',
+  'Moderate competition exists. Focus on a specific use case or workflow that current solutions handle poorly.':
+    '存在中度競爭。專注於現有方案處理不好的特定使用場景或工作流程。',
+  'Validate with potential users before building \u2014 the market exists but may not need another general solution.':
+    '動手之前先向潛在用戶驗證需求 \u2014 市場存在，但不一定需要另一個通用方案。',
+  'Look at the most recent entries for emerging trends you could lead.':
+    '關注最新出現的專案，尋找你能率先切入的新趨勢。',
+  'Low competition \u2014 this could be a greenfield opportunity or a niche that hasn\'t gained traction yet.':
+    '競爭度低 \u2014 可能是藍海機會，也可能是尚未獲得關注的利基市場。',
+  'Validate demand before investing heavily. Low competition can also mean low demand.':
+    '大量投入前先驗證需求。低競爭也可能意味著低需求。',
+  'Search adjacent problem spaces \u2014 the idea might exist under different terminology.':
+    '搜尋相鄰的問題領域 \u2014 同樣的想法可能用不同的術語存在。',
+};
+
+function translateHint(hint) {
+  // Direct match
+  if (HINT_ZH[hint]) return HINT_ZH[hint];
+  // Dynamic hint: "The leading project (X, Y stars) may have gaps..."
+  const m = hint.match(/^The leading project \((.+?), (\d+) stars\) may have gaps/);
+  if (m) {
+    return `領先專案（${m[1]}，${m[2]} 星）可能存在缺口。查看它的 Issues 和 Feature Requests，找出未被滿足的需求。`;
+  }
+  return hint; // Fallback to English
+}
+
 // ===== App Logic =====
 const $ = (id) => document.getElementById(id);
 const textarea = $('idea-input');
@@ -1053,14 +1084,14 @@ function renderResults(data) {
     });
   }
 
-  // Pivot hints
+  // Pivot hints (translate to Chinese when in zh mode)
   const hintList = $('hint-list');
   hintList.innerHTML = '';
   (data.pivot_hints || []).forEach((hint, i) => {
     const item = document.createElement('div');
     item.className = 'hint-item';
     item.dataset.num = i + 1;
-    item.textContent = hint;
+    item.textContent = lang === 'zh' ? translateHint(hint) : hint;
     hintList.appendChild(item);
   });
 }
