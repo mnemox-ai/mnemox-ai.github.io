@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reality Check — idea-reality-mcp</title>
+<meta name="description" content="Check if your product idea already exists. Scans GitHub, Hacker News, npm, PyPI, and Product Hunt in seconds.">
+<meta property="og:title" content="Reality Check — idea-reality-mcp">
+<meta property="og:description" content="Stop building what already exists. Free idea validation across 5 sources.">
+<meta property="og:url" content="https://mnemox.ai/check">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #04060b;
+  --bg-card: #0b1120;
+  --bg-card-hover: #0f1628;
+  --cyan: #00e5ff;
+  --cyan-dim: #00e5ff33;
+  --cyan-glow: #00e5ff15;
+  --green: #00ff88;
+  --green-dim: #00ff8833;
+  --red: #ff3366;
+  --red-dim: #ff336633;
+  --amber: #ffaa00;
+  --amber-dim: #ffaa0033;
+  --text: #e0e0e8;
+  --text-dim: #6a6a80;
+  --text-muted: #3a3a50;
+  --border: #1a1a28;
+  --border-bright: #2a2a40;
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 229, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(167, 139, 250, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 229, 255, 0.02) 0%, transparent 50%),
+    linear-gradient(180deg, #04060b 0%, #080d16 30%, #0a1018 60%, #060a12 100%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  background: rgba(4, 6, 11, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+
+.lang-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.header-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.header p {
+  font-size: 16px;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ===== INPUT SECTION ===== */
+.input-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.input-section textarea {
+  width: 100%;
+  min-height: 100px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 15px;
+  padding: 16px;
+  resize: vertical;
+  line-height: 1.5;
+  transition: border-color 0.3s;
+}
+
+.input-section textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+}
+
+.input-section textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.input-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  gap: 16px;
+}
+
+.depth-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.depth-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-track {
+  width: 40px;
+  height: 22px;
+  background: var(--border);
+  border-radius: 11px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--text-dim);
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.depth-toggle input:checked + .toggle-track {
+  background: var(--cyan-dim);
+}
+
+.depth-toggle input:checked + .toggle-track::after {
+  left: 21px;
+  background: var(--cyan);
+}
+
+.char-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.btn-check {
+  padding: 12px 32px;
+  background: var(--cyan);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.btn-check:hover {
+  background: #fff;
+}
+
+.btn-check:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== STATUS MESSAGE ===== */
+.status {
+  text-align: center;
+  padding: 40px 24px;
+  display: none;
+}
+
+.status.visible { display: block; }
+
+.status-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.status-dots::after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.scan-sources {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.scan-source {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.5s;
+}
+
+.scan-source.active {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+  background: var(--cyan-glow);
+}
+
+/* ===== RESULTS ===== */
+.results {
+  display: none;
+}
+
+.results.visible { display: block; }
+
+/* Signal gauge */
+.signal-section {
+  text-align: center;
+  padding: 40px 24px;
+  margin-bottom: 24px;
+}
+
+.gauge-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 20px;
+}
+
+.gauge-svg {
+  transform: rotate(-90deg);
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 8;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.5s ease-out, stroke 0.5s;
+}
+
+.gauge-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.gauge-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.likelihood-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 12px;
+}
+
+.likelihood-low { background: var(--green-dim); color: var(--green); }
+.likelihood-medium { background: var(--amber-dim); color: var(--amber); }
+.likelihood-high { background: var(--red-dim); color: var(--red); }
+
+/* Evidence grid */
+.evidence-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.evidence-card {
+  background: var(--bg-card);
+  padding: 20px;
+  transition: background 0.3s;
+}
+
+.evidence-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.evidence-source {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.evidence-count {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.evidence-detail {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* Top similars */
+.similars-section {
+  margin-bottom: 24px;
+}
+
+.similar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.similar-item {
+  background: var(--bg-card);
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  transition: background 0.3s;
+}
+
+.similar-item:hover {
+  background: var(--bg-card-hover);
+}
+
+.similar-info { flex: 1; min-width: 0; }
+
+.similar-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cyan);
+  word-break: break-all;
+}
+
+.similar-name a { color: inherit; }
+
+.similar-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.similar-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* Pivot hints */
+.hints-section {
+  margin-bottom: 32px;
+}
+
+.hint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.hint-item {
+  background: var(--bg-card);
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  position: relative;
+  padding-left: 36px;
+}
+
+.hint-item::before {
+  content: attr(data-num);
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+/* Reset button */
+.reset-section {
+  text-align: center;
+  padding: 24px;
+}
+
+.btn-reset {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-reset:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
+/* ===== ERROR ===== */
+.error {
+  display: none;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.error.visible { display: block; }
+
+.error-card {
+  background: var(--bg-card);
+  border: 1px solid var(--red-dim);
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.error-text {
+  font-size: 14px;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+
+.btn-retry {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-retry:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 32px 40px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+footer a { color: var(--text-dim); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  nav { padding: 12px 16px; }
+  .container { padding: 100px 16px 60px; }
+  .header h1 { font-size: 32px; }
+  .input-section { padding: 20px; }
+  .input-controls { flex-direction: column; align-items: stretch; }
+  .btn-check { width: 100%; text-align: center; }
+  .evidence-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">MNEMOX</a>
+  <div class="nav-links">
+    <a href="/" data-i18n="nav_home">Home</a>
+    <a href="https://github.com/mnemox-ai/idea-reality-mcp" target="_blank">GitHub</a>
+    <a href="https://pypi.org/project/idea-reality-mcp/" target="_blank">PyPI</a>
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()">ZH</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">idea-reality-mcp</div>
+    <h1 data-i18n="title">Reality Check</h1>
+    <p data-i18n="subtitle">Is your idea already built? Scan GitHub, Hacker News, npm, PyPI, and Product Hunt in seconds.</p>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-section" id="input-section">
+    <textarea id="idea-input" data-i18n-placeholder="placeholder" placeholder="Describe your product idea...&#10;&#10;e.g. An MCP server that checks npm for package name conflicts" maxlength="500"></textarea>
+    <div class="input-controls">
+      <label class="depth-toggle">
+        <span data-i18n="quick">Quick</span>
+        <input type="checkbox" id="depth-toggle">
+        <span class="toggle-track"></span>
+        <span data-i18n="deep">Deep</span>
+      </label>
+      <span class="char-count" id="char-count">0 / 500</span>
+      <button class="btn-check" id="btn-check" onclick="checkIdea()" data-i18n="check_btn">Check Reality</button>
+    </div>
+  </div>
+
+  <!-- STATUS (waking / checking) -->
+  <div class="status" id="status">
+    <div class="status-text" id="status-text"></div>
+    <div class="scan-sources" id="scan-sources">
+      <span class="scan-source" data-src="github">GitHub</span>
+      <span class="scan-source" data-src="hackernews">HN</span>
+      <span class="scan-source" data-src="npm">npm</span>
+      <span class="scan-source" data-src="pypi">PyPI</span>
+      <span class="scan-source" data-src="producthunt">PH</span>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="signal-section">
+      <div class="gauge-container">
+        <svg class="gauge-svg" width="180" height="180" viewBox="0 0 180 180">
+          <circle class="gauge-bg" cx="90" cy="90" r="78"></circle>
+          <circle class="gauge-fill" id="gauge-fill" cx="90" cy="90" r="78"
+            stroke-dasharray="490" stroke-dashoffset="490"></circle>
+        </svg>
+        <div class="gauge-number" id="gauge-number">0</div>
+      </div>
+      <div class="gauge-label" data-i18n="reality_signal">Reality Signal</div>
+      <div id="likelihood-badge"></div>
+    </div>
+
+    <div class="evidence-section">
+      <div class="section-label" data-i18n="evidence">Evidence</div>
+      <div class="evidence-grid" id="evidence-grid"></div>
+    </div>
+
+    <div class="similars-section" id="similars-section">
+      <div class="section-label" data-i18n="similar_projects">Similar Projects</div>
+      <div class="similar-list" id="similar-list"></div>
+    </div>
+
+    <div class="hints-section">
+      <div class="section-label" data-i18n="pivot_hints">Pivot Hints</div>
+      <div class="hint-list" id="hint-list"></div>
+    </div>
+
+    <div class="reset-section">
+      <button class="btn-reset" onclick="resetForm()" data-i18n="check_another">Check Another Idea</button>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error" id="error">
+    <div class="error-card">
+      <div class="error-text" id="error-text"></div>
+      <button class="btn-retry" onclick="resetForm()" data-i18n="try_again">Try Again</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Mnemox AI</span>
+  <span data-i18n="powered_by">Powered by</span>&nbsp;<a href="https://github.com/mnemox-ai/idea-reality-mcp">idea-reality-mcp</a>
+</footer>
+
+<script>
+const API_BASE = 'http://localhost:8000';
+// Production: const API_BASE = 'https://idea-reality-check.onrender.com';
+
+// ===== i18n =====
+const i18n = {
+  en: {
+    nav_home: 'Home',
+    title: 'Reality Check',
+    subtitle: 'Is your idea already built? Scan GitHub, Hacker News, npm, PyPI, and Product Hunt in seconds.',
+    placeholder: 'Describe your product idea...\n\ne.g. An MCP server that checks npm for package name conflicts',
+    quick: 'Quick',
+    deep: 'Deep',
+    check_btn: 'Check Reality',
+    reality_signal: 'Reality Signal',
+    evidence: 'Evidence',
+    similar_projects: 'Similar Projects',
+    pivot_hints: 'Pivot Hints',
+    check_another: 'Check Another Idea',
+    try_again: 'Try Again',
+    powered_by: 'Powered by',
+    waking: 'Waking up server',
+    waking_n: 'Waking up server ({n}/{max})',
+    scanning: 'Scanning sources',
+    err_server: 'Server is unavailable. It may be sleeping \u2014 try again in 30 seconds.',
+    err_input: 'Please enter a valid idea description (1\u2013500 characters).',
+    err_generic: 'Something went wrong. Please try again.',
+    top_stars: 'Top Stars',
+    highest_stars: 'Highest star count',
+    stars: 'stars',
+    likelihood_low: 'low',
+    likelihood_medium: 'medium',
+    likelihood_high: 'high',
+    lang_toggle: 'ZH',
+  },
+  zh: {
+    nav_home: '\u9996\u9801',
+    title: '\u73fe\u5be6\u6aa2\u6e2c',
+    subtitle: '\u4f60\u7684\u9ede\u5b50\u6709\u4eba\u505a\u904e\u4e86\u55ce\uff1f\u540c\u6642\u6383\u63cf GitHub\u3001Hacker News\u3001npm\u3001PyPI\u3001Product Hunt \u4e94\u5927\u5e73\u53f0\u3002',
+    placeholder: '\u63cf\u8ff0\u4f60\u7684\u7522\u54c1\u60f3\u6cd5...\n\n\u4f8b\u5982\uff1a\u4e00\u500b\u80fd\u6aa2\u67e5 npm \u5957\u4ef6\u540d\u7a31\u885d\u7a81\u7684 MCP Server',
+    quick: '\u5feb\u901f',
+    deep: '\u6df1\u5ea6',
+    check_btn: '\u958b\u59cb\u6aa2\u6e2c',
+    reality_signal: '\u73fe\u5be6\u4fe1\u865f',
+    evidence: '\u8b49\u64da',
+    similar_projects: '\u985e\u4f3c\u5c08\u6848',
+    pivot_hints: '\u8f49\u5411\u5efa\u8b70',
+    check_another: '\u6aa2\u6e2c\u53e6\u4e00\u500b\u60f3\u6cd5',
+    try_again: '\u91cd\u8a66',
+    powered_by: '\u7531',
+    waking: '\u559a\u9192\u4f3a\u670d\u5668\u4e2d',
+    waking_n: '\u559a\u9192\u4f3a\u670d\u5668\u4e2d ({n}/{max})',
+    scanning: '\u6383\u63cf\u4e2d',
+    err_server: '\u4f3a\u670d\u5668\u7121\u6cd5\u9023\u7dda\uff0c\u53ef\u80fd\u6b63\u5728\u4f11\u7720 \u2014 \u8acb 30 \u79d2\u5f8c\u518d\u8a66\u3002',
+    err_input: '\u8acb\u8f38\u5165\u6709\u6548\u7684\u60f3\u6cd5\u63cf\u8ff0\uff081\u2013500 \u5b57\u5143\uff09\u3002',
+    err_generic: '\u51fa\u4e86\u9ede\u554f\u984c\uff0c\u8acb\u518d\u8a66\u4e00\u6b21\u3002',
+    top_stars: '\u6700\u9ad8\u661f\u6578',
+    highest_stars: '\u6700\u9ad8\u661f\u6578',
+    stars: '\u661f',
+    likelihood_low: '\u4f4e',
+    likelihood_medium: '\u4e2d',
+    likelihood_high: '\u9ad8',
+    lang_toggle: 'EN',
+  }
+};
+
+let lang = localStorage.getItem('irm_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
+function t(key, vars) {
+  let s = i18n[lang][key] || i18n.en[key] || key;
+  if (vars) Object.entries(vars).forEach(([k, v]) => { s = s.replace(`{${k}}`, v); });
+  return s;
+}
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  document.getElementById('lang-btn').textContent = t('lang_toggle');
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+}
+
+function toggleLang() {
+  lang = lang === 'en' ? 'zh' : 'en';
+  localStorage.setItem('irm_lang', lang);
+  applyLang();
+}
+
+// ===== App Logic =====
+const $ = (id) => document.getElementById(id);
+const textarea = $('idea-input');
+const charCount = $('char-count');
+
+textarea.addEventListener('input', () => {
+  charCount.textContent = `${textarea.value.length} / 500`;
+});
+
+function setState(phase, data) {
+  $('input-section').style.display = phase === 'idle' || phase === 'results' || phase === 'error' ? '' : 'none';
+  $('status').className = (phase === 'waking' || phase === 'checking') ? 'status visible' : 'status';
+  $('results').className = phase === 'results' ? 'results visible' : 'results';
+  $('error').className = phase === 'error' ? 'error visible' : 'error';
+
+  if (phase === 'idle') {
+    $('btn-check').disabled = false;
+    textarea.disabled = false;
+  }
+
+  if (phase === 'waking') {
+    $('status-text').innerHTML = `${t('waking')}<span class="status-dots"></span>`;
+    document.querySelectorAll('.scan-source').forEach(el => el.classList.remove('active'));
+    $('btn-check').disabled = true;
+    textarea.disabled = true;
+  }
+
+  if (phase === 'checking') {
+    const isDeep = $('depth-toggle').checked;
+    $('status-text').innerHTML = `${t('scanning')}<span class="status-dots"></span>`;
+    animateSources(isDeep);
+  }
+
+  if (phase === 'results' && data) {
+    renderResults(data);
+  }
+
+  if (phase === 'error' && data) {
+    $('error-text').textContent = data.message || t('err_generic');
+  }
+}
+
+function animateSources(isDeep) {
+  const sources = ['github', 'hackernews'];
+  if (isDeep) sources.push('npm', 'pypi', 'producthunt');
+
+  document.querySelectorAll('.scan-source').forEach(el => {
+    el.classList.remove('active');
+    el.style.display = sources.includes(el.dataset.src) ? '' : 'none';
+  });
+
+  sources.forEach((src, i) => {
+    setTimeout(() => {
+      const el = document.querySelector(`.scan-source[data-src="${src}"]`);
+      if (el) el.classList.add('active');
+    }, 400 * (i + 1));
+  });
+}
+
+async function waitForServer(maxRetries = 8) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const resp = await fetch(`${API_BASE}/health`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (resp.ok) return true;
+    } catch {}
+    if (i < maxRetries - 1) {
+      $('status-text').innerHTML = `${t('waking_n', { n: i + 2, max: maxRetries })}<span class="status-dots"></span>`;
+      await new Promise(r => setTimeout(r, 5000));
+    }
+  }
+  return false;
+}
+
+async function checkIdea() {
+  const ideaText = textarea.value.trim();
+  if (!ideaText) {
+    textarea.focus();
+    return;
+  }
+
+  const depth = $('depth-toggle').checked ? 'deep' : 'quick';
+
+  setState('waking');
+
+  const awake = await waitForServer();
+  if (!awake) {
+    setState('error', { message: t('err_server') });
+    return;
+  }
+
+  setState('checking');
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/check`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idea_text: ideaText, depth }),
+    });
+
+    if (resp.status === 429) {
+      const data = await resp.json();
+      setState('error', { message: data.detail });
+      return;
+    }
+
+    if (resp.status === 422) {
+      setState('error', { message: t('err_input') });
+      return;
+    }
+
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+    const data = await resp.json();
+    setState('results', data);
+  } catch (e) {
+    setState('error', { message: t('err_generic') });
+  }
+}
+
+function renderResults(data) {
+  const signal = data.reality_signal || 0;
+  const circumference = 2 * Math.PI * 78;
+  const offset = circumference - (signal / 100) * circumference;
+  const gaugeColor = signal < 30 ? 'var(--green)' : signal < 61 ? 'var(--amber)' : 'var(--red)';
+
+  const gaugeFill = $('gauge-fill');
+  gaugeFill.style.stroke = gaugeColor;
+  gaugeFill.style.strokeDashoffset = offset;
+
+  const gaugeNum = $('gauge-number');
+  gaugeNum.style.color = gaugeColor;
+  let current = 0;
+  const step = Math.max(1, Math.floor(signal / 40));
+  const counter = setInterval(() => {
+    current += step;
+    if (current >= signal) {
+      current = signal;
+      clearInterval(counter);
+    }
+    gaugeNum.textContent = current;
+  }, 30);
+
+  // Likelihood badge
+  const likelihood = data.duplicate_likelihood || 'unknown';
+  const badge = $('likelihood-badge');
+  badge.textContent = t(`likelihood_${likelihood}`);
+  badge.className = `likelihood-badge likelihood-${likelihood}`;
+
+  // Evidence
+  const evidenceGrid = $('evidence-grid');
+  evidenceGrid.innerHTML = '';
+  const sourceLabels = { github: 'GitHub', hackernews: 'Hacker News', npm: 'npm', pypi: 'PyPI', producthunt: 'Product Hunt' };
+  const sourceColors = { github: 'var(--text)', hackernews: 'var(--amber)', npm: 'var(--red)', pypi: 'var(--cyan)', producthunt: 'var(--green)' };
+
+  const evidenceBySource = {};
+  (data.evidence || []).forEach(e => {
+    const src = e.source;
+    if (!evidenceBySource[src]) evidenceBySource[src] = [];
+    evidenceBySource[src].push(e);
+  });
+
+  Object.entries(evidenceBySource).forEach(([src, items]) => {
+    const main = items.find(i => i.type.includes('count')) || items[0];
+    const card = document.createElement('div');
+    card.className = 'evidence-card';
+    card.innerHTML = `
+      <div class="evidence-source">${sourceLabels[src] || src}</div>
+      <div class="evidence-count" style="color:${sourceColors[src] || 'var(--text)'}">${(main.count || 0).toLocaleString()}</div>
+      <div class="evidence-detail">${main.detail || main.type}</div>
+    `;
+    evidenceGrid.appendChild(card);
+  });
+
+  const starsEvidence = (data.evidence || []).find(e => e.type === 'max_stars');
+  if (starsEvidence && starsEvidence.count > 0) {
+    const card = document.createElement('div');
+    card.className = 'evidence-card';
+    card.innerHTML = `
+      <div class="evidence-source">${t('top_stars')}</div>
+      <div class="evidence-count" style="color:var(--amber)">${starsEvidence.count.toLocaleString()}</div>
+      <div class="evidence-detail">${starsEvidence.detail || t('highest_stars')}</div>
+    `;
+    evidenceGrid.appendChild(card);
+  }
+
+  // Top similars
+  const similarsSection = $('similars-section');
+  const similarList = $('similar-list');
+  similarList.innerHTML = '';
+  const similars = data.top_similars || [];
+
+  if (similars.length === 0) {
+    similarsSection.style.display = 'none';
+  } else {
+    similarsSection.style.display = '';
+    similars.slice(0, 8).forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'similar-item';
+      const stars = s.stars ? `${s.stars.toLocaleString()} ${t('stars')}` : '';
+      item.innerHTML = `
+        <div class="similar-info">
+          <div class="similar-name"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></div>
+          ${s.description ? `<div class="similar-desc">${s.description}</div>` : ''}
+        </div>
+        ${stars ? `<div class="similar-meta">${stars}</div>` : ''}
+      `;
+      similarList.appendChild(item);
+    });
+  }
+
+  // Pivot hints
+  const hintList = $('hint-list');
+  hintList.innerHTML = '';
+  (data.pivot_hints || []).forEach((hint, i) => {
+    const item = document.createElement('div');
+    item.className = 'hint-item';
+    item.dataset.num = i + 1;
+    item.textContent = hint;
+    hintList.appendChild(item);
+  });
+}
+
+function resetForm() {
+  setState('idle');
+  $('gauge-fill').style.strokeDashoffset = 490;
+  $('gauge-number').textContent = '0';
+  $('gauge-number').style.color = '';
+  textarea.focus();
+}
+
+textarea.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    checkIdea();
+  }
+});
+
+// Init
+applyLang();
+</script>
+</body>
+</html>
