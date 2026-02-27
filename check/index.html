@@ -615,6 +615,28 @@ nav {
   border-color: var(--cyan-dim);
 }
 
+/* ===== AGENT CTA ===== */
+.agent-cta {
+  margin-top: 28px;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.agent-cta-icon { font-size: 16px; }
+.agent-cta a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-weight: 500;
+}
+.agent-cta a:hover { text-decoration: underline; }
+
 /* ===== ERROR ===== */
 .error {
   display: none;
@@ -765,6 +787,12 @@ footer a { color: var(--text-dim); }
       <button class="btn-copy-ai" onclick="copyToAI()" data-i18n="copy_to_ai">Copy to AI</button>
       <button class="btn-reset" onclick="resetForm()" data-i18n="check_another">Check Another Idea</button>
     </div>
+
+    <div class="agent-cta">
+      <span class="agent-cta-icon">&#x1f527;</span>
+      <span data-i18n="agent_cta">Want this running inside your AI agent?</span>
+      <a href="https://github.com/mnemox-ai/idea-reality-mcp" target="_blank" rel="noopener" data-i18n="agent_cta_link">One line in Claude/Cursor config &rarr;</a>
+    </div>
   </div>
 
   <!-- ERROR -->
@@ -816,6 +844,8 @@ const i18n = {
     likelihood_low: 'low',
     likelihood_medium: 'medium',
     likelihood_high: 'high',
+    agent_cta: 'Want this running inside your AI agent?',
+    agent_cta_link: 'One line in Claude/Cursor config \u2192',
     lang_toggle: 'ZH',
   },
   zh: {
@@ -847,6 +877,8 @@ const i18n = {
     likelihood_low: '\u4f4e',
     likelihood_medium: '\u4e2d',
     likelihood_high: '\u9ad8',
+    agent_cta: '\u60f3\u8b93 AI Agent \u81ea\u52d5\u5e6b\u4f60\u67e5\uff1f',
+    agent_cta_link: '\u4e00\u884c\u8a2d\u5b9a\u5373\u53ef\u63a5\u5165 Claude/Cursor \u2192',
     lang_toggle: 'EN',
   }
 };
