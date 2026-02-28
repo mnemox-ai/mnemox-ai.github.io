@@ -532,6 +532,7 @@ nav {
 /* Pivot hints */
 .hints-section {
   margin-bottom: 32px;
+  position: relative;
 }
 
 .hint-list {
@@ -613,6 +614,97 @@ nav {
 .btn-reset:hover {
   color: var(--cyan);
   border-color: var(--cyan-dim);
+}
+
+/* ===== EMAIL GATE (pivot hints) ===== */
+.hints-section.locked .hint-list {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.email-gate-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  text-align: center;
+  background: rgba(11, 17, 32, 0.95);
+  padding: 24px 32px;
+  border-radius: 12px;
+  border: 1px solid var(--cyan-dim);
+  backdrop-filter: blur(4px);
+  width: max-content;
+  max-width: 90%;
+}
+
+.email-gate-overlay p {
+  color: var(--text);
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.email-gate-form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.email-gate-form input[type="email"] {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cyan-dim);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 14px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.email-gate-form input[type="email"]:focus {
+  border-color: var(--cyan);
+}
+
+.email-gate-form button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--cyan);
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.email-gate-form button:hover {
+  background: #fff;
+}
+
+.email-gate-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.email-gate-note {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .email-gate-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .email-gate-form input[type="email"] {
+    width: 100%;
+  }
 }
 
 /* ===== AGENT CTA ===== */
@@ -846,6 +938,12 @@ const i18n = {
     likelihood_high: 'high',
     agent_cta: 'Want this running inside your AI agent?',
     agent_cta_link: 'One line in Claude/Cursor config \u2192',
+    gate_title: 'Unlock pivot suggestions',
+    gate_btn: 'Unlock',
+    gate_btn_loading: 'Unlocking...',
+    gate_note: 'No spam. We just want to know who finds this useful.',
+    gate_email_invalid: 'Please enter a valid email address.',
+    gate_error: 'Something went wrong. Try again?',
     lang_toggle: 'ZH',
   },
   zh: {
@@ -879,6 +977,12 @@ const i18n = {
     likelihood_high: '\u9ad8',
     agent_cta: '\u60f3\u8b93 AI Agent \u81ea\u52d5\u5e6b\u4f60\u67e5\uff1f',
     agent_cta_link: '\u4e00\u884c\u8a2d\u5b9a\u5373\u53ef\u63a5\u5165 Claude/Cursor \u2192',
+    gate_title: '\u89e3\u9396\u8f49\u5411\u5efa\u8b70',
+    gate_btn: '\u89e3\u9396',
+    gate_btn_loading: '\u89e3\u9396\u4e2d...',
+    gate_note: '\u4e0d\u6703\u5bc4\u5783\u573e\u4fe1\u3002\u53ea\u662f\u60f3\u77e5\u9053\u8ab0\u89ba\u5f97\u6709\u7528\u3002',
+    gate_email_invalid: '\u8acb\u8f38\u5165\u6709\u6548\u7684 Email \u5730\u5740\u3002',
+    gate_error: '\u51fa\u4e86\u9ede\u554f\u984c\uff0c\u8acb\u518d\u8a66\u4e00\u6b21\uff1f',
     lang_toggle: 'EN',
   }
 };
@@ -1280,13 +1384,86 @@ function renderResults(data) {
   // Pivot hints (translate to Chinese when in zh mode)
   const hintList = $('hint-list');
   hintList.innerHTML = '';
-  (data.pivot_hints || []).forEach((hint, i) => {
+  const hints = data.pivot_hints || [];
+  hints.forEach((hint, i) => {
     const item = document.createElement('div');
     item.className = 'hint-item';
     item.dataset.num = i + 1;
     item.textContent = lang === 'zh' ? translateHint(hint) : hint;
     hintList.appendChild(item);
   });
+
+  // Store idea_hash for subscribe
+  window._currentIdeaHash = data.idea_hash || '';
+
+  // Email gate on pivot hints
+  const hintsSection = document.querySelector('.hints-section');
+  const unlocked = localStorage.getItem('irm_unlocked') === 'true';
+
+  // Remove any previous gate overlay
+  hintsSection.classList.remove('locked');
+  const oldOverlay = hintsSection.querySelector('.email-gate-overlay');
+  if (oldOverlay) oldOverlay.remove();
+
+  if (!unlocked && hints.length > 0) {
+    hintsSection.classList.add('locked');
+    const overlay = document.createElement('div');
+    overlay.className = 'email-gate-overlay';
+    overlay.innerHTML = `
+      <p>\ud83d\udd13 ${t('gate_title')}</p>
+      <div class="email-gate-form">
+        <input type="email" id="gate-email" placeholder="you@email.com">
+        <button id="gate-btn" onclick="unlockReport()">${t('gate_btn')}</button>
+      </div>
+      <p class="email-gate-note">${t('gate_note')}</p>
+    `;
+    hintsSection.appendChild(overlay);
+  }
+}
+
+async function unlockReport() {
+  const emailInput = $('gate-email');
+  const btn = $('gate-btn');
+  if (!emailInput || !btn) return;
+
+  const email = emailInput.value.trim();
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    alert(t('gate_email_invalid'));
+    return;
+  }
+
+  btn.textContent = t('gate_btn_loading');
+  btn.disabled = true;
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch(`${API_BASE}/api/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        idea_hash: window._currentIdeaHash || 'unknown',
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      localStorage.setItem('irm_unlocked', 'true');
+      // Remove blur + overlay
+      const hintsSection = document.querySelector('.hints-section');
+      hintsSection.classList.remove('locked');
+      const overlay = hintsSection.querySelector('.email-gate-overlay');
+      if (overlay) overlay.remove();
+    } else {
+      throw new Error(`HTTP ${res.status}`);
+    }
+  } catch (err) {
+    btn.textContent = t('gate_btn');
+    btn.disabled = false;
+    alert(t('gate_error'));
+  }
 }
 
 function resetForm() {
