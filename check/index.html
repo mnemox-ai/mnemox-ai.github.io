@@ -936,6 +936,12 @@ const i18n = {
     likelihood_low: 'low',
     likelihood_medium: 'medium',
     likelihood_high: 'high',
+    ev_repos: '{count} repos found across queries',
+    ev_hn: '{count} HN posts in last 12 months',
+    ev_npm: '{count} npm packages found',
+    ev_pypi: '{count} PyPI packages found',
+    ev_ph_skip: 'Product Hunt search skipped (token not set)',
+    ev_top_stars: 'Top repo has {count} stars',
     agent_cta: 'Want this running inside your AI agent?',
     agent_cta_link: 'One line in Claude/Cursor config \u2192',
     gate_title: 'Unlock pivot suggestions',
@@ -975,6 +981,12 @@ const i18n = {
     likelihood_low: '\u4f4e',
     likelihood_medium: '\u4e2d',
     likelihood_high: '\u9ad8',
+    ev_repos: '搜尋到 {count} 個儲存庫',
+    ev_hn: '過去 12 個月有 {count} 篇 HN 討論',
+    ev_npm: '找到 {count} 個 npm 套件',
+    ev_pypi: '找到 {count} 個 PyPI 套件',
+    ev_ph_skip: 'Product Hunt 搜尋已跳過（未設定 Token）',
+    ev_top_stars: '最高星數 {count}',
     agent_cta: '\u60f3\u8b93 AI Agent \u81ea\u52d5\u5e6b\u4f60\u67e5\uff1f',
     agent_cta_link: '\u4e00\u884c\u8a2d\u5b9a\u5373\u53ef\u63a5\u5165 Claude/Cursor \u2192',
     gate_title: '\u89e3\u9396\u8f49\u5411\u5efa\u8b70',
@@ -1267,7 +1279,7 @@ async function checkIdea() {
     const resp = await fetch(`${API_BASE}/api/check`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idea_text: ideaText, depth }),
+      body: JSON.stringify({ idea_text: ideaText, depth, lang }),
     });
 
     if (resp.status === 429) {
@@ -1332,14 +1344,23 @@ function renderResults(data) {
     evidenceBySource[src].push(e);
   });
 
+  // Map source+type to i18n keys
+  const evDetailKey = { github: 'ev_repos', hackernews: 'ev_hn', npm: 'ev_npm', pypi: 'ev_pypi' };
+
   Object.entries(evidenceBySource).forEach(([src, items]) => {
     const main = items.find(i => i.type.includes('count')) || items[0];
+    const count = (main.count || 0);
+    const detailText = evDetailKey[src]
+      ? t(evDetailKey[src], { count: count.toLocaleString() })
+      : (main.detail || main.type);
+    // Handle PH skipped
+    const isPhSkip = src === 'producthunt' && main.detail && main.detail.includes('skipped');
     const card = document.createElement('div');
     card.className = 'evidence-card';
     card.innerHTML = `
       <div class="evidence-source">${sourceLabels[src] || src}</div>
-      <div class="evidence-count" style="color:${sourceColors[src] || 'var(--text)'}">${(main.count || 0).toLocaleString()}</div>
-      <div class="evidence-detail">${main.detail || main.type}</div>
+      <div class="evidence-count" style="color:${sourceColors[src] || 'var(--text)'}">${count.toLocaleString()}</div>
+      <div class="evidence-detail">${isPhSkip ? t('ev_ph_skip') : detailText}</div>
     `;
     evidenceGrid.appendChild(card);
   });
@@ -1351,7 +1372,7 @@ function renderResults(data) {
     card.innerHTML = `
       <div class="evidence-source">${t('top_stars')}</div>
       <div class="evidence-count" style="color:var(--amber)">${starsEvidence.count.toLocaleString()}</div>
-      <div class="evidence-detail">${starsEvidence.detail || t('highest_stars')}</div>
+      <div class="evidence-detail">${t('ev_top_stars', { count: starsEvidence.count.toLocaleString() })}</div>
     `;
     evidenceGrid.appendChild(card);
   }
@@ -1381,15 +1402,17 @@ function renderResults(data) {
     });
   }
 
-  // Pivot hints (translate to Chinese when in zh mode)
+  // Pivot hints — LLM hints already localized, only translate template hints
   const hintList = $('hint-list');
   hintList.innerHTML = '';
   const hints = data.pivot_hints || [];
+  const pivotSource = (data.meta && data.meta.pivot_source) || 'template';
   hints.forEach((hint, i) => {
     const item = document.createElement('div');
     item.className = 'hint-item';
     item.dataset.num = i + 1;
-    item.textContent = lang === 'zh' ? translateHint(hint) : hint;
+    // LLM hints are already in the correct language; only translate template hints
+    item.textContent = (pivotSource === 'template' && lang === 'zh') ? translateHint(hint) : hint;
     hintList.appendChild(item);
   });
 
