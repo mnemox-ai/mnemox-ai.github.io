@@ -770,6 +770,29 @@ nav {
   border-color: var(--cyan-dim);
 }
 
+/* ===== LANG BANNER ===== */
+.lang-banner {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  border: 1px solid var(--amber-dim);
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.lang-banner.visible {
+  opacity: 1;
+}
+
 /* ===== FOOTER ===== */
 footer {
   padding: 32px 40px;
@@ -951,6 +974,7 @@ const i18n = {
     gate_email_invalid: 'Please enter a valid email address.',
     gate_error: 'Something went wrong. Try again?',
     lang_toggle: 'ZH',
+    lang_changed: 'Language changed. Search again to update results.',
   },
   zh: {
     nav_home: '\u9996\u9801',
@@ -996,6 +1020,7 @@ const i18n = {
     gate_email_invalid: '\u8acb\u8f38\u5165\u6709\u6548\u7684 Email \u5730\u5740\u3002',
     gate_error: '\u51fa\u4e86\u9ede\u554f\u984c\uff0c\u8acb\u518d\u8a66\u4e00\u6b21\uff1f',
     lang_toggle: 'EN',
+    lang_changed: '語言已切換，重新搜尋可更新結果語言',
   }
 };
 
@@ -1027,6 +1052,28 @@ function toggleLang() {
   lang = lang === 'en' ? 'zh' : 'en';
   localStorage.setItem('irm_lang', lang);
   applyLang();
+
+  // Show banner if results are currently visible
+  const resultsEl = $('results');
+  if (resultsEl && resultsEl.classList.contains('visible')) {
+    showLangBanner();
+  }
+}
+
+function showLangBanner() {
+  let banner = document.getElementById('lang-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'lang-banner';
+    banner.className = 'lang-banner';
+    document.body.appendChild(banner);
+  }
+  banner.textContent = t('lang_changed');
+  banner.classList.add('visible');
+  clearTimeout(banner._timer);
+  banner._timer = setTimeout(() => {
+    banner.classList.remove('visible');
+  }, 3000);
 }
 
 // ===== Pivot Hint Translation =====
