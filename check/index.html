@@ -36,6 +36,54 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is Idea Reality Check different from Google?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google requires you to manually search and interpret results. Idea Reality Check runs automatically inside your AI coding agent via MCP — no human intent needed. It searches 5 structured databases (not web pages) and returns a scored 0-100 signal with evidence, not a list of links."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What databases does Idea Reality Check scan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It scans GitHub repositories, Hacker News posts, npm packages, PyPI packages, and Product Hunt launches. Quick mode scans GitHub and HN. Deep mode scans all five sources in parallel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Idea Reality Check free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It is open-source under MIT license. The MCP server runs locally via pip install idea-reality-mcp. This web demo and the REST API at idea-reality-mcp.onrender.com are also free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Idea Reality Check work for non-English ideas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The keyword extraction supports Chinese with 150+ term mappings and works with any language input. The cloud API uses LLM-powered extraction via Claude Haiku for better multilingual support."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the 0-100 scoring work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The reality signal combines weighted scores from each source — repository count, star count, discussion volume, and package downloads. Higher scores mean more existing competition. The formula is intentionally simple and explainable, not ML-based. Quick mode weights: GitHub repos 60%, stars 20%, HN 20%."
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
