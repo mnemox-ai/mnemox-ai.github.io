@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeMemory Protocol — AI Trading Memory for MT5/Forex | Mnemox</title>
+<meta name="description" content="TradeMemory Protocol: 3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP. Works with Claude Desktop, Cursor, any MCP client.">
+<meta name="keywords" content="AI trading, MCP, memory, MT5, forex, XAUUSD, trading bot, algorithmic trading, Claude, pattern discovery, trade journal">
+<link rel="canonical" href="https://mnemox.ai/tradememory">
+<meta property="og:title" content="TradeMemory Protocol — AI Trading Memory for MT5/Forex">
+<meta property="og:description" content="3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP.">
+<meta property="og:url" content="https://mnemox.ai/tradememory">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mnemox AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TradeMemory Protocol — AI Trading Memory for MT5/Forex">
+<meta name="twitter:description" content="3-layer memory for AI trading agents. Record, reflect, evolve.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TradeMemory Protocol",
+  "description": "3-layer memory system for AI trading agents via MCP. Stores trades, discovers patterns, and generates strategy adjustments.",
+  "url": "https://mnemox.ai/tradememory",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Mnemox AI",
+    "url": "https://mnemox.ai"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is TradeMemory Protocol?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TradeMemory Protocol is a platform-agnostic 3-layer memory system for AI trading agents via MCP. It stores trades (L1), discovers patterns (L2), and generates strategy adjustments (L3). Works with MT5, Claude Desktop, Cursor, and any MCP client."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the 3-layer memory work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Layer 1 records raw trade data (entry, exit, P&L, reasoning). Layer 2 runs a reflection engine to discover patterns (win rates by session, strategy, confidence). Layer 3 generates actionable strategy adjustments like disabling losing strategies or adjusting position sizes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does TradeMemory work with MT5?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. TradeMemory includes mt5_sync.py that connects to MetaTrader 5 via the Python API, syncing closed trades automatically to the memory layer. It also supports any platform that can send trade data via the MCP protocol or REST API."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #04060b;
+  --bg-card: #0b1120;
+  --bg-card-hover: #0f1628;
+  --cyan: #00e5ff;
+  --cyan-dim: #00e5ff33;
+  --cyan-glow: #00e5ff15;
+  --green: #00ff88;
+  --green-dim: #00ff8833;
+  --red: #ff3366;
+  --red-dim: #ff336633;
+  --amber: #ffaa00;
+  --amber-dim: #ffaa0033;
+  --text: #e0e0e8;
+  --text-dim: #6a6a80;
+  --text-muted: #3a3a50;
+  --border: #1a1a28;
+  --border-bright: #2a2a40;
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ===== GRADIENT BACKGROUND ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 229, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(167, 139, 250, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 229, 255, 0.02) 0%, transparent 50%),
+    linear-gradient(180deg, #04060b 0%, #080d16 30%, #0a1018 60%, #060a12 100%);
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* ===== NOISE TEXTURE ===== */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(5, 5, 8, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--text-dim); }
+
+.nav-links { display: flex; gap: 32px; align-items: center; }
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--cyan); text-decoration: none; }
+
+.nav-github {
+  padding: 8px 20px;
+  border: 1px solid var(--cyan);
+  color: var(--cyan) !important;
+  font-size: 11px !important;
+  transition: all 0.3s !important;
+}
+
+.nav-github:hover {
+  background: var(--cyan);
+  color: var(--bg) !important;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+.section-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+  text-align: center;
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 6px 16px;
+  border: 1px solid var(--cyan-dim);
+  display: inline-block;
+  margin-bottom: 32px;
+}
+
+.hero-title {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.hero-title .line-white {
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 30%, rgba(200, 220, 240, 0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-title .line-cyan {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--cyan);
+  display: block;
+}
+
+.hero-desc {
+  margin-top: 28px;
+  font-size: 17px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  max-width: 580px;
+}
+
+.hero-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--cyan-dim);
+  text-decoration: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  max-width: 1200px;
+  margin: -40px auto 0;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-item {
+  background: var(--bg-card);
+  padding: 32px;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.stat-item:hover { background: var(--bg-card-hover); }
+
+.stat-number {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* ===== TERMINAL ===== */
+.hero-terminal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 80px var(--cyan-glow);
+  max-width: 680px;
+  width: 100%;
+  margin-top: 48px;
+  text-align: left;
+}
+
+.terminal-header {
+  padding: 12px 16px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: var(--red); }
+.terminal-dot.amber { background: var(--amber); }
+.terminal-dot.green { background: var(--green); }
+
+.terminal-title {
+  margin-left: 12px;
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.terminal-body {
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.terminal-line {
+  margin-bottom: 4px;
+  opacity: 0;
+  animation: terminalFadeIn 0.3s forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.t-prompt { color: var(--cyan); }
+.t-cmd { color: #fff; }
+.t-comment { color: var(--text-muted); }
+.t-success { color: var(--green); }
+.t-warn { color: var(--amber); }
+.t-error { color: var(--red); }
+.t-dim { color: var(--text-dim); }
+.t-key { color: var(--cyan); }
+.t-value { color: var(--green); }
+.t-arrow { color: var(--amber); }
+
+@keyframes terminalFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.terminal-line:nth-child(1) { animation-delay: 0.3s; }
+.terminal-line:nth-child(2) { animation-delay: 0.8s; }
+.terminal-line:nth-child(3) { animation-delay: 1.2s; }
+.terminal-line:nth-child(4) { animation-delay: 1.6s; }
+.terminal-line:nth-child(5) { animation-delay: 2.0s; }
+.terminal-line:nth-child(6) { animation-delay: 2.4s; }
+.terminal-line:nth-child(7) { animation-delay: 2.8s; }
+.terminal-line:nth-child(8) { animation-delay: 3.2s; }
+.terminal-line:nth-child(9) { animation-delay: 3.6s; }
+.terminal-line:nth-child(10) { animation-delay: 4.0s; }
+.terminal-line:nth-child(11) { animation-delay: 4.4s; }
+.terminal-line:nth-child(12) { animation-delay: 4.8s; }
+.terminal-line:nth-child(13) { animation-delay: 5.2s; }
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--cyan);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ===== FEATURES GRID ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.feature-card {
+  background: var(--bg-card);
+  padding: 48px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.feature-card:hover { background: var(--bg-card-hover); }
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+}
+
+.feature-card:nth-child(1)::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+.feature-card:nth-child(2)::before { background: linear-gradient(90deg, var(--amber), transparent); }
+.feature-card:nth-child(3)::before { background: linear-gradient(90deg, var(--green), transparent); }
+.feature-card:nth-child(4)::before { background: linear-gradient(90deg, #a78bfa, transparent); }
+
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: block;
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.feature-card:nth-child(1) .feature-icon { background: var(--cyan-dim); color: var(--cyan); }
+.feature-card:nth-child(2) .feature-icon { background: var(--amber-dim); color: var(--amber); }
+.feature-card:nth-child(3) .feature-icon { background: var(--green-dim); color: var(--green); }
+.feature-card:nth-child(4) .feature-icon { background: rgba(167,139,250,0.2); color: #a78bfa; }
+
+.feature-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.feature-card:nth-child(1) .feature-tag { color: var(--cyan); }
+.feature-card:nth-child(2) .feature-tag { color: var(--amber); }
+.feature-card:nth-child(3) .feature-tag { color: var(--green); }
+.feature-card:nth-child(4) .feature-tag { color: #a78bfa; }
+
+.feature-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.feature-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.feature-code {
+  background: rgba(0,0,0,0.4);
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+  border-left: 2px solid var(--border);
+  overflow-x: auto;
+}
+
+.feature-card:nth-child(1) .feature-code { border-left-color: var(--cyan-dim); }
+.feature-card:nth-child(2) .feature-code { border-left-color: var(--amber-dim); }
+.feature-card:nth-child(3) .feature-code { border-left-color: var(--green-dim); }
+.feature-card:nth-child(4) .feature-code { border-left-color: rgba(167,139,250,0.3); }
+
+/* ===== LAYERS ===== */
+.layers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.layer-card {
+  background: var(--bg-card);
+  padding: 48px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.layer-card:hover { background: var(--bg-card-hover); }
+
+.layer-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+}
+
+.layer-card.l1::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+.layer-card.l2::before { background: linear-gradient(90deg, var(--amber), transparent); }
+.layer-card.l3::before { background: linear-gradient(90deg, var(--green), transparent); }
+
+.layer-num {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: 700;
+  opacity: 0.08;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+}
+
+.layer-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.layer-card.l1 .layer-tag { color: var(--cyan); }
+.layer-card.l2 .layer-tag { color: var(--amber); }
+.layer-card.l3 .layer-tag { color: var(--green); }
+
+.layer-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.layer-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.layer-code {
+  background: rgba(0,0,0,0.4);
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+  border-left: 2px solid var(--border);
+  overflow-x: auto;
+}
+
+.layer-card.l1 .layer-code { border-left-color: var(--cyan-dim); }
+.layer-card.l2 .layer-code { border-left-color: var(--amber-dim); }
+.layer-card.l3 .layer-code { border-left-color: var(--green-dim); }
+
+/* ===== INSTALL ===== */
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.install-option {
+  background: var(--bg-card);
+  padding: 40px;
+  transition: background 0.3s;
+}
+
+.install-option:hover { background: var(--bg-card-hover); }
+
+.install-method {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 12px;
+}
+
+.install-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.install-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.install-cmd {
+  background: rgba(0,0,0,0.5);
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--green);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.3s;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.install-cmd:hover { border-color: var(--cyan); }
+
+.install-cmd .copy-hint {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.install-cmd.copied .copy-hint { color: var(--green); }
+
+/* ===== MCP TOOLS ===== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 60px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.tool-item {
+  background: var(--bg-card);
+  padding: 28px;
+  transition: all 0.3s;
+}
+
+.tool-item:hover { background: var(--bg-card-hover); }
+
+.tool-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cyan);
+  margin-bottom: 8px;
+}
+
+.tool-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ===== CTA ===== */
+#cta {
+  text-align: center;
+  padding: 160px 40px;
+  position: relative;
+}
+
+#cta::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--cyan-glow), transparent 70%);
+  pointer-events: none;
+}
+
+.cta-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.cta-subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 40px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-left {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--cyan); }
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  nav { padding: 12px 20px; }
+  .nav-links { gap: 16px; }
+  section { padding: 80px 20px; }
+  .hero-terminal { display: none; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: 1fr; }
+  .layers-grid { grid-template-columns: 1fr; }
+  .install-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .stats-bar { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .nav-links a:not(.nav-github) { display: none; }
+}
+
+/* ===== CONFIG BLOCK ===== */
+.config-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 60px;
+  max-width: 680px;
+}
+
+.config-header {
+  padding: 16px 24px;
+  background: var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-body {
+  padding: 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.config-body .key { color: var(--cyan); }
+.config-body .str { color: var(--green); }
+.config-body .brace { color: var(--text-dim); }
+.config-body .comment { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div style="display:flex;align-items:center;gap:10px">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="3.5" fill="none" stroke="#00e5ff" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="8" r="3.5" fill="none" stroke="#ffaa00" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="24" r="3.5" fill="none" stroke="#00ff88" stroke-width="1.5" opacity=".9"/><line x1="11" y1="14.5" x2="21" y2="9.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="11" y1="17.5" x2="21" y2="22.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="24" y1="11.5" x2="24" y2="20.5" stroke="#ffaa00" stroke-width="1" opacity=".25"/><circle cx="8" cy="16" r="1.5" fill="#00e5ff"/><circle cx="24" cy="8" r="1.5" fill="#ffaa00"/><circle cx="24" cy="24" r="1.5" fill="#00ff88"/></svg>
+    <a href="/" class="nav-logo">MNEMOX<span>.</span></a>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#memory">3-Layer</a>
+    <a href="#install">Install</a>
+    <a href="#tools">Tools</a>
+    <a href="https://github.com/mnemox-ai/tradememory-protocol" class="nav-github" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag">Open Source MCP Server</div>
+  <h1 class="hero-title">
+    <span class="line-white">AI Trading Memory</span>
+    <span class="line-cyan">for MT5/Forex Traders</span>
+  </h1>
+  <p class="hero-desc">
+    Your AI agent forgets every trade after each session. TradeMemory gives it persistent memory &mdash; store decisions, discover patterns, evolve strategy automatically via MCP.
+  </p>
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">Get Started</a>
+    <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-secondary" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+  </div>
+
+  <!-- Terminal Demo -->
+  <div class="hero-terminal">
+    <div class="terminal-header">
+      <div class="terminal-dot red"></div>
+      <div class="terminal-dot amber"></div>
+      <div class="terminal-dot green"></div>
+      <span class="terminal-title">claude desktop &mdash; tradememory session</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Store my XAUUSD trade: long 0.05 lots, +$40</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Trade stored: MT5-2350547759</span></div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Run a reflection on my last 20 trades</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Analyzing 20 trades...</span></div>
+      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">london_breakout win_rate=</span><span class="t-value">73%</span> <span class="t-dim">n=41</span></div>
+      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">asia_reversal win_rate=</span><span class="t-error">38%</span> <span class="t-dim">n=12</span></div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">asia_reversal &#8594; reduce size 0.5x</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">london_breakout &#8594; keep full size</span></div>
+      <div class="terminal-line"><span class="t-dim">Memory updated. 3 layers synced.</span> <span class="terminal-cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number">181+</div>
+    <div class="stat-label">Tests Passing</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">3</div>
+    <div class="stat-label">Memory Layers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">4</div>
+    <div class="stat-label">MCP Tools</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">MIT</div>
+    <div class="stat-label">Licensed</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="reveal">
+    <div class="section-label">Core Features</div>
+    <h2 class="section-title">Everything your trading agent needs to remember.</h2>
+    <p class="section-subtitle">Four capabilities that turn a stateless AI into a learning trading partner.</p>
+  </div>
+
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon">&#9649;</div>
+      <div class="feature-tag">3-Layer Memory</div>
+      <h3 class="feature-title">Structured Trade Memory</h3>
+      <p class="feature-desc">Every trade stored with entry, exit, P&amp;L, reasoning, confidence, and market context. Three layers: raw trades, discovered patterns, strategy adjustments.</p>
+      <div class="feature-code">
+        <span class="t-key">L1</span> <span class="t-dim">Raw Trades</span> <span class="t-arrow">&#8594;</span> <span class="t-key">L2</span> <span class="t-dim">Patterns</span> <span class="t-arrow">&#8594;</span> <span class="t-key">L3</span> <span class="t-dim">Adjustments</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#9881;</div>
+      <div class="feature-tag">AI Reflection</div>
+      <h3 class="feature-title">Reflection Engine</h3>
+      <p class="feature-desc">Rule-based analysis finds patterns in your trade history &mdash; win rates by session, strategy, confidence level. Optional LLM layer for deeper insights.</p>
+      <div class="feature-code">
+        <span class="t-dim">reflection:</span> <span class="t-value">london_session</span> <span class="t-dim">WR=73%</span> <span class="t-success">&#10003; strong</span><br>
+        <span class="t-dim">reflection:</span> <span class="t-value">asia_session</span> <span class="t-dim">WR=38%</span> <span class="t-error">&#10007; weak</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#9733;</div>
+      <div class="feature-tag">Pattern Discovery</div>
+      <h3 class="feature-title">Automatic Pattern Mining</h3>
+      <p class="feature-desc">L2 discovers which strategies, sessions, and conditions produce winners. L3 generates actionable adjustments: disable losers, size up winners.</p>
+      <div class="feature-code">
+        <span class="t-warn">pattern:</span> <span class="t-dim">vol_breakout BUY</span> <span class="t-value">+47%</span> <span class="t-dim">n=73</span><br>
+        <span class="t-warn">pattern:</span> <span class="t-dim">mean_reversion SELL</span> <span class="t-error">-21%</span> <span class="t-dim">n=36</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#128203;</div>
+      <div class="feature-tag">Daily Reports</div>
+      <h3 class="feature-title">Automated Daily Reflection</h3>
+      <p class="feature-desc">Schedule daily_reflection.py to run at market close. Summarizes P&amp;L, flags anomalies, and updates memory layers automatically.</p>
+      <div class="feature-code">
+        <span class="t-dim">$ python daily_reflection.py</span><br>
+        <span class="t-success">&#10003;</span> <span class="t-dim">Daily P&amp;L: +$1,175.09 (1 trade)</span><br>
+        <span class="t-success">&#10003;</span> <span class="t-dim">Patterns updated. Report saved.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3-LAYER ARCHITECTURE -->
+<section id="memory">
+  <div class="reveal">
+    <div class="section-label">Architecture</div>
+    <h2 class="section-title">3-Layer Memory System</h2>
+    <p class="section-subtitle">Raw data flows up through pattern discovery to actionable strategy adjustments.</p>
+  </div>
+
+  <div class="layers-grid reveal">
+    <div class="layer-card l1">
+      <div class="layer-num">L1</div>
+      <div class="layer-tag">LAYER 1 &mdash; RAW TRADES</div>
+      <h3 class="layer-title">Trade Storage</h3>
+      <p class="layer-desc">Every trade recorded with full context: instrument, direction, lots, entry/exit prices, P&amp;L, strategy name, session, reasoning, and confidence score.</p>
+      <div class="layer-code">
+        <span class="t-key">"instrument"</span>: <span class="t-value">"XAUUSD"</span><br>
+        <span class="t-key">"direction"</span>: <span class="t-value">"long"</span><br>
+        <span class="t-key">"pnl"</span>: <span class="t-value">+1175.09</span><br>
+        <span class="t-key">"strategy"</span>: <span class="t-value">"VolBreakout"</span>
+      </div>
+    </div>
+
+    <div class="layer-card l2">
+      <div class="layer-num">L2</div>
+      <div class="layer-tag">LAYER 2 &mdash; PATTERNS</div>
+      <h3 class="layer-title">Pattern Discovery</h3>
+      <p class="layer-desc">Reflection engine analyzes L1 data to find statistically significant patterns. Groups by strategy, session, direction, and confidence level.</p>
+      <div class="layer-code">
+        <span class="t-warn">london_breakout</span>: <span class="t-value">WR 73%</span> n=41<br>
+        <span class="t-warn">asia_reversal</span>: <span class="t-error">WR 38%</span> n=12<br>
+        <span class="t-warn">high_confidence</span>: <span class="t-value">WR 68%</span> n=55
+      </div>
+    </div>
+
+    <div class="layer-card l3">
+      <div class="layer-num">L3</div>
+      <div class="layer-tag">LAYER 3 &mdash; ADJUSTMENTS</div>
+      <h3 class="layer-title">Strategy Tuning</h3>
+      <p class="layer-desc">Auto-generates actionable adjustments from L2 patterns. Disable losing strategies, prefer winning sessions, adjust position sizes, restrict directions.</p>
+      <div class="layer-code">
+        <span class="t-success">&#10003;</span> <span class="t-dim">asia_reversal:</span> <span class="t-value">size &times; 0.5</span><br>
+        <span class="t-success">&#10003;</span> <span class="t-dim">mean_reversion:</span> <span class="t-error">disable SELL</span><br>
+        <span class="t-success">&#10003;</span> <span class="t-dim">london_breakout:</span> <span class="t-value">full size</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="reveal">
+    <div class="section-label">Get Started</div>
+    <h2 class="section-title">Install in 60 seconds.</h2>
+    <p class="section-subtitle">Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP client.</p>
+  </div>
+
+  <div class="install-grid reveal">
+    <div class="install-option">
+      <div class="install-method">Recommended</div>
+      <h3 class="install-title">Claude Desktop</h3>
+      <p class="install-desc">Add to your claude_desktop_config.json and restart Claude Desktop.</p>
+      <div class="install-cmd" onclick="copyCmd(this)">
+        uvx tradememory-protocol
+        <span class="copy-hint">click to copy</span>
+      </div>
+    </div>
+    <div class="install-option">
+      <div class="install-method">CLI</div>
+      <h3 class="install-title">Claude Code</h3>
+      <p class="install-desc">One command to add TradeMemory as an MCP server.</p>
+      <div class="install-cmd" onclick="copyCmd(this)">
+        claude mcp add tradememory -- uvx tradememory-protocol
+        <span class="copy-hint">click to copy</span>
+      </div>
+    </div>
+    <div class="install-option">
+      <div class="install-method">PyPI</div>
+      <h3 class="install-title">pip install</h3>
+      <p class="install-desc">Install from PyPI for custom integrations or development.</p>
+      <div class="install-cmd" onclick="copyCmd(this)">
+        pip install tradememory-protocol
+        <span class="copy-hint">click to copy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Claude Desktop Config -->
+  <div class="config-block reveal">
+    <div class="config-header">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="var(--text-dim)"><path d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z"/><path d="M6.854 4.646a.5.5 0 010 .708L4.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0zm2.292 0a.5.5 0 000 .708L11.793 8l-2.647 2.646a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 00-.708 0z"/></svg>
+      claude_desktop_config.json
+    </div>
+    <div class="config-body">
+<span class="brace">{</span><br>
+&nbsp;&nbsp;<span class="key">"mcpServers"</span>: <span class="brace">{</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"tradememory"</span>: <span class="brace">{</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"command"</span>: <span class="str">"uvx"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"args"</span>: [<span class="str">"tradememory-protocol"</span>]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="brace">}</span><br>
+&nbsp;&nbsp;<span class="brace">}</span><br>
+<span class="brace">}</span>
+    </div>
+  </div>
+</section>
+
+<!-- MCP TOOLS -->
+<section id="tools">
+  <div class="reveal">
+    <div class="section-label">MCP Tools</div>
+    <h2 class="section-title">4 tools. Full memory pipeline.</h2>
+    <p class="section-subtitle">Your AI agent calls these tools via the Model Context Protocol.</p>
+  </div>
+
+  <div class="tools-grid reveal">
+    <div class="tool-item">
+      <div class="tool-name">store_trade</div>
+      <div class="tool-desc">Record a trade with full context: instrument, direction, lots, prices, P&amp;L, strategy, reasoning.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">recall_trades</div>
+      <div class="tool-desc">Query trade history with filters: date range, instrument, strategy, session, direction.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">get_performance</div>
+      <div class="tool-desc">Calculate win rate, profit factor, average P&amp;L, max drawdown, and Sharpe ratio.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">run_reflection</div>
+      <div class="tool-desc">Analyze trade history, discover patterns (L2), and generate strategy adjustments (L3).</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="cta-title reveal">Stop trading without memory.</h2>
+  <p class="cta-subtitle reveal">Install TradeMemory Protocol and let your AI agent learn from every trade.</p>
+  <div class="cta-actions reveal">
+    <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-primary" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+    <a href="https://pypi.org/project/tradememory-protocol/" class="btn-secondary" target="_blank">PyPI Package</a>
+    <a href="/" class="btn-secondary">Mnemox Home</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Mnemox AI &copy; 2026. MIT License.</div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/check">Idea Check</a>
+    <a href="https://github.com/mnemox-ai" target="_blank">GitHub</a>
+    <a href="https://pypi.org/project/tradememory-protocol/" target="_blank">PyPI</a>
+  </div>
+</footer>
+
+<script>
+// Copy command
+function copyCmd(el) {
+  const text = el.textContent.replace('click to copy', '').replace('copied!', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const hint = el.querySelector('.copy-hint');
+    hint.textContent = 'copied!';
+    el.classList.add('copied');
+    setTimeout(() => {
+      hint.textContent = 'click to copy';
+      el.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
