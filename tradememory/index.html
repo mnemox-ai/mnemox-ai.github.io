@@ -24,11 +24,12 @@
   "url": "https://mnemox.ai/tradememory",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
+  "offers": [
+    { "@type": "Offer", "name": "Open Source", "price": "0", "priceCurrency": "USD" },
+    { "@type": "Offer", "name": "Trader", "price": "29", "priceCurrency": "USD", "availability": "https://schema.org/PreOrder" },
+    { "@type": "Offer", "name": "Pro", "price": "79", "priceCurrency": "USD", "availability": "https://schema.org/PreOrder" },
+    { "@type": "Offer", "name": "Fund", "price": "299", "priceCurrency": "USD", "availability": "https://schema.org/PreOrder" }
+  ],
   "author": {
     "@type": "Organization",
     "name": "Mnemox AI",
@@ -876,6 +877,289 @@ footer {
 .config-body .str { color: var(--green); }
 .config-body .brace { color: var(--text-dim); }
 .config-body .comment { color: var(--text-muted); }
+
+/* ===== PRICING ===== */
+.pricing-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid var(--amber-dim);
+  padding: 4px 14px;
+  margin-bottom: 24px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.pricing-card {
+  background: var(--bg-card);
+  padding: 48px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card:hover { background: var(--bg-card-hover); }
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+}
+
+.pricing-card:nth-child(1)::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+.pricing-card:nth-child(2)::before { background: linear-gradient(90deg, var(--amber), transparent); }
+.pricing-card:nth-child(3)::before { background: linear-gradient(90deg, var(--green), transparent); }
+
+.pricing-card.popular {
+  border: 1px solid var(--amber-dim);
+  margin: -2px;
+}
+
+.popular-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--amber);
+  padding: 3px 10px;
+}
+
+.pricing-tier {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.pricing-card:nth-child(1) .pricing-tier { color: var(--cyan); }
+.pricing-card:nth-child(2) .pricing-tier { color: var(--amber); }
+.pricing-card:nth-child(3) .pricing-tier { color: var(--green); }
+
+.pricing-price {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pricing-price .currency { font-size: 24px; color: var(--text-dim); vertical-align: super; }
+.pricing-price .period { font-size: 14px; color: var(--text-dim); font-weight: 400; }
+
+.pricing-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: 32px;
+  flex-grow: 1;
+}
+
+.pricing-features li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pricing-features li::before {
+  content: '\2713';
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pricing-card:nth-child(1) .pricing-features li::before { color: var(--cyan); }
+.pricing-card:nth-child(2) .pricing-features li::before { color: var(--amber); }
+.pricing-card:nth-child(3) .pricing-features li::before { color: var(--green); }
+
+.pricing-cta {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.pricing-card:nth-child(2) .pricing-cta {
+  background: var(--amber);
+  color: var(--bg);
+  border-color: var(--amber);
+}
+
+/* Credit system */
+.credit-section {
+  margin-top: 48px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 40px;
+  text-align: center;
+}
+
+.credit-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.credit-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+.credit-table {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.credit-cell {
+  background: var(--bg-card);
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.credit-cell.header {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.credit-cell .amount { color: var(--green); font-weight: 600; }
+
+/* Early bird form */
+.earlybird {
+  margin-top: 48px;
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.earlybird::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--amber), var(--green));
+}
+
+.earlybird-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.earlybird-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+}
+
+.earlybird-form {
+  display: flex;
+  gap: 0;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.earlybird-input {
+  flex: 1;
+  padding: 14px 20px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border-bright);
+  border-right: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.earlybird-input::placeholder { color: var(--text-muted); }
+.earlybird-input:focus { border-color: var(--cyan); }
+
+.earlybird-btn {
+  padding: 14px 28px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid var(--cyan);
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.earlybird-btn:hover { background: #fff; }
+.earlybird-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.earlybird-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.earlybird-success {
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-card.popular { margin: 0; border: 1px solid var(--amber-dim); }
+  .credit-table { grid-template-columns: repeat(3, 1fr); }
+  .earlybird-form { flex-direction: column; }
+  .earlybird-input { border-right: 1px solid var(--border-bright); border-bottom: none; }
+}
 </style>
 </head>
 <body>
@@ -891,6 +1175,7 @@ footer {
     <a href="#memory">3-Layer</a>
     <a href="#install">Install</a>
     <a href="#tools">Tools</a>
+    <a href="#pricing">Pricing</a>
     <a href="https://github.com/mnemox-ai/tradememory-protocol" class="nav-github" target="_blank">GitHub</a>
   </div>
 </nav>
@@ -1145,6 +1430,96 @@ footer {
   </div>
 </section>
 
+<!-- PRICING -->
+<section id="pricing">
+  <div class="reveal">
+    <div class="section-label">Pricing</div>
+    <div class="pricing-badge">Coming Soon</div>
+    <h2 class="section-title">Hosted API. Zero infrastructure.</h2>
+    <p class="section-subtitle">Self-host free forever. Or let us handle the infrastructure &mdash; cloud API with guaranteed uptime, auto-scaling, and team dashboards.</p>
+  </div>
+
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-tier">Trader</div>
+      <div class="pricing-price"><span class="currency">$</span>29<span class="period">/mo</span></div>
+      <p class="pricing-desc">For individual traders running 1&ndash;2 strategies on a single account.</p>
+      <ul class="pricing-features">
+        <li>1,000 API credits/month</li>
+        <li>1 trading account</li>
+        <li>Full L1&ndash;L3 memory pipeline</li>
+        <li>Daily reflection reports</li>
+        <li>7-day data retention</li>
+        <li>Community support</li>
+      </ul>
+      <div class="pricing-cta">Coming Soon</div>
+    </div>
+
+    <div class="pricing-card popular">
+      <div class="popular-tag">Most Popular</div>
+      <div class="pricing-tier">Pro</div>
+      <div class="pricing-price"><span class="currency">$</span>79<span class="period">/mo</span></div>
+      <p class="pricing-desc">For serious traders running multiple strategies across accounts.</p>
+      <ul class="pricing-features">
+        <li>5,000 API credits/month</li>
+        <li>5 trading accounts</li>
+        <li>Full L1&ndash;L3 memory pipeline</li>
+        <li>Real-time pattern alerts</li>
+        <li>90-day data retention</li>
+        <li>Priority support</li>
+      </ul>
+      <div class="pricing-cta">Coming Soon</div>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-tier">Fund</div>
+      <div class="pricing-price"><span class="currency">$</span>299<span class="period">/mo</span></div>
+      <p class="pricing-desc">For prop firms and funds managing multiple traders and strategies.</p>
+      <ul class="pricing-features">
+        <li>25,000 API credits/month</li>
+        <li>Unlimited trading accounts</li>
+        <li>Full L1&ndash;L3 memory pipeline</li>
+        <li>Team dashboard &amp; role management</li>
+        <li>Unlimited data retention</li>
+        <li>Dedicated support &amp; SLA</li>
+      </ul>
+      <div class="pricing-cta">Coming Soon</div>
+    </div>
+  </div>
+
+  <!-- Credit System -->
+  <div class="credit-section reveal">
+    <h3 class="credit-title">Pay-as-you-go credits</h3>
+    <p class="credit-desc">Need more? Buy additional credits anytime. No commitment, no expiry. Every API call &mdash; store, recall, reflect &mdash; costs 1 credit.</p>
+    <div class="credit-table">
+      <div class="credit-cell header">Pack</div>
+      <div class="credit-cell header">Credits</div>
+      <div class="credit-cell header">Price</div>
+      <div class="credit-cell">Starter</div>
+      <div class="credit-cell"><span class="amount">1,000</span></div>
+      <div class="credit-cell">$10</div>
+      <div class="credit-cell">Growth</div>
+      <div class="credit-cell"><span class="amount">5,000</span></div>
+      <div class="credit-cell">$40</div>
+      <div class="credit-cell">Scale</div>
+      <div class="credit-cell"><span class="amount">25,000</span></div>
+      <div class="credit-cell">$150</div>
+    </div>
+  </div>
+
+  <!-- Early Bird -->
+  <div class="earlybird reveal" id="earlybird">
+    <h3 class="earlybird-title">Get early access pricing</h3>
+    <p class="earlybird-desc">Join the waitlist. Early bird subscribers get 50% off the first 3 months.</p>
+    <form class="earlybird-form" onsubmit="return handleEarlyBird(event)">
+      <input type="email" class="earlybird-input" id="earlybird-email" placeholder="you@example.com" required>
+      <button type="submit" class="earlybird-btn" id="earlybird-submit">Join Waitlist</button>
+    </form>
+    <p class="earlybird-note">No spam. We'll only email you when the hosted API launches.</p>
+    <p class="earlybird-success" id="earlybird-success">&#10003; You're on the list! We'll notify you at launch.</p>
+  </div>
+</section>
+
 <!-- CTA -->
 <section id="cta">
   <h2 class="cta-title reveal">Stop trading without memory.</h2>
@@ -1195,6 +1570,29 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Early bird signup
+function handleEarlyBird(e) {
+  e.preventDefault();
+  const email = document.getElementById('earlybird-email').value;
+  const btn = document.getElementById('earlybird-submit');
+  const form = document.querySelector('.earlybird-form');
+  const success = document.getElementById('earlybird-success');
+
+  // Store locally (GitHub Pages has no backend)
+  const subs = JSON.parse(localStorage.getItem('tm_earlybird') || '[]');
+  if (!subs.includes(email)) {
+    subs.push(email);
+    localStorage.setItem('tm_earlybird', JSON.stringify(subs));
+  }
+
+  // Log to console for analytics collection
+  console.log('[EARLYBIRD]', email, new Date().toISOString());
+
+  form.style.display = 'none';
+  success.style.display = 'block';
+  return false;
+}
 </script>
 </body>
 </html>
