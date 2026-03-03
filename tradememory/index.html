@@ -189,6 +189,23 @@ nav {
   color: var(--bg) !important;
 }
 
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+.lang-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
 /* ===== SECTIONS ===== */
 section {
   padding: 120px 40px;
@@ -842,6 +859,7 @@ footer {
   .stats-bar { grid-template-columns: 1fr; }
   .tools-grid { grid-template-columns: 1fr; }
   .nav-links a:not(.nav-github) { display: none; }
+  .lang-btn { display: none; }
 }
 
 /* ===== CONFIG BLOCK ===== */
@@ -1171,30 +1189,31 @@ footer {
     <a href="/" class="nav-logo">MNEMOX<span>.</span></a>
   </div>
   <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#memory">3-Layer</a>
-    <a href="#install">Install</a>
-    <a href="#tools">Tools</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#features" data-i18n="nav_features">Features</a>
+    <a href="#memory" data-i18n="nav_3layer">3-Layer</a>
+    <a href="#install" data-i18n="nav_install">Install</a>
+    <a href="#tools" data-i18n="nav_tools">Tools</a>
+    <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="https://github.com/mnemox-ai/tradememory-protocol" class="nav-github" target="_blank">GitHub</a>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">中文</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-tag">Open Source MCP Server</div>
+  <div class="hero-tag" data-i18n="hero_tag">Open Source MCP Server</div>
   <h1 class="hero-title">
-    <span class="line-white">AI Trading Memory</span>
-    <span class="line-cyan">for MT5/Forex Traders</span>
+    <span class="line-white" data-i18n="hero_line1">AI Trading Memory</span>
+    <span class="line-cyan" data-i18n="hero_line2">for MT5/Forex Traders</span>
   </h1>
-  <p class="hero-desc">
+  <p class="hero-desc" data-i18n="hero_desc">
     Your AI agent forgets every trade after each session. TradeMemory gives it persistent memory &mdash; store decisions, discover patterns, evolve strategy automatically via MCP.
   </p>
   <div class="hero-actions">
-    <a href="#install" class="btn-primary">Get Started</a>
+    <a href="#install" class="btn-primary" data-i18n="hero_cta">Get Started</a>
     <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-secondary" target="_blank">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-      View on GitHub
+      <span data-i18n="hero_github">View on GitHub</span>
     </a>
   </div>
 
@@ -1226,36 +1245,36 @@ footer {
 <div class="stats-bar">
   <div class="stat-item">
     <div class="stat-number">203</div>
-    <div class="stat-label">Tests Passing</div>
+    <div class="stat-label" data-i18n="stat_tests">Tests Passing</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">3</div>
-    <div class="stat-label">Memory Layers</div>
+    <div class="stat-label" data-i18n="stat_layers">Memory Layers</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">4</div>
-    <div class="stat-label">MCP Tools</div>
+    <div class="stat-label" data-i18n="stat_tools">MCP Tools</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">MIT</div>
-    <div class="stat-label">Licensed</div>
+    <div class="stat-label" data-i18n="stat_license">Licensed</div>
   </div>
 </div>
 
 <!-- FEATURES -->
 <section id="features">
   <div class="reveal">
-    <div class="section-label">Core Features</div>
-    <h2 class="section-title">Everything your trading agent needs to remember.</h2>
-    <p class="section-subtitle">Four capabilities that turn a stateless AI into a learning trading partner.</p>
+    <div class="section-label" data-i18n="sec_features">Core Features</div>
+    <h2 class="section-title" data-i18n="features_title">Everything your trading agent needs to remember.</h2>
+    <p class="section-subtitle" data-i18n="features_subtitle">Four capabilities that turn a stateless AI into a learning trading partner.</p>
   </div>
 
   <div class="features-grid reveal">
     <div class="feature-card">
       <div class="feature-icon">&#9649;</div>
-      <div class="feature-tag">3-Layer Memory</div>
-      <h3 class="feature-title">Structured Trade Memory</h3>
-      <p class="feature-desc">Every trade stored with entry, exit, P&amp;L, reasoning, confidence, and market context. Three layers: raw trades, discovered patterns, strategy adjustments.</p>
+      <div class="feature-tag" data-i18n="feat1_tag">3-Layer Memory</div>
+      <h3 class="feature-title" data-i18n="feat1_title">Structured Trade Memory</h3>
+      <p class="feature-desc" data-i18n="feat1_desc">Every trade stored with entry, exit, P&amp;L, reasoning, confidence, and market context. Three layers: raw trades, discovered patterns, strategy adjustments.</p>
       <div class="feature-code">
         <span class="t-key">L1</span> <span class="t-dim">Raw Trades</span> <span class="t-arrow">&#8594;</span> <span class="t-key">L2</span> <span class="t-dim">Patterns</span> <span class="t-arrow">&#8594;</span> <span class="t-key">L3</span> <span class="t-dim">Adjustments</span>
       </div>
@@ -1263,9 +1282,9 @@ footer {
 
     <div class="feature-card">
       <div class="feature-icon">&#9881;</div>
-      <div class="feature-tag">AI Reflection</div>
-      <h3 class="feature-title">Reflection Engine</h3>
-      <p class="feature-desc">Rule-based analysis finds patterns in your trade history &mdash; win rates by session, strategy, confidence level. Optional LLM layer for deeper insights.</p>
+      <div class="feature-tag" data-i18n="feat2_tag">AI Reflection</div>
+      <h3 class="feature-title" data-i18n="feat2_title">Reflection Engine</h3>
+      <p class="feature-desc" data-i18n="feat2_desc">Rule-based analysis finds patterns in your trade history &mdash; win rates by session, strategy, confidence level. Optional LLM layer for deeper insights.</p>
       <div class="feature-code">
         <span class="t-dim">reflection:</span> <span class="t-value">london_session</span> <span class="t-dim">WR=73%</span> <span class="t-success">&#10003; strong</span><br>
         <span class="t-dim">reflection:</span> <span class="t-value">asia_session</span> <span class="t-dim">WR=38%</span> <span class="t-error">&#10007; weak</span>
@@ -1274,9 +1293,9 @@ footer {
 
     <div class="feature-card">
       <div class="feature-icon">&#9733;</div>
-      <div class="feature-tag">Pattern Discovery</div>
-      <h3 class="feature-title">Automatic Pattern Mining</h3>
-      <p class="feature-desc">L2 discovers which strategies, sessions, and conditions produce winners. L3 generates actionable adjustments: disable losers, size up winners.</p>
+      <div class="feature-tag" data-i18n="feat3_tag">Pattern Discovery</div>
+      <h3 class="feature-title" data-i18n="feat3_title">Automatic Pattern Mining</h3>
+      <p class="feature-desc" data-i18n="feat3_desc">L2 discovers which strategies, sessions, and conditions produce winners. L3 generates actionable adjustments: disable losers, size up winners.</p>
       <div class="feature-code">
         <span class="t-warn">pattern:</span> <span class="t-dim">vol_breakout BUY</span> <span class="t-value">+47%</span> <span class="t-dim">n=73</span><br>
         <span class="t-warn">pattern:</span> <span class="t-dim">mean_reversion SELL</span> <span class="t-error">-21%</span> <span class="t-dim">n=36</span>
@@ -1285,9 +1304,9 @@ footer {
 
     <div class="feature-card">
       <div class="feature-icon">&#128203;</div>
-      <div class="feature-tag">Daily Reports</div>
-      <h3 class="feature-title">Automated Daily Reflection</h3>
-      <p class="feature-desc">Schedule daily_reflection.py to run at market close. Summarizes P&amp;L, flags anomalies, and updates memory layers automatically.</p>
+      <div class="feature-tag" data-i18n="feat4_tag">Daily Reports</div>
+      <h3 class="feature-title" data-i18n="feat4_title">Automated Daily Reflection</h3>
+      <p class="feature-desc" data-i18n="feat4_desc">Schedule daily_reflection.py to run at market close. Summarizes P&amp;L, flags anomalies, and updates memory layers automatically.</p>
       <div class="feature-code">
         <span class="t-dim">$ python daily_reflection.py</span><br>
         <span class="t-success">&#10003;</span> <span class="t-dim">Daily P&amp;L: +$1,175.09 (1 trade)</span><br>
@@ -1300,17 +1319,17 @@ footer {
 <!-- 3-LAYER ARCHITECTURE -->
 <section id="memory">
   <div class="reveal">
-    <div class="section-label">Architecture</div>
-    <h2 class="section-title">3-Layer Memory System</h2>
-    <p class="section-subtitle">Raw data flows up through pattern discovery to actionable strategy adjustments.</p>
+    <div class="section-label" data-i18n="sec_arch">Architecture</div>
+    <h2 class="section-title" data-i18n="arch_title">3-Layer Memory System</h2>
+    <p class="section-subtitle" data-i18n="arch_subtitle">Raw data flows up through pattern discovery to actionable strategy adjustments.</p>
   </div>
 
   <div class="layers-grid reveal">
     <div class="layer-card l1">
       <div class="layer-num">L1</div>
-      <div class="layer-tag">LAYER 1 &mdash; RAW TRADES</div>
-      <h3 class="layer-title">Trade Storage</h3>
-      <p class="layer-desc">Every trade recorded with full context: instrument, direction, lots, entry/exit prices, P&amp;L, strategy name, session, reasoning, and confidence score.</p>
+      <div class="layer-tag" data-i18n="l1_tag">LAYER 1 &mdash; RAW TRADES</div>
+      <h3 class="layer-title" data-i18n="l1_title">Trade Storage</h3>
+      <p class="layer-desc" data-i18n="l1_desc">Every trade recorded with full context: instrument, direction, lots, entry/exit prices, P&amp;L, strategy name, session, reasoning, and confidence score.</p>
       <div class="layer-code">
         <span class="t-key">"instrument"</span>: <span class="t-value">"XAUUSD"</span><br>
         <span class="t-key">"direction"</span>: <span class="t-value">"long"</span><br>
@@ -1321,9 +1340,9 @@ footer {
 
     <div class="layer-card l2">
       <div class="layer-num">L2</div>
-      <div class="layer-tag">LAYER 2 &mdash; PATTERNS</div>
-      <h3 class="layer-title">Pattern Discovery</h3>
-      <p class="layer-desc">Reflection engine analyzes L1 data to find statistically significant patterns. Groups by strategy, session, direction, and confidence level.</p>
+      <div class="layer-tag" data-i18n="l2_tag">LAYER 2 &mdash; PATTERNS</div>
+      <h3 class="layer-title" data-i18n="l2_title">Pattern Discovery</h3>
+      <p class="layer-desc" data-i18n="l2_desc">Reflection engine analyzes L1 data to find statistically significant patterns. Groups by strategy, session, direction, and confidence level.</p>
       <div class="layer-code">
         <span class="t-warn">london_breakout</span>: <span class="t-value">WR 73%</span> n=41<br>
         <span class="t-warn">asia_reversal</span>: <span class="t-error">WR 38%</span> n=12<br>
@@ -1333,9 +1352,9 @@ footer {
 
     <div class="layer-card l3">
       <div class="layer-num">L3</div>
-      <div class="layer-tag">LAYER 3 &mdash; ADJUSTMENTS</div>
-      <h3 class="layer-title">Strategy Tuning</h3>
-      <p class="layer-desc">Auto-generates actionable adjustments from L2 patterns. Disable losing strategies, prefer winning sessions, adjust position sizes, restrict directions.</p>
+      <div class="layer-tag" data-i18n="l3_tag">LAYER 3 &mdash; ADJUSTMENTS</div>
+      <h3 class="layer-title" data-i18n="l3_title">Strategy Tuning</h3>
+      <p class="layer-desc" data-i18n="l3_desc">Auto-generates actionable adjustments from L2 patterns. Disable losing strategies, prefer winning sessions, adjust position sizes, restrict directions.</p>
       <div class="layer-code">
         <span class="t-success">&#10003;</span> <span class="t-dim">asia_reversal:</span> <span class="t-value">size &times; 0.5</span><br>
         <span class="t-success">&#10003;</span> <span class="t-dim">mean_reversion:</span> <span class="t-error">disable SELL</span><br>
@@ -1348,34 +1367,34 @@ footer {
 <!-- INSTALL -->
 <section id="install">
   <div class="reveal">
-    <div class="section-label">Get Started</div>
-    <h2 class="section-title">Install in 60 seconds.</h2>
-    <p class="section-subtitle">Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP client.</p>
+    <div class="section-label" data-i18n="sec_install">Get Started</div>
+    <h2 class="section-title" data-i18n="install_title">Install in 60 seconds.</h2>
+    <p class="section-subtitle" data-i18n="install_subtitle">Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP client.</p>
   </div>
 
   <div class="install-grid reveal">
     <div class="install-option">
-      <div class="install-method">Recommended</div>
-      <h3 class="install-title">Claude Desktop</h3>
-      <p class="install-desc">Add to your claude_desktop_config.json and restart Claude Desktop.</p>
+      <div class="install-method" data-i18n="inst_recommended">Recommended</div>
+      <h3 class="install-title" data-i18n="inst1_title">Claude Desktop</h3>
+      <p class="install-desc" data-i18n="inst1_desc">Add to your claude_desktop_config.json and restart Claude Desktop.</p>
       <div class="install-cmd" onclick="copyCmd(this)">
         uvx tradememory-protocol
         <span class="copy-hint">click to copy</span>
       </div>
     </div>
     <div class="install-option">
-      <div class="install-method">CLI</div>
-      <h3 class="install-title">Claude Code</h3>
-      <p class="install-desc">One command to add TradeMemory as an MCP server.</p>
+      <div class="install-method" data-i18n="inst_cli">CLI</div>
+      <h3 class="install-title" data-i18n="inst2_title">Claude Code</h3>
+      <p class="install-desc" data-i18n="inst2_desc">One command to add TradeMemory as an MCP server.</p>
       <div class="install-cmd" onclick="copyCmd(this)">
         claude mcp add tradememory -- uvx tradememory-protocol
         <span class="copy-hint">click to copy</span>
       </div>
     </div>
     <div class="install-option">
-      <div class="install-method">PyPI</div>
-      <h3 class="install-title">pip install</h3>
-      <p class="install-desc">Install from PyPI for custom integrations or development.</p>
+      <div class="install-method" data-i18n="inst_pypi">PyPI</div>
+      <h3 class="install-title" data-i18n="inst3_title">pip install</h3>
+      <p class="install-desc" data-i18n="inst3_desc">Install from PyPI for custom integrations or development.</p>
       <div class="install-cmd" onclick="copyCmd(this)">
         pip install tradememory-protocol
         <span class="copy-hint">click to copy</span>
@@ -1405,27 +1424,27 @@ footer {
 <!-- MCP TOOLS -->
 <section id="tools">
   <div class="reveal">
-    <div class="section-label">MCP Tools</div>
-    <h2 class="section-title">4 tools. Full memory pipeline.</h2>
-    <p class="section-subtitle">Your AI agent calls these tools via the Model Context Protocol.</p>
+    <div class="section-label" data-i18n="sec_tools">MCP Tools</div>
+    <h2 class="section-title" data-i18n="tools_title">4 tools. Full memory pipeline.</h2>
+    <p class="section-subtitle" data-i18n="tools_subtitle">Your AI agent calls these tools via the Model Context Protocol.</p>
   </div>
 
   <div class="tools-grid reveal">
     <div class="tool-item">
       <div class="tool-name">store_trade</div>
-      <div class="tool-desc">Record a trade with full context: instrument, direction, lots, prices, P&amp;L, strategy, reasoning.</div>
+      <div class="tool-desc" data-i18n="tool1_desc">Record a trade with full context: instrument, direction, lots, prices, P&amp;L, strategy, reasoning.</div>
     </div>
     <div class="tool-item">
       <div class="tool-name">recall_trades</div>
-      <div class="tool-desc">Query trade history with filters: date range, instrument, strategy, session, direction.</div>
+      <div class="tool-desc" data-i18n="tool2_desc">Query trade history with filters: date range, instrument, strategy, session, direction.</div>
     </div>
     <div class="tool-item">
       <div class="tool-name">get_performance</div>
-      <div class="tool-desc">Calculate win rate, profit factor, average P&amp;L, max drawdown, and Sharpe ratio.</div>
+      <div class="tool-desc" data-i18n="tool3_desc">Calculate win rate, profit factor, average P&amp;L, max drawdown, and Sharpe ratio.</div>
     </div>
     <div class="tool-item">
       <div class="tool-name">run_reflection</div>
-      <div class="tool-desc">Analyze trade history, discover patterns (L2), and generate strategy adjustments (L3).</div>
+      <div class="tool-desc" data-i18n="tool4_desc">Analyze trade history, discover patterns (L2), and generate strategy adjustments (L3).</div>
     </div>
   </div>
 </section>
@@ -1433,17 +1452,17 @@ footer {
 <!-- PRICING -->
 <section id="pricing">
   <div class="reveal">
-    <div class="section-label">Pricing</div>
-    <div class="pricing-badge">Coming Soon</div>
-    <h2 class="section-title">Hosted API. Zero infrastructure.</h2>
-    <p class="section-subtitle">Self-host free forever. Or let us handle the infrastructure &mdash; cloud API with guaranteed uptime, auto-scaling, and team dashboards.</p>
+    <div class="section-label" data-i18n="sec_pricing">Pricing</div>
+    <div class="pricing-badge" data-i18n="pricing_badge">Coming Soon</div>
+    <h2 class="section-title" data-i18n="pricing_title">Hosted API. Zero infrastructure.</h2>
+    <p class="section-subtitle" data-i18n="pricing_subtitle">Self-host free forever. Or let us handle the infrastructure &mdash; cloud API with guaranteed uptime, auto-scaling, and team dashboards.</p>
   </div>
 
   <div class="pricing-grid reveal">
     <div class="pricing-card">
-      <div class="pricing-tier">Trader</div>
-      <div class="pricing-price"><span class="currency">$</span>29<span class="period">/mo</span></div>
-      <p class="pricing-desc">For individual traders running 1&ndash;2 strategies on a single account.</p>
+      <div class="pricing-tier" data-i18n="tier_trader">Trader</div>
+      <div class="pricing-price"><span class="currency">$</span>29<span class="period" data-i18n="tier_period">/mo</span></div>
+      <p class="pricing-desc" data-i18n="tier_trader_desc">For individual traders running 1&ndash;2 strategies on a single account.</p>
       <ul class="pricing-features">
         <li>1,000 API credits/month</li>
         <li>1 trading account</li>
@@ -1456,10 +1475,10 @@ footer {
     </div>
 
     <div class="pricing-card popular">
-      <div class="popular-tag">Most Popular</div>
-      <div class="pricing-tier">Pro</div>
-      <div class="pricing-price"><span class="currency">$</span>79<span class="period">/mo</span></div>
-      <p class="pricing-desc">For serious traders running multiple strategies across accounts.</p>
+      <div class="popular-tag" data-i18n="tier_popular">Most Popular</div>
+      <div class="pricing-tier" data-i18n="tier_pro">Pro</div>
+      <div class="pricing-price"><span class="currency">$</span>79<span class="period" data-i18n="tier_period">/mo</span></div>
+      <p class="pricing-desc" data-i18n="tier_pro_desc">For serious traders running multiple strategies across accounts.</p>
       <ul class="pricing-features">
         <li>5,000 API credits/month</li>
         <li>5 trading accounts</li>
@@ -1472,9 +1491,9 @@ footer {
     </div>
 
     <div class="pricing-card">
-      <div class="pricing-tier">Fund</div>
-      <div class="pricing-price"><span class="currency">$</span>299<span class="period">/mo</span></div>
-      <p class="pricing-desc">For prop firms and funds managing multiple traders and strategies.</p>
+      <div class="pricing-tier" data-i18n="tier_fund">Fund</div>
+      <div class="pricing-price"><span class="currency">$</span>299<span class="period" data-i18n="tier_period">/mo</span></div>
+      <p class="pricing-desc" data-i18n="tier_fund_desc">For prop firms and funds managing multiple traders and strategies.</p>
       <ul class="pricing-features">
         <li>25,000 API credits/month</li>
         <li>Unlimited trading accounts</li>
@@ -1489,8 +1508,8 @@ footer {
 
   <!-- Credit System -->
   <div class="credit-section reveal">
-    <h3 class="credit-title">Pay-as-you-go credits</h3>
-    <p class="credit-desc">Need more? Buy additional credits anytime. No commitment, no expiry. Every API call &mdash; store, recall, reflect &mdash; costs 1 credit.</p>
+    <h3 class="credit-title" data-i18n="credit_title">Pay-as-you-go credits</h3>
+    <p class="credit-desc" data-i18n="credit_desc">Need more? Buy additional credits anytime. No commitment, no expiry. Every API call &mdash; store, recall, reflect &mdash; costs 1 credit.</p>
     <div class="credit-table">
       <div class="credit-cell header">Pack</div>
       <div class="credit-cell header">Credits</div>
@@ -1509,21 +1528,21 @@ footer {
 
   <!-- Early Bird -->
   <div class="earlybird reveal" id="earlybird">
-    <h3 class="earlybird-title">Get early access pricing</h3>
-    <p class="earlybird-desc">Join the waitlist. Early bird subscribers get 50% off the first 3 months.</p>
+    <h3 class="earlybird-title" data-i18n="early_title">Get early access pricing</h3>
+    <p class="earlybird-desc" data-i18n="early_desc">Join the waitlist. Early bird subscribers get 50% off the first 3 months.</p>
     <form class="earlybird-form" onsubmit="return handleEarlyBird(event)">
       <input type="email" class="earlybird-input" id="earlybird-email" placeholder="you@example.com" required>
       <button type="submit" class="earlybird-btn" id="earlybird-submit">Join Waitlist</button>
     </form>
-    <p class="earlybird-note">No spam. We'll only email you when the hosted API launches.</p>
-    <p class="earlybird-success" id="earlybird-success">&#10003; You're on the list! We'll notify you at launch.</p>
+    <p class="earlybird-note" data-i18n="early_note">No spam. We'll only email you when the hosted API launches.</p>
+    <p class="earlybird-success" id="earlybird-success" data-i18n="early_success">&#10003; You're on the list! We'll notify you at launch.</p>
   </div>
 </section>
 
 <!-- CTA -->
 <section id="cta">
-  <h2 class="cta-title reveal">Stop trading without memory.</h2>
-  <p class="cta-subtitle reveal">Install TradeMemory Protocol and let your AI agent learn from every trade.</p>
+  <h2 class="cta-title reveal" data-i18n="cta_title">Stop trading without memory.</h2>
+  <p class="cta-subtitle reveal" data-i18n="cta_subtitle">Install TradeMemory Protocol and let your AI agent learn from every trade.</p>
   <div class="cta-actions reveal">
     <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-primary" target="_blank">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -1536,7 +1555,7 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-left">Mnemox AI &copy; 2026. MIT License.</div>
+  <div class="footer-left" data-i18n="footer_text">Mnemox AI &copy; 2026. MIT License.</div>
   <div class="footer-links">
     <a href="/">Home</a>
     <a href="/check">Idea Check</a>
@@ -1546,6 +1565,152 @@ footer {
 </footer>
 
 <script>
+// ===== i18n =====
+const i18n = {
+  en: {
+    lang_toggle: '中文',
+    nav_features: 'Features', nav_3layer: '3-Layer', nav_install: 'Install',
+    nav_tools: 'Tools', nav_pricing: 'Pricing',
+    hero_tag: 'Open Source MCP Server',
+    hero_line1: 'AI Trading Memory',
+    hero_line2: 'for MT5/Forex Traders',
+    hero_desc: 'Your AI agent forgets every trade after each session. TradeMemory gives it persistent memory \u2014 store decisions, discover patterns, evolve strategy automatically via MCP.',
+    hero_cta: 'Get Started',
+    hero_github: 'View on GitHub',
+    stat_tests: 'Tests Passing', stat_layers: 'Memory Layers', stat_tools: 'MCP Tools', stat_license: 'Licensed',
+    sec_features: 'Core Features',
+    features_title: 'Everything your trading agent needs to remember.',
+    features_subtitle: 'Four capabilities that turn a stateless AI into a learning trading partner.',
+    feat1_tag: '3-Layer Memory', feat1_title: 'Structured Trade Memory',
+    feat1_desc: 'Every trade stored with entry, exit, P&L, reasoning, confidence, and market context. Three layers: raw trades, discovered patterns, strategy adjustments.',
+    feat2_tag: 'AI Reflection', feat2_title: 'Reflection Engine',
+    feat2_desc: 'Rule-based analysis finds patterns in your trade history \u2014 win rates by session, strategy, confidence level. Optional LLM layer for deeper insights.',
+    feat3_tag: 'Pattern Discovery', feat3_title: 'Automatic Pattern Mining',
+    feat3_desc: 'L2 discovers which strategies, sessions, and conditions produce winners. L3 generates actionable adjustments: disable losers, size up winners.',
+    feat4_tag: 'Daily Reports', feat4_title: 'Automated Daily Reflection',
+    feat4_desc: 'Schedule daily_reflection.py to run at market close. Summarizes P&L, flags anomalies, and updates memory layers automatically.',
+    sec_arch: 'Architecture',
+    arch_title: '3-Layer Memory System',
+    arch_subtitle: 'Raw data flows up through pattern discovery to actionable strategy adjustments.',
+    l1_tag: 'LAYER 1 \u2014 RAW TRADES', l1_title: 'Trade Storage',
+    l1_desc: 'Every trade recorded with full context: instrument, direction, lots, entry/exit prices, P&L, strategy name, session, reasoning, and confidence score.',
+    l2_tag: 'LAYER 2 \u2014 PATTERNS', l2_title: 'Pattern Discovery',
+    l2_desc: 'Reflection engine analyzes L1 data to find statistically significant patterns. Groups by strategy, session, direction, and confidence level.',
+    l3_tag: 'LAYER 3 \u2014 ADJUSTMENTS', l3_title: 'Strategy Tuning',
+    l3_desc: 'Auto-generates actionable adjustments from L2 patterns. Disable losing strategies, prefer winning sessions, adjust position sizes, restrict directions.',
+    sec_install: 'Get Started',
+    install_title: 'Install in 60 seconds.',
+    install_subtitle: 'Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP client.',
+    inst_recommended: 'Recommended', inst_cli: 'CLI', inst_pypi: 'PyPI',
+    inst1_title: 'Claude Desktop', inst1_desc: 'Add to your claude_desktop_config.json and restart Claude Desktop.',
+    inst2_title: 'Claude Code', inst2_desc: 'One command to add TradeMemory as an MCP server.',
+    inst3_title: 'pip install', inst3_desc: 'Install from PyPI for custom integrations or development.',
+    sec_tools: 'MCP Tools',
+    tools_title: '4 tools. Full memory pipeline.',
+    tools_subtitle: 'Your AI agent calls these tools via the Model Context Protocol.',
+    tool1_desc: 'Record a trade with full context: instrument, direction, lots, prices, P&L, strategy, reasoning.',
+    tool2_desc: 'Query trade history with filters: date range, instrument, strategy, session, direction.',
+    tool3_desc: 'Calculate win rate, profit factor, average P&L, max drawdown, and Sharpe ratio.',
+    tool4_desc: 'Analyze trade history, discover patterns (L2), and generate strategy adjustments (L3).',
+    sec_pricing: 'Pricing', pricing_badge: 'Coming Soon',
+    pricing_title: 'Hosted API. Zero infrastructure.',
+    pricing_subtitle: 'Self-host free forever. Or let us handle the infrastructure \u2014 cloud API with guaranteed uptime, auto-scaling, and team dashboards.',
+    tier_trader: 'Trader', tier_pro: 'Pro', tier_fund: 'Fund', tier_period: '/mo', tier_popular: 'Most Popular',
+    tier_trader_desc: 'For individual traders running 1\u20132 strategies on a single account.',
+    tier_pro_desc: 'For serious traders running multiple strategies across accounts.',
+    tier_fund_desc: 'For prop firms and funds managing multiple traders and strategies.',
+    credit_title: 'Pay-as-you-go credits',
+    credit_desc: 'Need more? Buy additional credits anytime. No commitment, no expiry. Every API call \u2014 store, recall, reflect \u2014 costs 1 credit.',
+    early_title: 'Get early access pricing',
+    early_desc: 'Join the waitlist. Early bird subscribers get 50% off the first 3 months.',
+    early_note: "No spam. We'll only email you when the hosted API launches.",
+    early_success: "\u2713 You're on the list! We'll notify you at launch.",
+    cta_title: 'Stop trading without memory.',
+    cta_subtitle: 'Install TradeMemory Protocol and let your AI agent learn from every trade.',
+    footer_text: 'Mnemox AI \u00a9 2026. MIT License.',
+  },
+  zh: {
+    lang_toggle: 'EN',
+    nav_features: '\u529f\u80fd', nav_3layer: '\u4e09\u5c64\u67b6\u69cb', nav_install: '\u5b89\u88dd',
+    nav_tools: '\u5de5\u5177', nav_pricing: '\u65b9\u6848',
+    hero_tag: '\u958b\u6e90 MCP Server',
+    hero_line1: 'AI \u4ea4\u6613\u8a18\u61b6',
+    hero_line2: '\u70ba MT5/\u5916\u532f\u4ea4\u6613\u54e1\u800c\u751f',
+    hero_desc: '\u4f60\u7684 AI \u4ee3\u7406\u6bcf\u6b21 session \u7d50\u675f\u5c31\u5fd8\u8a18\u6240\u6709\u4ea4\u6613\u3002TradeMemory \u8ce6\u4e88\u5b83\u6301\u4e45\u8a18\u61b6 \u2014 \u5132\u5b58\u6c7a\u7b56\u3001\u767c\u73fe\u6a21\u5f0f\u3001\u81ea\u52d5\u9032\u5316\u7b56\u7565\uff0c\u900f\u904e MCP\u3002',
+    hero_cta: '\u958b\u59cb\u4f7f\u7528',
+    hero_github: 'GitHub \u67e5\u770b',
+    stat_tests: '\u6e2c\u8a66\u901a\u904e', stat_layers: '\u8a18\u61b6\u5c64', stat_tools: 'MCP \u5de5\u5177', stat_license: '\u6388\u6b0a',
+    sec_features: '\u6838\u5fc3\u529f\u80fd',
+    features_title: '\u4ea4\u6613\u4ee3\u7406\u9700\u8981\u8a18\u4f4f\u7684\u4e00\u5207\u3002',
+    features_subtitle: '\u56db\u5927\u80fd\u529b\uff0c\u8b93\u7121\u72c0\u614b AI \u8b8a\u6210\u6703\u5b78\u7fd2\u7684\u4ea4\u6613\u5925\u4f34\u3002',
+    feat1_tag: '\u4e09\u5c64\u8a18\u61b6', feat1_title: '\u7d50\u69cb\u5316\u4ea4\u6613\u8a18\u61b6',
+    feat1_desc: '\u6bcf\u7b46\u4ea4\u6613\u5132\u5b58\u9032\u51fa\u5834\u3001\u640d\u76ca\u3001\u63a8\u7406\u3001\u4fe1\u5fc3\u5ea6\u548c\u5e02\u5834\u74b0\u5883\u3002\u4e09\u5c64\uff1a\u539f\u59cb\u4ea4\u6613\u3001\u5df2\u767c\u73fe\u6a21\u5f0f\u3001\u7b56\u7565\u8abf\u6574\u3002',
+    feat2_tag: 'AI \u53cd\u601d', feat2_title: '\u53cd\u601d\u5f15\u64ce',
+    feat2_desc: '\u898f\u5247\u5f0f\u5206\u6790\u627e\u51fa\u4ea4\u6613\u6b77\u53f2\u4e2d\u7684\u6a21\u5f0f \u2014 \u4f9d\u76e4\u5225\u3001\u7b56\u7565\u3001\u4fe1\u5fc3\u5ea6\u5206\u985e\u52dd\u7387\u3002\u53ef\u9078 LLM \u5c64\u63d0\u4f9b\u66f4\u6df1\u5165\u6d1e\u5bdf\u3002',
+    feat3_tag: '\u6a21\u5f0f\u767c\u73fe', feat3_title: '\u81ea\u52d5\u6a21\u5f0f\u6316\u6398',
+    feat3_desc: 'L2 \u627e\u51fa\u54ea\u4e9b\u7b56\u7565\u3001\u76e4\u5225\u3001\u689d\u4ef6\u7522\u751f\u7372\u5229\u3002L3 \u751f\u6210\u53ef\u57f7\u884c\u8abf\u6574\uff1a\u505c\u7528\u8667\u640d\u7b56\u7565\u3001\u52a0\u78bc\u7372\u5229\u7b56\u7565\u3002',
+    feat4_tag: '\u6bcf\u65e5\u5831\u544a', feat4_title: '\u81ea\u52d5\u6bcf\u65e5\u53cd\u601d',
+    feat4_desc: '\u6392\u7a0b daily_reflection.py \u65bc\u6536\u76e4\u6642\u57f7\u884c\u3002\u6458\u8981\u640d\u76ca\u3001\u6a19\u8a18\u7570\u5e38\u3001\u81ea\u52d5\u66f4\u65b0\u8a18\u61b6\u5c64\u3002',
+    sec_arch: '\u67b6\u69cb',
+    arch_title: '\u4e09\u5c64\u8a18\u61b6\u7cfb\u7d71',
+    arch_subtitle: '\u539f\u59cb\u6578\u64da\u5f9e\u6a21\u5f0f\u767c\u73fe\u6d41\u5411\u53ef\u57f7\u884c\u7684\u7b56\u7565\u8abf\u6574\u3002',
+    l1_tag: '\u7b2c\u4e00\u5c64 \u2014 \u539f\u59cb\u4ea4\u6613', l1_title: '\u4ea4\u6613\u5132\u5b58',
+    l1_desc: '\u6bcf\u7b46\u4ea4\u6613\u5b8c\u6574\u8a18\u9304\uff1a\u5546\u54c1\u3001\u65b9\u5411\u3001\u624b\u6578\u3001\u9032\u51fa\u5834\u50f9\u3001\u640d\u76ca\u3001\u7b56\u7565\u540d\u7a31\u3001\u76e4\u5225\u3001\u63a8\u7406\u548c\u4fe1\u5fc3\u5206\u6578\u3002',
+    l2_tag: '\u7b2c\u4e8c\u5c64 \u2014 \u6a21\u5f0f', l2_title: '\u6a21\u5f0f\u767c\u73fe',
+    l2_desc: '\u53cd\u601d\u5f15\u64ce\u5206\u6790 L1 \u6578\u64da\uff0c\u627e\u51fa\u7d71\u8a08\u986f\u8457\u6a21\u5f0f\u3002\u4f9d\u7b56\u7565\u3001\u76e4\u5225\u3001\u65b9\u5411\u548c\u4fe1\u5fc3\u5ea6\u5206\u7d44\u3002',
+    l3_tag: '\u7b2c\u4e09\u5c64 \u2014 \u8abf\u6574', l3_title: '\u7b56\u7565\u8abf\u6574',
+    l3_desc: '\u5f9e L2 \u6a21\u5f0f\u81ea\u52d5\u751f\u6210\u53ef\u57f7\u884c\u8abf\u6574\u3002\u505c\u7528\u8667\u640d\u7b56\u7565\u3001\u512a\u5148\u7372\u5229\u76e4\u5225\u3001\u8abf\u6574\u5009\u4f4d\u3001\u9650\u5236\u65b9\u5411\u3002',
+    sec_install: '\u958b\u59cb\u4f7f\u7528',
+    install_title: '60 \u79d2\u5167\u5b89\u88dd\u3002',
+    install_subtitle: '\u652f\u63f4 Claude Desktop\u3001Claude Code\u3001Cursor\u3001Windsurf \u53ca\u4efb\u4f55 MCP \u5ba2\u6236\u7aef\u3002',
+    inst_recommended: '\u63a8\u85a6', inst_cli: 'CLI', inst_pypi: 'PyPI',
+    inst1_title: 'Claude Desktop', inst1_desc: '\u52a0\u5165 claude_desktop_config.json\uff0c\u91cd\u555f Claude Desktop \u5373\u53ef\u3002',
+    inst2_title: 'Claude Code', inst2_desc: '\u4e00\u884c\u6307\u4ee4\u5c07 TradeMemory \u52a0\u70ba MCP server\u3002',
+    inst3_title: 'pip install', inst3_desc: '\u5f9e PyPI \u5b89\u88dd\uff0c\u9069\u7528\u65bc\u81ea\u8a02\u6574\u5408\u6216\u958b\u767c\u3002',
+    sec_tools: 'MCP \u5de5\u5177',
+    tools_title: '4 \u500b\u5de5\u5177\uff0c\u5b8c\u6574\u8a18\u61b6\u7ba1\u7dda\u3002',
+    tools_subtitle: '\u4f60\u7684 AI \u4ee3\u7406\u900f\u904e Model Context Protocol \u547c\u53eb\u9019\u4e9b\u5de5\u5177\u3002',
+    tool1_desc: '\u8a18\u9304\u4ea4\u6613\u8207\u5b8c\u6574\u4e0a\u4e0b\u6587\uff1a\u5546\u54c1\u3001\u65b9\u5411\u3001\u624b\u6578\u3001\u50f9\u683c\u3001\u640d\u76ca\u3001\u7b56\u7565\u3001\u63a8\u7406\u3002',
+    tool2_desc: '\u4f9d\u7be9\u9078\u689d\u4ef6\u67e5\u8a62\u4ea4\u6613\u6b77\u53f2\uff1a\u65e5\u671f\u7bc4\u570d\u3001\u5546\u54c1\u3001\u7b56\u7565\u3001\u76e4\u5225\u3001\u65b9\u5411\u3002',
+    tool3_desc: '\u8a08\u7b97\u52dd\u7387\u3001\u7372\u5229\u56e0\u5b50\u3001\u5e73\u5747\u640d\u76ca\u3001\u6700\u5927\u56de\u64a4\u548c Sharpe \u6bd4\u7387\u3002',
+    tool4_desc: '\u5206\u6790\u4ea4\u6613\u6b77\u53f2\uff0c\u767c\u73fe\u6a21\u5f0f\uff08L2\uff09\uff0c\u751f\u6210\u7b56\u7565\u8abf\u6574\uff08L3\uff09\u3002',
+    sec_pricing: '\u65b9\u6848', pricing_badge: '\u5373\u5c07\u63a8\u51fa',
+    pricing_title: '\u8a17\u7ba1 API\uff0c\u96f6\u57fa\u790e\u8a2d\u65bd\u3002',
+    pricing_subtitle: '\u81ea\u67b6\u6c38\u4e45\u514d\u8cbb\u3002\u6216\u8b93\u6211\u5011\u8655\u7406\u57fa\u790e\u8a2d\u65bd \u2014 \u96f2\u7aef API\uff0c\u4fdd\u8b49\u7a69\u5b9a\u3001\u81ea\u52d5\u64f4\u5c55\u3001\u5718\u968a\u5100\u8868\u677f\u3002',
+    tier_trader: 'Trader', tier_pro: 'Pro', tier_fund: 'Fund', tier_period: '/\u6708', tier_popular: '\u6700\u53d7\u6b61\u8fce',
+    tier_trader_desc: '\u9069\u5408\u500b\u4eba\u4ea4\u6613\u54e1\uff0c\u904b\u884c 1\u20132 \u500b\u7b56\u7565\u65bc\u55ae\u4e00\u5e33\u6236\u3002',
+    tier_pro_desc: '\u9069\u5408\u8a8d\u771f\u4ea4\u6613\u54e1\uff0c\u8de8\u5e33\u6236\u904b\u884c\u591a\u7b56\u7565\u3002',
+    tier_fund_desc: '\u9069\u5408\u81ea\u71df\u4ea4\u6613\u516c\u53f8\u548c\u57fa\u91d1\uff0c\u7ba1\u7406\u591a\u4f4d\u4ea4\u6613\u54e1\u548c\u7b56\u7565\u3002',
+    credit_title: '\u96a8\u7528\u96a8\u4ed8\u9ede\u6578',
+    credit_desc: '\u9700\u8981\u66f4\u591a\uff1f\u96a8\u6642\u8cfc\u8cb7\u984d\u5916\u9ede\u6578\u3002\u7121\u7d04\u675f\u3001\u7121\u671f\u9650\u3002\u6bcf\u6b21 API \u547c\u53eb \u2014 store\u3001recall\u3001reflect \u2014 \u8017 1 \u9ede\u3002',
+    early_title: '\u53d6\u5f97\u65e9\u9ce5\u512a\u60e0',
+    early_desc: '\u52a0\u5165\u7b49\u5019\u540d\u55ae\u3002\u65e9\u9ce5\u8a02\u95b1\u8005\u524d 3 \u500b\u6708 5 \u6298\u512a\u60e0\u3002',
+    early_note: '\u4e0d\u6703\u5bc4\u5783\u573e\u4fe1\u3002\u53ea\u5728\u8a17\u7ba1 API \u4e0a\u7dda\u6642\u901a\u77e5\u60a8\u3002',
+    early_success: '\u2713 \u5df2\u52a0\u5165\u540d\u55ae\uff01\u4e0a\u7dda\u6642\u6703\u901a\u77e5\u60a8\u3002',
+    cta_title: '\u5225\u518d\u6c92\u6709\u8a18\u61b6\u5730\u4ea4\u6613\u3002',
+    cta_subtitle: '\u5b89\u88dd TradeMemory Protocol\uff0c\u8b93\u4f60\u7684 AI \u4ee3\u7406\u5f9e\u6bcf\u7b46\u4ea4\u6613\u4e2d\u5b78\u7fd2\u3002',
+    footer_text: 'Mnemox AI \u00a9 2026\u3002MIT \u6388\u6b0a\u3002',
+  }
+};
+
+let lang = localStorage.getItem('mnemox_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
+function t(key) { return (i18n[lang] && i18n[lang][key]) || i18n.en[key] || key; }
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.getElementById('lang-btn').textContent = t('lang_toggle');
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+}
+
+function toggleLang() {
+  lang = lang === 'en' ? 'zh' : 'en';
+  localStorage.setItem('mnemox_lang', lang);
+  applyLang();
+}
+
 // Copy command
 function copyCmd(el) {
   const text = el.textContent.replace('click to copy', '').replace('copied!', '').trim();
@@ -1593,6 +1758,9 @@ function handleEarlyBird(e) {
   success.style.display = 'block';
   return false;
 }
+
+// Apply language on load
+applyLang();
 </script>
 </body>
 </html>
