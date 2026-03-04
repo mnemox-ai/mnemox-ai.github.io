@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mnemox — Memory Infrastructure for AI</title>
-<meta name="description" content="Mnemox: Trading Decision Intelligence. Open-source MCP tools — TradeMemory Protocol (3-layer memory for AI trading agents) and Idea Reality Check (pre-build market scanner). Free, MIT-licensed.">
-<meta name="keywords" content="AI trading, MCP, memory, algorithmic trading, Claude, MT5, forex, open source, idea validation, reality check">
-<meta property="og:title" content="Mnemox — Memory Infrastructure for AI">
-<meta property="og:description" content="Mnemox: Trading Decision Intelligence. Open-source MCP tools — TradeMemory Protocol (3-layer memory for AI trading agents) and Idea Reality Check (pre-build market scanner). Free, MIT-licensed.">
+<title>TradeMemory Protocol — Memory for AI Trading Agents | Mnemox</title>
+<meta name="description" content="TradeMemory Protocol: 3-layer memory system for AI trading agents. Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.">
+<meta name="keywords" content="AI trading, MCP, memory, algorithmic trading, Claude, MT5, forex, XAUUSD, trading bot, open source">
+<meta property="og:title" content="TradeMemory Protocol — Memory for AI Trading Agents">
+<meta property="og:description" content="Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.">
 <meta property="og:url" content="https://mnemox.ai">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mnemox — Memory Infrastructure for AI">
-<meta name="twitter:description" content="Open-source memory and intelligence tools for AI agents.">
+<meta name="twitter:title" content="TradeMemory Protocol — Memory for AI Trading Agents">
+<meta name="twitter:description" content="Persistent memory for AI trading agents. Record, reflect, evolve.">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VD4L98FJP"></script>
 <script>
@@ -29,45 +29,13 @@
   "@type": "Organization",
   "name": "Mnemox",
   "url": "https://mnemox.ai",
-  "description": "Trading Decision Intelligence. Open-source tools that give AI agents persistent memory and real-time market awareness.",
+  "description": "Memory infrastructure for AI trading agents. Stop starting from zero.",
   "foundingDate": "2026",
   "areaServed": "Worldwide",
-  "knowsAbout": ["AI trading", "MCP servers", "algorithmic trading", "idea validation"],
+  "knowsAbout": ["AI trading", "MCP servers", "algorithmic trading", "trading memory"],
   "sameAs": [
     "https://github.com/mnemox-ai",
     "https://pypi.org/org/mnemox-ai/"
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is Mnemox?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Mnemox is a Trading Decision Intelligence company building open-source tools for AI trading agents. Our products use the Model Context Protocol (MCP) standard to give AI agents persistent memory and real-time market awareness."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is TradeMemory Protocol?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "TradeMemory Protocol is a platform-agnostic 3-layer memory system for AI trading agents via MCP. It stores trades (L1), discovers patterns (L2), and generates strategy adjustments (L3). It accepts standardized trade data from any source including MT5, Binance, and Alpaca."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Idea Reality Check?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Idea Reality Check is an MCP tool that scans GitHub, Hacker News, npm, PyPI, and Product Hunt before you build. It returns a 0-100 reality signal with evidence of existing competitors. Free and open source."
-      }
-    }
   ]
 }
 </script>
@@ -159,6 +127,7 @@ nav {
   font-size: 18px;
   color: var(--cyan);
   letter-spacing: 2px;
+  text-decoration: none;
 }
 
 .nav-logo span { color: var(--text-dim); }
@@ -190,6 +159,36 @@ nav {
   color: var(--bg) !important;
 }
 
+.nav-cta {
+  color: #000 !important;
+  background: var(--cyan);
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: all 0.3s !important;
+}
+
+.nav-cta:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+.lang-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
 /* ===== SECTIONS ===== */
 section {
   padding: 120px 40px;
@@ -198,58 +197,29 @@ section {
   position: relative;
 }
 
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.section-label::before {
-  content: '';
-  width: 20px;
-  height: 1px;
-  background: var(--cyan);
-}
-
-.section-title {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 24px;
-  letter-spacing: -1px;
-}
-
-.section-subtitle {
-  font-size: 18px;
-  color: var(--text-dim);
-  max-width: 600px;
-  line-height: 1.7;
-}
-
 /* ===== HERO ===== */
 #hero {
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding-top: 100px;
+  position: relative;
+}
+
+.hero-left {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 80px;
-  position: relative;
-  text-align: center;
+  gap: 24px;
 }
 
 .hero-mascot {
-  width: 260px;
-  height: 260px;
-  margin-bottom: 24px;
+  width: 180px;
+  height: 180px;
   position: relative;
   animation: mascot-float 5s ease-in-out infinite;
+  margin-bottom: 16px;
 }
 
 .hero-mascot img {
@@ -267,13 +237,12 @@ section {
   50% { transform: translateY(-12px); }
 }
 
-/* Subtle glow behind mascot */
 .hero-mascot::before {
   content: '';
   position: absolute;
-  width: 200px;
-  height: 200px;
-  top: 45%;
+  width: 150px;
+  height: 150px;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, rgba(0, 200, 245, 0.15), transparent 65%);
@@ -282,48 +251,26 @@ section {
   filter: blur(20px);
 }
 
-.hero-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
 .hero-title {
-  font-size: clamp(48px, 6vw, 80px);
+  font-size: clamp(40px, 5vw, 56px);
   font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -2px;
-  text-align: center;
-}
-
-.hero-title .line-white {
+  line-height: 1.1;
+  letter-spacing: -1.5px;
   color: #ffffff;
-  background: linear-gradient(180deg, #ffffff 30%, rgba(200, 220, 240, 0.7));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero-title .line-cyan {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--cyan);
-  display: block;
 }
 
-.hero-desc {
-  margin-top: 28px;
-  font-size: 17px;
+.hero-subtitle {
+  font-size: 18px;
   color: var(--text-dim);
-  line-height: 1.8;
-  max-width: 540px;
-  text-align: center;
+  line-height: 1.7;
+  max-width: 520px;
 }
 
 .hero-actions {
-  margin-top: 40px;
   display: flex;
   gap: 16px;
+  margin-top: 16px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .btn-primary {
@@ -335,7 +282,7 @@ section {
   color: var(--bg);
   font-family: var(--font-mono);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   border: none;
@@ -360,7 +307,7 @@ section {
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   border: 1px solid var(--border-bright);
@@ -382,8 +329,6 @@ section {
   border-radius: 8px;
   overflow: hidden;
   font-family: var(--font-mono);
-  font-size: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 80px var(--cyan-glow);
 }
 
 .terminal-header {
@@ -425,42 +370,26 @@ section {
 
 .t-prompt { color: var(--cyan); }
 .t-cmd { color: #fff; }
-.t-comment { color: var(--text-muted); }
+.t-dim { color: var(--text-dim); }
+.t-key { color: var(--text); }
 .t-success { color: var(--green); }
 .t-warn { color: var(--amber); }
 .t-error { color: var(--red); }
-.t-dim { color: var(--text-dim); }
-.t-key { color: var(--cyan); }
-.t-value { color: var(--green); }
-.t-arrow { color: var(--amber); }
+.t-value { color: var(--cyan); font-weight: 600; }
+.t-arrow { color: var(--cyan); }
 
 @keyframes terminalFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-.terminal-line:nth-child(1) { animation-delay: 0.3s; }
-.terminal-line:nth-child(2) { animation-delay: 0.8s; }
-.terminal-line:nth-child(3) { animation-delay: 1.2s; }
-.terminal-line:nth-child(4) { animation-delay: 1.6s; }
-.terminal-line:nth-child(5) { animation-delay: 2.0s; }
-.terminal-line:nth-child(6) { animation-delay: 2.4s; }
-.terminal-line:nth-child(7) { animation-delay: 2.8s; }
-.terminal-line:nth-child(8) { animation-delay: 3.2s; }
-.terminal-line:nth-child(9) { animation-delay: 3.6s; }
-.terminal-line:nth-child(10) { animation-delay: 4.0s; }
-.terminal-line:nth-child(11) { animation-delay: 4.4s; }
-.terminal-line:nth-child(12) { animation-delay: 4.8s; }
-.terminal-line:nth-child(13) { animation-delay: 5.2s; }
-.terminal-line:nth-child(14) { animation-delay: 5.6s; }
-.terminal-line:nth-child(15) { animation-delay: 6.0s; }
 
 .terminal-cursor {
   display: inline-block;
   width: 8px;
-  height: 15px;
+  height: 14px;
   background: var(--cyan);
-  animation: blink 1s step-end infinite;
+  animation: blink 1.2s step-end infinite;
+  margin-left: 2px;
   vertical-align: text-bottom;
 }
 
@@ -468,50 +397,81 @@ section {
   50% { opacity: 0; }
 }
 
-/* ===== STATS BAR ===== */
-.stats-bar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  margin-top: -40px;
-  margin-bottom: 40px;
-  position: relative;
-  z-index: 2;
-}
-
-.stat-item {
-  background: var(--bg-card);
-  padding: 32px;
-  text-align: center;
-  transition: background 0.3s;
-}
-
-.stat-item:hover { background: var(--bg-card-hover); }
-
-.stat-number {
+/* Social Proof Bar */
+.social-proof {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  padding: 16px;
   font-family: var(--font-mono);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--cyan);
+  font-size: 13px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
 }
 
-.stat-label {
+.social-proof span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-proof .highlight {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.social-proof-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border-bright);
+}
+
+/* ===== PROJECTS SECTION ===== */
+#projects {
+  padding: 100px 40px;
+}
+
+.section-label {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-dim);
-  margin-top: 8px;
+  color: var(--cyan);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* ===== PROJECTS GRID ===== */
+.section-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--cyan);
+}
+
+.section-title {
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin-top: 60px;
 }
 
 .project-card {
@@ -523,33 +483,31 @@ section {
   overflow: hidden;
 }
 
-.project-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-bright);
-  transform: translateY(-2px);
-}
-
 .project-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
+.project-card:hover::before { opacity: 1; }
+.project-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+
 .project-card.tradememory::before { background: var(--cyan); }
-.project-card.idearealiy::before { background: var(--green); }
+.project-card.idea-reality::before { background: var(--green); }
 
 .project-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 3px;
+  margin-bottom: 12px;
   display: inline-block;
-  margin-bottom: 16px;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 
 .project-card.tradememory .project-tag {
@@ -557,39 +515,22 @@ section {
   background: var(--cyan-dim);
 }
 
-.project-card.idearealiy .project-tag {
+.project-card.idea-reality .project-tag {
   color: var(--green);
   background: var(--green-dim);
 }
 
 .project-card h3 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.project-card .project-desc {
-  font-size: 14px;
+.project-desc {
+  font-size: 15px;
   color: var(--text-dim);
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.project-stats {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.project-stat {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.project-stat span {
-  color: var(--text);
-  font-weight: 700;
+  line-height: 1.6;
+  margin-bottom: 24px;
 }
 
 .project-links {
@@ -599,399 +540,23 @@ section {
 
 .project-link {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: 1px solid var(--border-bright);
-  color: var(--text-dim);
   transition: all 0.3s;
-  text-decoration: none;
+  display: inline-block;
 }
 
-.project-link:hover {
+.project-card.tradememory .project-link:hover {
   border-color: var(--cyan);
   color: var(--cyan);
-  text-decoration: none;
 }
 
-/* ===== BEFORE/AFTER ===== */
-.ba-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  margin-top: 60px;
-  border: 1px solid var(--border);
-}
-
-.ba-panel {
-  background: var(--bg-card);
-  padding: 40px;
-  position: relative;
-}
-
-.ba-panel-header {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.ba-panel.without .ba-panel-header { color: var(--red); }
-.ba-panel.with .ba-panel-header { color: var(--green); }
-
-.ba-trade {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-  opacity: 0;
-  animation: fadeSlideUp 0.5s forwards;
-}
-
-.ba-trade-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.ba-trade-id {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.ba-trade-result {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 2px;
-}
-
-.ba-trade-result.loss { background: var(--red-dim); color: var(--red); }
-.ba-trade-result.win { background: var(--green-dim); color: var(--green); }
-.ba-trade-result.skip { background: var(--amber-dim); color: var(--amber); }
-
-.ba-trade-thought {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  line-height: 1.6;
-  padding-left: 12px;
-  border-left: 2px solid var(--border);
-}
-
-.ba-trade-thought em {
-  font-style: normal;
-  color: var(--cyan);
-}
-
-.ba-trade:nth-child(2) { animation-delay: 0.1s; }
-.ba-trade:nth-child(3) { animation-delay: 0.2s; }
-.ba-trade:nth-child(4) { animation-delay: 0.3s; }
-.ba-trade:nth-child(5) { animation-delay: 0.4s; }
-.ba-trade:nth-child(6) { animation-delay: 0.5s; }
-
-.ba-summary {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 13px;
-}
-
-.ba-summary.loss-summary { border-color: var(--red-dim); background: rgba(255,51,102,0.03); }
-.ba-summary.win-summary { border-color: var(--green-dim); background: rgba(0,255,136,0.03); }
-
-.ba-summary-line {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== MEMORY LAYERS ===== */
-.layers-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  margin-top: 60px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-
-.layer-card {
-  background: var(--bg-card);
-  padding: 48px 36px;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.4s;
-}
-
-.layer-card:hover { background: var(--bg-card-hover); }
-
-.layer-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
-}
-
-.layer-card.l1::before { background: linear-gradient(90deg, var(--cyan), transparent); }
-.layer-card.l2::before { background: linear-gradient(90deg, var(--amber), transparent); }
-.layer-card.l3::before { background: linear-gradient(90deg, var(--green), transparent); }
-
-.layer-tag {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-
-.layer-card.l1 .layer-tag { color: var(--cyan); }
-.layer-card.l2 .layer-tag { color: var(--amber); }
-.layer-card.l3 .layer-tag { color: var(--green); }
-
-.layer-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.layer-desc {
-  font-size: 14px;
-  color: var(--text-dim);
-  line-height: 1.7;
-  margin-bottom: 28px;
-}
-
-.layer-code {
-  background: rgba(0,0,0,0.4);
-  padding: 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.8;
-  border-left: 2px solid var(--border);
-  overflow-x: auto;
-}
-
-.layer-card.l1 .layer-code { border-left-color: var(--cyan-dim); }
-.layer-card.l2 .layer-code { border-left-color: var(--amber-dim); }
-.layer-card.l3 .layer-code { border-left-color: var(--green-dim); }
-
-/* ===== INSTALL ===== */
-.install-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  margin-top: 60px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-
-.install-option {
-  background: var(--bg-card);
-  padding: 40px;
-  transition: background 0.3s;
-  position: relative;
-}
-
-.install-option:hover { background: var(--bg-card-hover); }
-
-.install-method {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 12px;
-}
-
-.install-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.install-desc {
-  font-size: 14px;
-  color: var(--text-dim);
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-.install-cmd {
-  background: rgba(0,0,0,0.5);
-  padding: 16px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+.project-card.idea-reality .project-link:hover {
+  border-color: var(--green);
   color: var(--green);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  position: relative;
-  transition: border-color 0.3s;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.install-cmd:hover { border-color: var(--cyan); }
-
-.install-cmd .copy-hint {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.install-cmd.copied .copy-hint { color: var(--green); }
-
-.install-time {
-  margin-top: 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* ===== TOOLS ===== */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin-top: 60px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-
-.tool-item {
-  background: var(--bg-card);
-  padding: 28px;
-  transition: all 0.3s;
-  cursor: default;
-}
-
-.tool-item:hover {
-  background: var(--bg-card-hover);
-}
-
-.tool-name {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--cyan);
-  margin-bottom: 8px;
-}
-
-.tool-desc {
-  font-size: 13px;
-  color: var(--text-dim);
-  line-height: 1.5;
-}
-
-/* ===== TEAM ===== */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
-  margin-top: 60px;
-  background: var(--border);
-  border: 1px solid var(--border);
-}
-
-.team-card {
-  background: var(--bg-card);
-  padding: 40px 32px;
-  text-align: center;
-  transition: background 0.3s;
-}
-
-.team-card:hover { background: var(--bg-card-hover); }
-
-.team-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  border: 2px solid var(--border);
-}
-
-.team-card:nth-child(1) .team-avatar { border-color: var(--cyan-dim); background: rgba(0,229,255,0.05); }
-.team-card:nth-child(2) .team-avatar { border-color: var(--amber-dim); background: rgba(255,170,0,0.05); }
-.team-card:nth-child(3) .team-avatar { border-color: var(--green-dim); background: rgba(0,255,136,0.05); }
-.team-card:nth-child(4) .team-avatar { border-color: var(--red-dim); background: rgba(255,51,102,0.05); }
-
-.team-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.team-role {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-}
-
-.team-desc {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-/* ===== CTA ===== */
-#cta {
-  text-align: center;
-  padding: 160px 40px;
-  position: relative;
-}
-
-#cta::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, var(--cyan-glow), transparent 70%);
-  pointer-events: none;
-}
-
-.cta-title {
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 900;
-  letter-spacing: -2px;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-.cta-subtitle {
-  font-size: 18px;
-  color: var(--text-dim);
-  margin-bottom: 48px;
-  position: relative;
-}
-
-.cta-actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  position: relative;
 }
 
 /* ===== FOOTER ===== */
@@ -1024,554 +589,146 @@ footer {
   transition: color 0.3s;
 }
 
-.footer-links a:hover { color: var(--cyan); }
+.footer-links a:hover { color: var(--cyan); text-decoration: none; }
 
-/* ===== SCROLL ANIMATIONS ===== */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  nav { padding: 12px 20px; }
+  .nav-links { gap: 16px; }
+  section { padding: 80px 20px; }
+  #hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .hero-left { align-items: center; }
+  .hero-mascot { margin: 0 auto 16px; }
+  .hero-subtitle { max-width: 100%; }
+  .hero-actions { justify-content: center; }
+  .hero-terminal { display: none; }
+  .social-proof { font-size: 11px; gap: 16px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .nav-links a:not(.nav-github):not(.nav-cta) { display: none; }
+  .lang-btn { display: none; }
+  .social-proof-divider { display: none; }
+}
+
+/* Reveal Animation */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.6s, transform 0.6s;
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  nav { padding: 12px 20px; }
-  .nav-links { gap: 16px; }
-  .nav-try { display: none; }
-  section { padding: 80px 20px; }
-  .hero-grid { flex-direction: column; align-items: center; gap: 20px; }
-  .hero-terminal { display: none; }
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-  .projects-grid { grid-template-columns: 1fr; }
-  .ba-container { grid-template-columns: 1fr; }
-  .layers-grid { grid-template-columns: 1fr; }
-  .install-grid { grid-template-columns: 1fr; }
-  .tools-grid { grid-template-columns: repeat(2, 1fr); }
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
-  footer { flex-direction: column; gap: 16px; text-align: center; }
-}
-
-@media (max-width: 600px) {
-  .stats-bar { grid-template-columns: 1fr; }
-  .tools-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr; }
-  .nav-links a:not(.nav-github):not(.nav-try) { display: none; }
-  .lang-btn { display: none; }
-}
-
-.lang-btn {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 3px 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-  letter-spacing: 1px;
-}
-.lang-btn:hover {
-  color: var(--cyan);
-  border-color: var(--cyan-dim);
-}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAVIGATION -->
 <nav>
-  <div style="display:flex;align-items:center;gap:10px">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="8" cy="16" r="3.5" fill="none" stroke="#00e5ff" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="8" r="3.5" fill="none" stroke="#ffaa00" stroke-width="1.5" opacity=".9"/><circle cx="24" cy="24" r="3.5" fill="none" stroke="#00ff88" stroke-width="1.5" opacity=".9"/><line x1="11" y1="14.5" x2="21" y2="9.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="11" y1="17.5" x2="21" y2="22.5" stroke="#00e5ff" stroke-width="1" opacity=".35"/><line x1="24" y1="11.5" x2="24" y2="20.5" stroke="#ffaa00" stroke-width="1" opacity=".25"/><circle cx="8" cy="16" r="1.5" fill="#00e5ff"/><circle cx="24" cy="8" r="1.5" fill="#ffaa00"/><circle cx="24" cy="24" r="1.5" fill="#00ff88"/></svg>
-    <div class="nav-logo">MNEMOX<span>.</span></div>
-  </div>
+  <a href="/" class="nav-logo">MNEMOX<span>.AI</span></a>
   <div class="nav-links">
-    <a href="#problem" data-i18n="nav_problem">Problem</a>
-    <a href="#memory" data-i18n="nav_memory">Memory</a>
-    <a href="#cases" data-i18n="nav_cases">Use Cases</a>
-    <a href="#install" data-i18n="nav_install">Install</a>
-    <a href="#projects" data-i18n="nav_projects">Projects</a>
-    <a href="#tools" data-i18n="nav_tools">Tools</a>
-    <a href="#team" data-i18n="nav_team">Team</a>
+    <a href="/pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="https://github.com/mnemox-ai" class="nav-github" target="_blank">GitHub</a>
-    <a href="/check" class="nav-try" style="color:#000;background:var(--cyan);padding:4px 12px;border-radius:4px;font-weight:600" data-i18n="nav_try">Try Online</a>
+    <a href="/tradememory" class="nav-cta" data-i18n="nav_get_started">Get Started →</a>
     <button class="lang-btn" onclick="toggleLang()" id="lang-btn">中文</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-mascot">
-    <img src="mne-cat.png" alt="Mne — The Mnemox Memory Cat" />
-  </div>
-  <div class="hero-grid">
-    <div>
-      <h1 class="hero-title">
-        <span class="line-white">Mnemox</span>
-      </h1>
-      <p class="hero-desc" style="font-size:20px; margin-top:16px; color:rgba(255,255,255,0.5); font-weight:500; letter-spacing:1px;">
-        <span data-i18n="hero_tagline">The AI that remembers.</span>
-      </p>
-      <p class="hero-desc">
-        <span data-i18n="hero_desc">Open protocols and tools that give AI agents persistent memory and real-world intelligence. Stop starting from zero.</span>
-      </p>
-      <div class="hero-actions">
-        <a href="https://github.com/mnemox-ai" class="btn-primary" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          <span data-i18n="hero_github">View on GitHub</span>
-        </a>
-        <a href="#projects" class="btn-secondary" data-i18n="hero_projects">Our Projects →</a>
-      </div>
+  <div class="hero-left">
+    <div class="hero-mascot">
+      <img src="mne-cat.png" alt="Mne — The Mnemox Memory Cat" />
     </div>
+    <h1 class="hero-title" data-i18n="hero_title">Memory for AI Trading Agents.</h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.</p>
+    <div class="hero-actions">
+      <a href="/tradememory" class="btn-primary" data-i18n="hero_cta_primary">Get Started →</a>
+      <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-secondary" target="_blank" data-i18n="hero_cta_secondary">GitHub</a>
+    </div>
+  </div>
 
-    <div class="hero-terminal">
-      <div class="terminal-header">
-        <div class="terminal-dot red"></div>
-        <div class="terminal-dot amber"></div>
-        <div class="terminal-dot green"></div>
-        <span class="terminal-title">tradememory — agent session</span>
-      </div>
-      <div class="terminal-body">
-        <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">python demo.py</span></div>
-        <div class="terminal-line"><span class="t-dim">Loading TradeMemory Protocol v0.3.1...</span></div>
-        <div class="terminal-line">&nbsp;</div>
-        <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Recording 30 simulated trades</span></div>
-        <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+164 pips</span></div>
-        <div class="terminal-line"><span class="t-key">  XAUUSD SHORT</span> <span class="t-dim">asia session</span> <span class="t-error">-57 pips</span></div>
-        <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+142 pips</span></div>
-        <div class="terminal-line">&nbsp;</div>
-        <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Running reflection engine...</span></div>
-        <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">london_breakout win_rate=</span><span class="t-value">73%</span> <span class="t-dim">n=41</span></div>
-        <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">asia_entries win_rate=</span><span class="t-error">52%</span> <span class="t-dim">n=28</span></div>
-        <div class="terminal-line">&nbsp;</div>
-        <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">asia → size × 0.8</span></div>
-        <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">london → full position</span></div>
-        <div class="terminal-line"><span class="t-dim">Agent memory updated. Ready for next session.</span> <span class="terminal-cursor"></span></div>
-      </div>
+  <div class="hero-terminal">
+    <div class="terminal-header">
+      <div class="terminal-dot red"></div>
+      <div class="terminal-dot amber"></div>
+      <div class="terminal-dot green"></div>
+      <span class="terminal-title">tradememory — agent session</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">python demo.py</span></div>
+      <div class="terminal-line"><span class="t-dim">Loading TradeMemory Protocol v0.3.1...</span></div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Recording 30 simulated trades</span></div>
+      <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+164 pips</span></div>
+      <div class="terminal-line"><span class="t-key">  XAUUSD SHORT</span> <span class="t-dim">asia session</span> <span class="t-error">-57 pips</span></div>
+      <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+142 pips</span></div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Running reflection engine...</span></div>
+      <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">london_breakout win_rate=</span><span class="t-value">73%</span> <span class="t-dim">n=41</span></div>
+      <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">asia_entries win_rate=</span><span class="t-error">52%</span> <span class="t-dim">n=28</span></div>
+      <div class="terminal-line">&nbsp;</div>
+      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">asia → size × 0.8</span></div>
+      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">london → full position</span></div>
+      <div class="terminal-line"><span class="t-dim">Agent memory updated. Ready for next session.</span> <span class="terminal-cursor"></span></div>
     </div>
   </div>
 </section>
 
-<!-- STATS BAR -->
-<div class="stats-bar" style="max-width:1200px; margin: -40px auto 0;">
-  <div class="stat-item">
-    <div class="stat-number">329+</div>
-    <div class="stat-label" data-i18n="stat_tests">Tests Passing</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">2</div>
-    <div class="stat-label" data-i18n="stat_servers">MCP Servers</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">8</div>
-    <div class="stat-label" data-i18n="stat_tools">MCP Tools</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">MIT</div>
-    <div class="stat-label" data-i18n="stat_license">Licensed</div>
-  </div>
-</div>
-
-<!-- FEATURED BAR -->
-<div style="max-width:1200px; margin:-20px auto 0; padding:0 40px; position:relative; z-index:2;">
-  <div style="display:flex; align-items:center; justify-content:center; gap:40px; padding:20px 40px; background:var(--bg-card); border:1px solid var(--border); border-radius:8px;">
-    <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#3a3a50; white-space:nowrap;" data-i18n="featured_on">Featured on</span>
-    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
-    <a href="https://dev.to/mnemox" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">Dev.to</a>
-    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
-    <a href="https://mcpservers.org" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">mcpservers.org</a>
-    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
-    <a href="https://github.com/appcypher/awesome-mcp-servers" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">awesome-mcp-servers</a>
-    <div style="width:1px; height:24px; background:var(--border-bright);"></div>
-    <a href="https://idea-reality-mcp--mnemox-ai.run.tools" target="_blank" style="font-family:var(--font-mono); font-size:12px; color:#6a6a80; text-decoration:none;">Smithery</a>
-  </div>
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+  <span><span class="highlight">234 ★</span></span>
+  <span class="social-proof-divider"></span>
+  <span><span class="highlight">10,169</span> trades analyzed</span>
+  <span class="social-proof-divider"></span>
+  <span><span class="highlight">MIT</span> licensed</span>
 </div>
 
 <!-- PROJECTS -->
 <section id="projects">
   <div class="reveal">
-    <div class="section-label" data-i18n="sec_projects">Our Projects</div>
-    <h2 class="section-title" data-i18n="projects_title">Two protocols. One mission.</h2>
-    <p class="section-subtitle" data-i18n="projects_subtitle">Open-source MCP servers that give AI agents memory and intelligence.</p>
+    <div class="section-label" data-i18n="sec_products">Products</div>
+    <h2 class="section-title" data-i18n="products_title">Two tools. One mission.</h2>
+    <p class="section-subtitle" data-i18n="products_subtitle">Open-source memory and intelligence tools for AI agents.</p>
   </div>
 
   <div class="projects-grid reveal">
     <div class="project-card tradememory">
-      <div class="project-tag" data-i18n="proj_tm_tag">Trading Memory</div>
+      <div class="project-tag" data-i18n="proj_tm_tag">AI Memory for Traders</div>
       <h3>TradeMemory Protocol</h3>
       <p class="project-desc" data-i18n="proj_tm_desc">3-layer memory system for AI trading agents. Record trades, discover patterns, evolve strategy — via MCP.</p>
-      <div class="project-stats">
-        <div class="project-stat"><span>v0.3.1</span></div>
-        <div class="project-stat"><span>203</span> tests</div>
-        <div class="project-stat"><span>7</span> tools</div>
-      </div>
       <div class="project-links">
-        <a href="/tradememory" class="project-link" style="color:#000;background:var(--cyan);padding:4px 12px;border-radius:4px;font-weight:600" data-i18n="proj_tm_learn">Learn More</a>
-        <a href="https://github.com/mnemox-ai/tradememory-protocol" class="project-link" target="_blank">GitHub</a>
-        <a href="https://pypi.org/project/tradememory-protocol/" class="project-link" target="_blank">PyPI</a>
+        <a href="/tradememory" class="project-link" data-i18n="proj_tm_learn">Learn More →</a>
       </div>
     </div>
 
-    <div class="project-card idearealiy">
-      <div class="project-tag" data-i18n="proj_ir_tag">Idea Intelligence</div>
-      <h3>Idea Reality MCP</h3>
-      <p class="project-desc" data-i18n="proj_ir_desc">Pre-build reality check for AI coding agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.</p>
-      <div class="project-stats">
-        <div class="project-stat"><span>v0.4.0</span></div>
-        <div class="project-stat"><span>138</span> tests</div>
-        <div class="project-stat"><span>5</span> sources</div>
-      </div>
+    <div class="project-card idea-reality">
+      <div class="project-tag" data-i18n="proj_ir_tag">Pre-Build Reality Check</div>
+      <h3>Idea Reality Check</h3>
+      <p class="project-desc" data-i18n="proj_ir_desc">Pre-build reality check for AI agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.</p>
       <div class="project-links">
-        <a href="/check" class="project-link" style="color:#000;background:var(--green);padding:4px 12px;border-radius:4px;font-weight:600">Try Online</a>
-        <a href="https://github.com/mnemox-ai/idea-reality-mcp" class="project-link" target="_blank">GitHub</a>
-        <a href="https://pypi.org/project/idea-reality-mcp/" class="project-link" target="_blank">PyPI</a>
+        <a href="/check" class="project-link" data-i18n="proj_ir_try">Try Free →</a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- BEFORE/AFTER -->
-<section id="problem">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_problem">The Problem</div>
-    <h2 class="section-title" data-i18n="problem_title">Same mistake. Every session.</h2>
-    <p class="section-subtitle" data-i18n="problem_subtitle">Your AI starts from zero every time. No memory of what worked, what failed, or why. Here's what that looks like over 5 trades:</p>
-  </div>
-
-  <div class="ba-container reveal">
-    <div class="ba-panel without">
-      <div class="ba-panel-header" data-i18n="without_tm">Without TradeMemory</div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #1 — XAUUSD LONG</span>
-          <span class="ba-trade-result win">WIN +164p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n="wo_t1">Analyzes market. Good entry on London breakout.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #5 — XAUUSD SHORT</span>
-          <span class="ba-trade-result loss">LOSS -52p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n="wo_t2">Same analysis from scratch. No memory of Trade #1. Enters Asia session blindly.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #15 — XAUUSD LONG</span>
-          <span class="ba-trade-result loss">LOSS -64p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n="wo_t3">Still doesn't know Asia session has 52% win rate. Full size again.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #30 — XAUUSD LONG</span>
-          <span class="ba-trade-result loss">LOSS -48p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n="wo_t4">30 trades later. No patterns learned. Same mistakes repeated.</div>
-      </div>
-
-      <div class="ba-summary loss-summary">
-        <div class="ba-summary-line"><span data-i18n="win_rate">Win rate</span><span class="t-error">48%</span></div>
-        <div class="ba-summary-line"><span data-i18n="net_pnl">Net P&L</span><span class="t-error">-$180</span></div>
-        <div class="ba-summary-line"><span data-i18n="patterns_learned">Patterns learned</span><span class="t-error">0</span></div>
-      </div>
-    </div>
-
-    <div class="ba-panel with">
-      <div class="ba-panel-header" data-i18n="with_tm">With TradeMemory</div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #1 — XAUUSD LONG</span>
-          <span class="ba-trade-result win">WIN +164p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n-html="w_t1">Same analysis. Trade recorded to <em>L1 memory</em>.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #5 — XAUUSD SHORT</span>
-          <span class="ba-trade-result skip">SKIP</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n-html="w_t2"><em>Memory query:</em> Asia session win_rate=52%. Agent reduces position size by 50%.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #15 — XAUUSD LONG</span>
-          <span class="ba-trade-result win">WIN +142p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n-html="w_t3"><em>L2 pattern:</em> london_breakout win_rate=73%. Full position. Confidence 0.89.</div>
-      </div>
-
-      <div class="ba-trade">
-        <div class="ba-trade-header">
-          <span class="ba-trade-id">Trade #30 — XAUUSD LONG</span>
-          <span class="ba-trade-result win">WIN +149p</span>
-        </div>
-        <div class="ba-trade-thought" data-i18n-html="w_t4"><em>L3 strategy:</em> Auto-adjusted weights. Avoids low win-rate sessions.</div>
-      </div>
-
-      <div class="ba-summary win-summary">
-        <div class="ba-summary-line"><span data-i18n="win_rate">Win rate</span><span class="t-success">67%</span></div>
-        <div class="ba-summary-line"><span data-i18n="net_pnl">Net P&L</span><span class="t-success">+$260</span></div>
-        <div class="ba-summary-line"><span data-i18n="patterns_learned">Patterns learned</span><span class="t-success">6</span></div>
-      </div>
-    </div>
-  </div>
-
-  <p style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-top:16px; text-align:center;" data-i18n="simulated_note">Simulated data for illustration. Real performance data coming soon.</p>
-</section>
-
-<!-- MEMORY LAYERS -->
-<section id="memory">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_arch">Architecture</div>
-    <h2 class="section-title" data-i18n="memory_title">Three layers of memory.</h2>
-    <p class="section-subtitle" data-i18n="memory_subtitle">Inspired by how veteran traders develop expertise — raw experience → pattern recognition → intuitive judgment.</p>
-  </div>
-
-  <div class="layers-grid reveal">
-    <div class="layer-card l1">
-      <div class="layer-tag">L1 · RAW TRADES</div>
-      <h3 class="layer-title" data-i18n="l1_title">Record Everything</h3>
-      <p class="layer-desc" data-i18n="l1_desc">Every trade auto-recorded with full context — entry, exit, SL, TP, session, outcome, and AI reasoning.</p>
-      <div class="layer-code">
-        <span class="t-key">record_trade</span>(<br>
-        &nbsp;&nbsp;symbol=<span class="t-value">"XAUUSD"</span>,<br>
-        &nbsp;&nbsp;direction=<span class="t-value">"LONG"</span>,<br>
-        &nbsp;&nbsp;session=<span class="t-value">"london"</span>,<br>
-        &nbsp;&nbsp;result=<span class="t-success">WIN +164p</span><br>
-        )
-      </div>
-    </div>
-
-    <div class="layer-card l2">
-      <div class="layer-tag">L2 · PATTERNS</div>
-      <h3 class="layer-title" data-i18n="l2_title">Discover What Works</h3>
-      <p class="layer-desc" data-i18n="l2_desc">Reflection engine analyzes history, extracts patterns: which strategies win, which sessions to avoid.</p>
-      <div class="layer-code">
-        <span class="t-warn">london_breakout</span>: <span class="t-value">73%</span> win<br>
-        <span class="t-warn">asia_entries</span>: <span class="t-error">52%</span> win<br>
-        <span class="t-warn">nfp_counter</span>: <span class="t-error">23%</span> → avoid
-      </div>
-    </div>
-
-    <div class="layer-card l3">
-      <div class="layer-tag">L3 · STRATEGY</div>
-      <h3 class="layer-title" data-i18n="l3_title">Evolve Judgment</h3>
-      <p class="layer-desc" data-i18n="l3_desc">Patterns become real-time adjustments. The AI equivalent of "feel for the market."</p>
-      <div class="layer-code">
-        <span class="t-success">asia</span> → size × 0.8<br>
-        <span class="t-success">london_break</span> → full pos<br>
-        <span class="t-success">high_vol</span> → widen stops
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- USE CASES -->
-<section id="cases">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_cases">Use Cases</div>
-    <h2 class="section-title" data-i18n="cases_title">Built for real trading.</h2>
-    <p class="section-subtitle" data-i18n="cases_subtitle">From solo forex traders to crypto bots to institutional research.</p>
-  </div>
-  <div class="layers-grid reveal" style="margin-top:60px">
-    <div class="layer-card l1" style="padding:36px 28px">
-      <div style="font-size:28px; margin-bottom:16px;">📈</div>
-      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;" data-i18n="case1_title">Forex AI Agent</h3>
-      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;" data-i18n="case1_desc">Connect to MT5, let your AI agent record every XAUUSD trade, learn session patterns, and auto-adjust position sizing.</p>
-      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
-        "After 50 trades, my agent learned to avoid Asian session entries on its own."
-        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Simulated scenario</div>
-      </div>
-    </div>
-    <div class="layer-card l2" style="padding:36px 28px">
-      <div style="font-size:28px; margin-bottom:16px;">🔗</div>
-      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;" data-i18n="case2_title">Crypto Trading Bot</h3>
-      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;" data-i18n="case2_desc">Works with Binance and Alpaca. Your bot remembers which market conditions led to losses and adjusts next time.</p>
-      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
-        "Stop running the same strategy in every regime. Let your bot know when the market has changed."
-        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Design philosophy</div>
-      </div>
-    </div>
-    <div class="layer-card l3" style="padding:36px 28px">
-      <div style="font-size:28px; margin-bottom:16px;">🧪</div>
-      <h3 style="font-size:18px; font-weight:700; margin-bottom:10px;" data-i18n="case3_title">Backtesting Pipeline</h3>
-      <p style="font-size:14px; color:#6a6a80; line-height:1.7; margin-bottom:20px;" data-i18n="case3_desc">Feed historical trades into L1, run the reflection engine, and let L2/L3 emerge. Test memory-augmented strategies offline.</p>
-      <div style="padding:14px 16px; background:rgba(0,0,0,0.2); border-left:2px solid var(--border-bright); border-radius:0 6px 6px 0; font-size:13px; color:#6a6a80; font-style:italic; line-height:1.6;">
-        "The reflection engine found 6 patterns in 200 trades that we missed in manual review."
-        <div style="margin-top:8px; font-style:normal; font-family:var(--font-mono); font-size:11px; color:#3a3a50;">— Simulated scenario</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- INSTALL -->
-<section id="install">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_install">Get Started</div>
-    <h2 class="section-title" data-i18n="install_title">Running in 5 minutes.</h2>
-    <p class="section-subtitle" data-i18n="install_subtitle">Three ways to start. Pick one.</p>
-  </div>
-
-  <div class="install-grid reveal">
-    <div class="install-option">
-      <div class="install-method" data-i18n="opt_a">Option A</div>
-      <h3 class="install-title" data-i18n="opt_a_title">One-Line Install</h3>
-      <p class="install-desc" data-i18n="opt_a_desc">Clone, install deps, run tests. Everything automated.</p>
-      <div class="install-cmd" onclick="copyCmd(this)">
-        <span>curl -sSL https://raw.githubusercontent.com/mnemox-ai/tradememory-protocol/master/install.sh | bash</span>
-        <span class="copy-hint">CLICK TO COPY</span>
-      </div>
-      <div class="install-time">~2 minutes</div>
-    </div>
-
-    <div class="install-option">
-      <div class="install-method" data-i18n="opt_b">Option B</div>
-      <h3 class="install-title">Docker</h3>
-      <p class="install-desc" data-i18n="opt_b_desc">One command. No Python setup needed.</p>
-      <div class="install-cmd" onclick="copyCmd(this)">
-        <span>docker compose up -d</span>
-        <span class="copy-hint">CLICK TO COPY</span>
-      </div>
-      <div class="install-time">~1 minute</div>
-    </div>
-
-    <div class="install-option">
-      <div class="install-method" data-i18n="opt_c">Option C</div>
-      <h3 class="install-title" data-i18n="opt_c_title">Try Without Installing</h3>
-      <p class="install-desc" data-i18n="opt_c_desc">Run the demo with simulated data. No API key required.</p>
-      <div class="install-cmd" onclick="copyCmd(this)">
-        <span>git clone https://github.com/mnemox-ai/tradememory-protocol && cd tradememory-protocol && python demo.py</span>
-        <span class="copy-hint">CLICK TO COPY</span>
-      </div>
-      <div class="install-time">~3 minutes</div>
-    </div>
-  </div>
-
-  <div style="text-align:center; margin-top:32px;">
-    <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL.md" class="btn-secondary" target="_blank" style="margin-right:12px;">English Tutorial →</a>
-    <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL_ZH.md" class="btn-secondary" target="_blank">中文教學 →</a>
-  </div>
-</section>
-
-<!-- TOOLS -->
-<section id="tools">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_tools">MCP Protocol</div>
-    <h2 class="section-title" data-i18n="tools_title">7 tools. Any AI agent.</h2>
-    <p class="section-subtitle" data-i18n="tools_subtitle">Built on Anthropic's Model Context Protocol. Works with Claude, GPT, open-source models. Supports MT5, Binance, Alpaca.</p>
-  </div>
-
-  <div class="tools-grid reveal">
-    <div class="tool-item">
-      <div class="tool-name">record_trade</div>
-      <div class="tool-desc" data-i18n="tool1_desc">Log trades with full context</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">get_trade_history</div>
-      <div class="tool-desc" data-i18n="tool2_desc">Query past trades</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">reflect_on_trades</div>
-      <div class="tool-desc" data-i18n="tool3_desc">Trigger pattern discovery</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">get_patterns</div>
-      <div class="tool-desc" data-i18n="tool4_desc">Retrieve discovered patterns</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">get_strategy_adjustments</div>
-      <div class="tool-desc" data-i18n="tool5_desc">Real-time modifications</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">get_memory_stats</div>
-      <div class="tool-desc" data-i18n="tool6_desc">Memory dashboard</div>
-    </div>
-    <div class="tool-item">
-      <div class="tool-name">search_memory</div>
-      <div class="tool-desc" data-i18n="tool7_desc">Semantic search across layers</div>
-    </div>
-    <div class="tool-item" style="display:flex; align-items:center; justify-content:center;">
-      <div>
-        <div class="tool-name" style="color:var(--green);">MIT Licensed</div>
-        <div class="tool-desc">Open source, forever</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TEAM -->
-<section id="team">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_team">Who We Are</div>
-    <h2 class="section-title" data-i18n="team_title">Built by agents, for agents.</h2>
-    <p class="section-subtitle" data-i18n="team_subtitle">A hybrid team of humans and AI, based in Taipei.</p>
-  </div>
-
-  <div class="team-grid reveal">
-    <div class="team-card">
-      <div class="team-avatar">S</div>
-      <div class="team-name">Sean</div>
-      <div class="team-role">CEO</div>
-      <div class="team-desc" data-i18n="sean_desc">Product vision. Forex trader. Builds systems that learn.</div>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar">C</div>
-      <div class="team-name">Claude</div>
-      <div class="team-role">CIO</div>
-      <div class="team-desc" data-i18n="claude_desc">Architecture & strategy. The thinking partner.</div>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar">X</div>
-      <div class="team-name">XiaoKe</div>
-      <div class="team-role">Infra Lead</div>
-      <div class="team-desc" data-i18n="xiaoke_desc">Python, MCP, MT5. The builder.</div>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar">M</div>
-      <div class="team-name">MaoMao</div>
-      <div class="team-role">Product Lead</div>
-      <div class="team-desc" data-i18n="maomao_desc">Product design. User experience. The voice.</div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="reveal">
-    <h2 class="cta-title" data-i18n-html="cta_title">Give your AI<br>a memory.</h2>
-    <p class="cta-subtitle" data-i18n="cta_stats">329+ tests. 2 MCP servers. 8 tools. MIT licensed.</p>
-    <div class="cta-actions">
-      <a href="https://github.com/mnemox-ai" class="btn-primary" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        <span data-i18n="cta_github">Star on GitHub</span>
-      </a>
-      <a href="/check" class="btn-secondary" data-i18n="cta_try">Try Idea Reality Check →</a>
-      <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/QUICK_START.md" class="btn-secondary" target="_blank" data-i18n="cta_docs">Read the Docs →</a>
-      <a href="https://dev.to/mnemox" class="btn-secondary" target="_blank" data-i18n="cta_blog">Read the Blog →</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-left" data-i18n-html="footer_text">© 2026 Mnemox · Built in Taipei · Memory &amp; Intelligence for AI</div>
+  <div class="footer-left" data-i18n-html="footer_text">© 2026 Mnemox · Built in Taipei · Memory for AI</div>
   <div class="footer-links">
     <a href="https://github.com/mnemox-ai" target="_blank">GitHub</a>
     <a href="https://dev.to/mnemox" target="_blank">Blog</a>
-    <a href="https://github.com/mnemox-ai/tradememory-protocol/blob/master/docs/TUTORIAL.md" target="_blank">Docs</a>
+    <a href="/pricing" data-i18n="footer_pricing">Pricing</a>
   </div>
 </footer>
 
@@ -1580,163 +737,43 @@ footer {
 const i18n = {
   en: {
     lang_toggle: '中文',
-    nav_problem: 'Problem', nav_memory: 'Memory', nav_cases: 'Use Cases',
-    nav_install: 'Install', nav_projects: 'Projects', nav_tools: 'Tools',
-    nav_team: 'Team', nav_try: 'Try Online',
-    hero_tagline: 'The AI that remembers.',
-    hero_desc: 'Open protocols and tools that give AI agents persistent memory and real-world intelligence. Stop starting from zero.',
-    hero_github: 'View on GitHub', hero_projects: 'Our Projects \u2192',
-    stat_tests: 'Tests Passing', stat_servers: 'MCP Servers', stat_tools: 'MCP Tools', stat_license: 'Licensed',
-    featured_on: 'Featured on',
-    sec_projects: 'Our Projects',
-    projects_title: 'Two protocols. One mission.',
-    projects_subtitle: 'Open-source MCP servers that give AI agents memory and intelligence.',
-    proj_tm_tag: 'Trading Memory',
-    proj_tm_desc: '3-layer memory system for AI trading agents. Record trades, discover patterns, evolve strategy \u2014 via MCP.',
-    proj_tm_learn: 'Learn More',
-    proj_ir_tag: 'Idea Intelligence',
-    proj_ir_desc: 'Pre-build reality check for AI coding agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.',
-    sec_problem: 'The Problem',
-    problem_title: 'Same mistake. Every session.',
-    problem_subtitle: "Your AI starts from zero every time. No memory of what worked, what failed, or why. Here's what that looks like over 5 trades:",
-    without_tm: 'Without TradeMemory', with_tm: 'With TradeMemory',
-    wo_t1: 'Analyzes market. Good entry on London breakout.',
-    wo_t2: 'Same analysis from scratch. No memory of Trade #1. Enters Asia session blindly.',
-    wo_t3: "Still doesn't know Asia session has 52% win rate. Full size again.",
-    wo_t4: '30 trades later. No patterns learned. Same mistakes repeated.',
-    w_t1: 'Same analysis. Trade recorded to <em>L1 memory</em>.',
-    w_t2: '<em>Memory query:</em> Asia session win_rate=52%. Agent reduces position size by 50%.',
-    w_t3: '<em>L2 pattern:</em> london_breakout win_rate=73%. Full position. Confidence 0.89.',
-    w_t4: '<em>L3 strategy:</em> Auto-adjusted weights. Avoids low win-rate sessions.',
-    win_rate: 'Win rate', net_pnl: 'Net P&L', patterns_learned: 'Patterns learned',
-    simulated_note: 'Simulated data for illustration. Real performance data coming soon.',
-    sec_arch: 'Architecture',
-    memory_title: 'Three layers of memory.',
-    memory_subtitle: 'Inspired by how veteran traders develop expertise \u2014 raw experience \u2192 pattern recognition \u2192 intuitive judgment.',
-    l1_title: 'Record Everything',
-    l1_desc: 'Every trade auto-recorded with full context \u2014 entry, exit, SL, TP, session, outcome, and AI reasoning.',
-    l2_title: 'Discover What Works',
-    l2_desc: 'Reflection engine analyzes history, extracts patterns: which strategies win, which sessions to avoid.',
-    l3_title: 'Evolve Judgment',
-    l3_desc: 'Patterns become real-time adjustments. The AI equivalent of "feel for the market."',
-    sec_cases: 'Use Cases',
-    cases_title: 'Built for real trading.',
-    cases_subtitle: 'From solo forex traders to crypto bots to institutional research.',
-    case1_title: 'Forex AI Agent',
-    case1_desc: 'Connect to MT5, let your AI agent record every XAUUSD trade, learn session patterns, and auto-adjust position sizing.',
-    case2_title: 'Crypto Trading Bot',
-    case2_desc: 'Works with Binance and Alpaca. Your bot remembers which market conditions led to losses and adjusts next time.',
-    case3_title: 'Backtesting Pipeline',
-    case3_desc: 'Feed historical trades into L1, run the reflection engine, and let L2/L3 emerge. Test memory-augmented strategies offline.',
-    sec_install: 'Get Started',
-    install_title: 'Running in 5 minutes.',
-    install_subtitle: 'Three ways to start. Pick one.',
-    opt_a: 'Option A', opt_a_title: 'One-Line Install',
-    opt_a_desc: 'Clone, install deps, run tests. Everything automated.',
-    opt_b: 'Option B', opt_b_desc: 'One command. No Python setup needed.',
-    opt_c: 'Option C', opt_c_title: 'Try Without Installing',
-    opt_c_desc: 'Run the demo with simulated data. No API key required.',
-    sec_tools: 'MCP Protocol',
-    tools_title: '7 tools. Any AI agent.',
-    tools_subtitle: "Built on Anthropic's Model Context Protocol. Works with Claude, GPT, open-source models. Supports MT5, Binance, Alpaca.",
-    tool1_desc: 'Log trades with full context', tool2_desc: 'Query past trades',
-    tool3_desc: 'Trigger pattern discovery', tool4_desc: 'Retrieve discovered patterns',
-    tool5_desc: 'Real-time modifications', tool6_desc: 'Memory dashboard',
-    tool7_desc: 'Semantic search across layers',
-    sec_team: 'Who We Are',
-    team_title: 'Built by agents, for agents.',
-    team_subtitle: 'A hybrid team of humans and AI, based in Taipei.',
-    sean_desc: 'Product vision. Forex trader. Builds systems that learn.',
-    claude_desc: 'Architecture & strategy. The thinking partner.',
-    xiaoke_desc: 'Python, MCP, MT5. The builder.',
-    maomao_desc: 'Product design. User experience. The voice.',
-    cta_title: 'Give your AI<br>a memory.',
-    cta_stats: '329+ tests. 2 MCP servers. 8 tools. MIT licensed.',
-    cta_github: 'Star on GitHub',
-    cta_try: 'Try Idea Reality Check \u2192',
-    cta_docs: 'Read the Docs \u2192',
-    cta_blog: 'Read the Blog \u2192',
-    footer_text: '\u00a9 2026 Mnemox \u00b7 Built in Taipei \u00b7 Memory &amp; Intelligence for AI',
+    nav_pricing: 'Pricing',
+    nav_get_started: 'Get Started →',
+    hero_title: 'Memory for AI Trading Agents.',
+    hero_subtitle: 'Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.',
+    hero_cta_primary: 'Get Started →',
+    hero_cta_secondary: 'GitHub',
+    sec_products: 'Products',
+    products_title: 'Two tools. One mission.',
+    products_subtitle: 'Open-source memory and intelligence tools for AI agents.',
+    proj_tm_tag: 'AI Memory for Traders',
+    proj_tm_desc: '3-layer memory system for AI trading agents. Record trades, discover patterns, evolve strategy — via MCP.',
+    proj_tm_learn: 'Learn More →',
+    proj_ir_tag: 'Pre-Build Reality Check',
+    proj_ir_desc: 'Pre-build reality check for AI agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.',
+    proj_ir_try: 'Try Free →',
+    footer_text: '© 2026 Mnemox · Built in Taipei · Memory for AI',
+    footer_pricing: 'Pricing',
   },
   zh: {
     lang_toggle: 'EN',
-    nav_problem: '\u554f\u984c', nav_memory: '\u8a18\u61b6', nav_cases: '\u61c9\u7528\u5834\u666f',
-    nav_install: '\u5b89\u88dd', nav_projects: '\u5c08\u6848', nav_tools: '\u5de5\u5177',
-    nav_team: '\u5718\u968a', nav_try: '\u7dda\u4e0a\u9ad4\u9a57',
-    hero_tagline: '\u6703\u8a18\u61b6\u7684 AI\u3002',
-    hero_desc: '\u958b\u6e90\u5354\u8b70\u8207\u5de5\u5177\uff0c\u8ce6\u4e88 AI \u4ee3\u7406\u6301\u4e45\u8a18\u61b6\u8207\u73fe\u5be6\u4e16\u754c\u667a\u80fd\u3002\u4e0d\u518d\u5f9e\u96f6\u958b\u59cb\u3002',
-    hero_github: 'GitHub \u67e5\u770b', hero_projects: '\u6211\u5011\u7684\u5c08\u6848 \u2192',
-    stat_tests: '\u6e2c\u8a66\u901a\u904e', stat_servers: 'MCP \u4f3a\u670d\u5668', stat_tools: 'MCP \u5de5\u5177', stat_license: '\u6388\u6b0a',
-    featured_on: '\u7cbe\u9078\u65bc',
-    sec_projects: '\u6211\u5011\u7684\u5c08\u6848',
-    projects_title: '\u5169\u500b\u5354\u8b70\uff0c\u4e00\u500b\u4f7f\u547d\u3002',
-    projects_subtitle: '\u958b\u6e90 MCP \u4f3a\u670d\u5668\uff0c\u8ce6\u4e88 AI \u4ee3\u7406\u8a18\u61b6\u8207\u667a\u6167\u3002',
-    proj_tm_tag: '\u4ea4\u6613\u8a18\u61b6',
-    proj_tm_desc: 'AI \u4ea4\u6613\u4ee3\u7406\u4e09\u5c64\u8a18\u61b6\u7cfb\u7d71\u3002\u8a18\u9304\u4ea4\u6613\u3001\u767c\u73fe\u6a21\u5f0f\u3001\u9032\u5316\u7b56\u7565 \u2014 \u900f\u904e MCP\u3002',
-    proj_tm_learn: '\u4e86\u89e3\u66f4\u591a',
-    proj_ir_tag: '\u60f3\u6cd5\u60c5\u5831',
-    proj_ir_desc: 'AI \u7de8\u7a0b\u4ee3\u7406\u7684\u5efa\u69cb\u524d\u73fe\u5be6\u6aa2\u67e5\u3002\u540c\u6642\u6383\u63cf GitHub\u3001HN\u3001npm\u3001PyPI\u3001Product Hunt\u3002',
-    sec_problem: '\u554f\u984c',
-    problem_title: '\u540c\u6a23\u7684\u932f\u8aa4\uff0c\u6bcf\u6b21\u90fd\u72af\u3002',
-    problem_subtitle: '\u4f60\u7684 AI \u6bcf\u6b21\u90fd\u5f9e\u96f6\u958b\u59cb\u3002\u4e0d\u8a18\u5f97\u4ec0\u9ebc\u6709\u6548\u3001\u4ec0\u9ebc\u5931\u6557\u3001\u70ba\u4ec0\u9ebc\u3002\u4ee5\u4e0b\u662f 5 \u7b46\u4ea4\u6613\u7684\u5c0d\u6bd4\uff1a',
-    without_tm: '\u6c92\u6709 TradeMemory', with_tm: '\u6709 TradeMemory',
-    wo_t1: '\u5206\u6790\u5e02\u5834\u3002\u502b\u6566\u7a81\u7834\u826f\u597d\u9032\u5834\u3002',
-    wo_t2: '\u5f9e\u982d\u5206\u6790\u3002\u4e0d\u8a18\u5f97\u7b2c 1 \u7b46\u4ea4\u6613\u3002\u76f2\u76ee\u9032\u5165\u4e9e\u6d32\u76e4\u3002',
-    wo_t3: '\u4ecd\u4e0d\u77e5\u9053\u4e9e\u6d32\u76e4\u52dd\u7387\u50c5 52%\u3002\u6eff\u5009\u518d\u4f86\u3002',
-    wo_t4: '30 \u7b46\u4ea4\u6613\u5f8c\u3002\u96f6\u6a21\u5f0f\u5b78\u7fd2\u3002\u540c\u6a23\u932f\u8aa4\u91cd\u8907\u3002',
-    w_t1: '\u76f8\u540c\u5206\u6790\u3002\u4ea4\u6613\u8a18\u9304\u81f3 <em>L1 \u8a18\u61b6</em>\u3002',
-    w_t2: '<em>\u8a18\u61b6\u67e5\u8a62\uff1a</em>\u4e9e\u6d32\u76e4 win_rate=52%\u3002\u4ee3\u7406\u6e1b\u5009 50%\u3002',
-    w_t3: '<em>L2 \u6a21\u5f0f\uff1a</em>london_breakout win_rate=73%\u3002\u6eff\u5009\u3002\u4fe1\u5fc3 0.89\u3002',
-    w_t4: '<em>L3 \u7b56\u7565\uff1a</em>\u81ea\u52d5\u8abf\u6574\u6b0a\u91cd\u3002\u8ff4\u907f\u4f4e\u52dd\u7387\u76e4\u3002',
-    win_rate: '\u52dd\u7387', net_pnl: '\u6de8\u640d\u76ca', patterns_learned: '\u5df2\u5b78\u6a21\u5f0f',
-    simulated_note: '\u6a21\u64ec\u6578\u64da\u50c5\u4f9b\u8aaa\u660e\u3002\u5be6\u969b\u7e3e\u6548\u6578\u64da\u5373\u5c07\u4e0a\u7dda\u3002',
-    sec_arch: '\u67b6\u69cb',
-    memory_title: '\u4e09\u5c64\u8a18\u61b6\u67b6\u69cb\u3002',
-    memory_subtitle: '\u9748\u611f\u4f86\u81ea\u8cc7\u6df1\u4ea4\u6613\u54e1\u7684\u5c08\u696d\u6210\u9577 \u2014 \u539f\u59cb\u7d93\u9a57 \u2192 \u6a21\u5f0f\u8b58\u5225 \u2192 \u76f4\u89ba\u5224\u65b7\u3002',
-    l1_title: '\u8a18\u9304\u4e00\u5207',
-    l1_desc: '\u6bcf\u7b46\u4ea4\u6613\u81ea\u52d5\u8a18\u9304\u5b8c\u6574\u4e0a\u4e0b\u6587 \u2014 \u9032\u5834\u3001\u51fa\u5834\u3001\u6b62\u640d\u3001\u6b62\u76c8\u3001\u76e4\u5225\u3001\u7d50\u679c\u3001AI \u63a8\u7406\u3002',
-    l2_title: '\u767c\u73fe\u6709\u6548\u6a21\u5f0f',
-    l2_desc: '\u53cd\u601d\u5f15\u64ce\u5206\u6790\u6b77\u53f2\uff0c\u63d0\u53d6\u6a21\u5f0f\uff1a\u54ea\u4e9b\u7b56\u7565\u6709\u6548\u3001\u54ea\u4e9b\u76e4\u5225\u8a72\u8ff4\u907f\u3002',
-    l3_title: '\u9032\u5316\u5224\u65b7\u529b',
-    l3_desc: '\u6a21\u5f0f\u8f49\u5316\u70ba\u5373\u6642\u8abf\u6574\u3002AI \u7248\u7684\u300c\u76e4\u611f\u300d\u3002',
-    sec_cases: '\u61c9\u7528\u5834\u666f',
-    cases_title: '\u70ba\u771f\u5be6\u4ea4\u6613\u800c\u751f\u3002',
-    cases_subtitle: '\u5f9e\u500b\u4eba\u5916\u532f\u4ea4\u6613\u5230\u52a0\u5bc6\u6a5f\u5668\u4eba\u5230\u6a5f\u69cb\u7814\u7a76\u3002',
-    case1_title: '\u5916\u532f AI \u4ee3\u7406',
-    case1_desc: '\u9023\u63a5 MT5\uff0c\u8b93 AI \u4ee3\u7406\u8a18\u9304\u6bcf\u7b46 XAUUSD \u4ea4\u6613\uff0c\u5b78\u7fd2\u76e4\u5225\u6a21\u5f0f\uff0c\u81ea\u52d5\u8abf\u6574\u5009\u4f4d\u3002',
-    case2_title: '\u52a0\u5bc6\u4ea4\u6613\u6a5f\u5668\u4eba',
-    case2_desc: '\u652f\u63f4 Binance \u548c Alpaca\u3002\u6a5f\u5668\u4eba\u8a18\u4f4f\u54ea\u4e9b\u5e02\u5834\u689d\u4ef6\u5c0e\u81f4\u8667\u640d\uff0c\u4e0b\u6b21\u81ea\u52d5\u8abf\u6574\u3002',
-    case3_title: '\u56de\u6e2c\u7ba1\u7dda',
-    case3_desc: '\u5c07\u6b77\u53f2\u4ea4\u6613\u532f\u5165 L1\uff0c\u904b\u884c\u53cd\u601d\u5f15\u64ce\uff0c\u8b93 L2/L3 \u81ea\u7136\u6d6e\u73fe\u3002\u96e2\u7dda\u6e2c\u8a66\u8a18\u61b6\u589e\u5f37\u7b56\u7565\u3002',
-    sec_install: '\u958b\u59cb\u4f7f\u7528',
-    install_title: '\u4e94\u5206\u9418\u5167\u555f\u52d5\u3002',
-    install_subtitle: '\u4e09\u7a2e\u65b9\u5f0f\uff0c\u4efb\u9078\u5176\u4e00\u3002',
-    opt_a: '\u65b9\u6848 A', opt_a_title: '\u4e00\u884c\u5b89\u88dd',
-    opt_a_desc: '\u514b\u9686\u3001\u5b89\u88dd\u4f9d\u8cf4\u3001\u57f7\u884c\u6e2c\u8a66\u3002\u5168\u81ea\u52d5\u3002',
-    opt_b: '\u65b9\u6848 B', opt_b_desc: '\u4e00\u884c\u6307\u4ee4\u3002\u7121\u9700\u8a2d\u5b9a Python\u3002',
-    opt_c: '\u65b9\u6848 C', opt_c_title: '\u514d\u5b89\u88dd\u9ad4\u9a57',
-    opt_c_desc: '\u7528\u6a21\u64ec\u6578\u64da\u57f7\u884c Demo\u3002\u7121\u9700 API Key\u3002',
-    sec_tools: 'MCP \u5354\u8b70',
-    tools_title: '7 \u500b\u5de5\u5177\uff0c\u4efb\u4f55 AI \u4ee3\u7406\u3002',
-    tools_subtitle: '\u57fa\u65bc Anthropic Model Context Protocol\u3002\u652f\u63f4 Claude\u3001GPT\u3001\u958b\u6e90\u6a21\u578b\u3002\u652f\u63f4 MT5\u3001Binance\u3001Alpaca\u3002',
-    tool1_desc: '\u8a18\u9304\u4ea4\u6613\u8207\u5b8c\u6574\u4e0a\u4e0b\u6587', tool2_desc: '\u67e5\u8a62\u6b77\u53f2\u4ea4\u6613',
-    tool3_desc: '\u89f8\u767c\u6a21\u5f0f\u767c\u73fe', tool4_desc: '\u53d6\u5f97\u5df2\u767c\u73fe\u6a21\u5f0f',
-    tool5_desc: '\u5373\u6642\u7b56\u7565\u8abf\u6574', tool6_desc: '\u8a18\u61b6\u5100\u8868\u677f',
-    tool7_desc: '\u8de8\u5c64\u8a9e\u7fa9\u641c\u5c0b',
-    sec_team: '\u6211\u5011\u662f\u8ab0',
-    team_title: '\u7531 AI \u6253\u9020\uff0c\u70ba AI \u800c\u751f\u3002',
-    team_subtitle: '\u4eba\u985e\u8207 AI \u7684\u6df7\u5408\u5718\u968a\uff0c\u4f4d\u65bc\u53f0\u5317\u3002',
-    sean_desc: '\u7522\u54c1\u9858\u666f\u3002\u5916\u532f\u4ea4\u6613\u54e1\u3002\u6253\u9020\u6703\u5b78\u7fd2\u7684\u7cfb\u7d71\u3002',
-    claude_desc: '\u67b6\u69cb\u8207\u7b56\u7565\u3002\u601d\u8003\u5925\u4f34\u3002',
-    xiaoke_desc: 'Python\u3001MCP\u3001MT5\u3002\u5efa\u9020\u8005\u3002',
-    maomao_desc: '\u7522\u54c1\u8a2d\u8a08\u3002\u4f7f\u7528\u8005\u9ad4\u9a57\u3002\u7522\u54c1\u4e4b\u8072\u3002',
-    cta_title: '\u8ce6\u4e88\u4f60\u7684 AI<br>\u8a18\u61b6\u3002',
-    cta_stats: '231+ \u6e2c\u8a66\u3002\u5169\u500b MCP \u4f3a\u670d\u5668\u30028 \u500b\u5de5\u5177\u3002MIT \u6388\u6b0a\u3002',
-    cta_github: 'GitHub \u6309\u661f',
-    cta_try: '\u8a66\u8a66 Idea Reality Check \u2192',
-    cta_docs: '\u95b1\u8b80\u6587\u4ef6 \u2192',
-    cta_blog: '\u95b1\u8b80\u90e8\u843d\u683c \u2192',
-    footer_text: '\u00a9 2026 Mnemox \u00b7 \u53f0\u5317\u6253\u9020 \u00b7 AI \u7684\u8a18\u61b6\u8207\u667a\u80fd',
+    nav_pricing: '定價',
+    nav_get_started: '開始使用 →',
+    hero_title: '交易 AI 代理的記憶基礎設施',
+    hero_subtitle: '你的 Claude 代理會遺忘每筆交易。TradeMemory 賦予它持久記憶 — 從虧損學習、發現模式、自動調整倉位。',
+    hero_cta_primary: '開始使用 →',
+    hero_cta_secondary: 'GitHub',
+    sec_products: '產品',
+    products_title: '兩個工具，一個使命。',
+    products_subtitle: '開源記憶與智能工具，為 AI 代理而生。',
+    proj_tm_tag: '交易員 AI 記憶',
+    proj_tm_desc: 'AI 交易代理三層記憶系統。記錄交易、發現模式、進化策略 — 透過 MCP。',
+    proj_tm_learn: '了解更多 →',
+    proj_ir_tag: '建構前現實檢查',
+    proj_ir_desc: 'AI 代理的建構前現實檢查。在你建構之前掃描 GitHub、HN、npm、PyPI、Product Hunt。',
+    proj_ir_try: '免費試用 →',
+    footer_text: '© 2026 Mnemox · 台北打造 · AI 的記憶',
+    footer_pricing: '定價',
   }
 };
 
@@ -1773,21 +810,15 @@ const observer = new IntersectionObserver((entries) => {
 
 reveals.forEach(el => observer.observe(el));
 
-// Copy command
-function copyCmd(el) {
-  const text = el.querySelector('span:first-child').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    el.classList.add('copied');
-    el.querySelector('.copy-hint').textContent = 'COPIED!';
-    setTimeout(() => {
-      el.classList.remove('copied');
-      el.querySelector('.copy-hint').textContent = 'CLICK TO COPY';
-    }, 2000);
-  });
-}
+// Terminal animation
+const terminalLines = document.querySelectorAll('.terminal-line');
+terminalLines.forEach((line, i) => {
+  line.style.animationDelay = `${i * 0.15}s`;
+});
 
-// Init lang
+// Apply language on load
 applyLang();
 </script>
+
 </body>
 </html>
