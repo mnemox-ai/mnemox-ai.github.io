@@ -7,6 +7,15 @@
 <meta name="description" content="TradeMemory Protocol: 3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP. Works with Claude Desktop, Cursor, any MCP client.">
 <meta name="keywords" content="AI trading, MCP, memory, MT5, forex, XAUUSD, trading bot, algorithmic trading, Claude, pattern discovery, trade journal">
 <link rel="canonical" href="https://mnemox.ai/tradememory">
+<!-- Google Analytics — replace G-XXXXXXXXXX with your Measurement ID -->
+<!-- Get it: analytics.google.com → Admin → Data Streams → Web → Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 <meta property="og:title" content="TradeMemory Protocol — AI Trading Memory for MT5/Forex">
 <meta property="og:description" content="3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP.">
 <meta property="og:url" content="https://mnemox.ai/tradememory">
@@ -1226,17 +1235,17 @@ footer {
       <span class="terminal-title">claude desktop &mdash; tradememory session</span>
     </div>
     <div class="terminal-body">
-      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Store my XAUUSD trade: long 0.05 lots, +$40</span></div>
-      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Trade stored: MT5-2350547759</span></div>
+      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Store my XAUUSD trade: long 0.10 lots, +$1,175</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Trade stored: MT5-2350458751 | strategy=VolBreakout</span></div>
       <div class="terminal-line">&nbsp;</div>
-      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Run a reflection on my last 20 trades</span></div>
-      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Analyzing 20 trades...</span></div>
-      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">london_breakout win_rate=</span><span class="t-value">73%</span> <span class="t-dim">n=41</span></div>
-      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">asia_reversal win_rate=</span><span class="t-error">38%</span> <span class="t-dim">n=12</span></div>
+      <div class="terminal-line"><span class="t-prompt">You:</span> <span class="t-cmd">Run a reflection on my last 73 trades</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">Analyzing 73 trades across 4 strategies...</span></div>
+      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">IntradayMomentum BUY &nbsp;PF=</span><span class="t-value">2.11</span> <span class="t-dim">return=+166% n=73</span></div>
+      <div class="terminal-line"><span class="t-arrow">&#8594;</span> <span class="t-warn">Pattern:</span> <span class="t-dim">MeanReversion &nbsp;&nbsp;&nbsp;&nbsp;SELL PF=</span><span class="t-error">0.79</span> <span class="t-dim">return=&minus;21% &nbsp;n=36</span></div>
       <div class="terminal-line">&nbsp;</div>
-      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">asia_reversal &#8594; reduce size 0.5x</span></div>
-      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">london_breakout &#8594; keep full size</span></div>
-      <div class="terminal-line"><span class="t-dim">Memory updated. 3 layers synced.</span> <span class="terminal-cursor"></span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">MeanReversion SELL &#8594; disable (consistent losses)</span></div>
+      <div class="terminal-line"><span class="t-success">&#10003;</span> <span class="t-dim">L3 Adjustment:</span> <span class="t-value">IntradayMomentum BUY &#8594; increase size 1.2x</span></div>
+      <div class="terminal-line"><span class="t-dim">Memory updated. 3 layers synced. 10,169 trades analyzed.</span> <span class="terminal-cursor"></span></div>
     </div>
   </div>
 </section>
@@ -1297,8 +1306,8 @@ footer {
       <h3 class="feature-title" data-i18n="feat3_title">Automatic Pattern Mining</h3>
       <p class="feature-desc" data-i18n="feat3_desc">L2 discovers which strategies, sessions, and conditions produce winners. L3 generates actionable adjustments: disable losers, size up winners.</p>
       <div class="feature-code">
-        <span class="t-warn">pattern:</span> <span class="t-dim">vol_breakout BUY</span> <span class="t-value">+47%</span> <span class="t-dim">n=73</span><br>
-        <span class="t-warn">pattern:</span> <span class="t-dim">mean_reversion SELL</span> <span class="t-error">-21%</span> <span class="t-dim">n=36</span>
+        <span class="t-warn">pattern:</span> <span class="t-dim">IntradayMomentum BUY</span> <span class="t-value">+47%</span> <span class="t-dim">n=73</span><br>
+        <span class="t-warn">pattern:</span> <span class="t-dim">MeanReversion &nbsp;&nbsp;&nbsp;&nbsp;SELL</span> <span class="t-error">-21%</span> <span class="t-dim">n=36</span>
       </div>
     </div>
 
@@ -1737,22 +1746,41 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Early bird signup
-function handleEarlyBird(e) {
+async function handleEarlyBird(e) {
   e.preventDefault();
   const email = document.getElementById('earlybird-email').value;
   const btn = document.getElementById('earlybird-submit');
   const form = document.querySelector('.earlybird-form');
   const success = document.getElementById('earlybird-success');
 
-  // Store locally (GitHub Pages has no backend)
-  const subs = JSON.parse(localStorage.getItem('tm_earlybird') || '[]');
-  if (!subs.includes(email)) {
-    subs.push(email);
-    localStorage.setItem('tm_earlybird', JSON.stringify(subs));
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  // Try mcp.mnemox.ai first (primary, once deployed)
+  // Fallback: idea-reality Render API (live now, captures to SQLite+logs)
+  const endpoints = [
+    { url: 'https://mcp.mnemox.ai/api/subscribe', body: { email, source: 'tradememory-waitlist' } },
+    { url: 'https://idea-reality-mcp.onrender.com/api/subscribe', body: { email, idea_hash: 'tradememory-waitlist' } },
+  ];
+
+  let captured = false;
+  for (const ep of endpoints) {
+    try {
+      const res = await fetch(ep.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ep.body),
+        signal: AbortSignal.timeout(5000),
+      });
+      if (res.ok || res.status === 409) { captured = true; break; }
+    } catch (_) { /* try next */ }
   }
 
-  // Log to console for analytics collection
-  console.log('[EARLYBIRD]', email, new Date().toISOString());
+  // localStorage as final backup (useful for debugging)
+  const subs = JSON.parse(localStorage.getItem('tm_earlybird') || '[]');
+  if (!subs.includes(email)) { subs.push(email); localStorage.setItem('tm_earlybird', JSON.stringify(subs)); }
+
+  if (window.gtag) gtag('event', 'waitlist_signup', { captured });
 
   form.style.display = 'none';
   success.style.display = 'block';
