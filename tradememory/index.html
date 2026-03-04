@@ -1472,14 +1472,14 @@ footer {
       <div class="pricing-price"><span class="currency">$</span>29<span class="period" data-i18n="tier_period">/mo</span></div>
       <p class="pricing-desc" data-i18n="tier_trader_desc">For individual traders running 1&ndash;2 strategies on a single account.</p>
       <ul class="pricing-features">
-        <li>1,000 API credits/month</li>
-        <li>1 trading account</li>
-        <li>Full L1&ndash;L3 memory pipeline</li>
-        <li>Daily reflection reports</li>
-        <li>7-day data retention</li>
-        <li>Community support</li>
+        <li data-i18n="feat_trader_1">1,000 API credits/month</li>
+        <li data-i18n="feat_trader_2">1 trading account</li>
+        <li data-i18n="feat_all_pipeline">Full L1&ndash;L3 memory pipeline</li>
+        <li data-i18n="feat_trader_4">Daily reflection reports</li>
+        <li data-i18n="feat_trader_5">7-day data retention</li>
+        <li data-i18n="feat_trader_6">Community support</li>
       </ul>
-      <div class="pricing-cta">Coming Soon</div>
+      <div class="pricing-cta" data-i18n="cta_coming_soon">Coming Soon</div>
     </div>
 
     <div class="pricing-card popular">
@@ -1488,14 +1488,14 @@ footer {
       <div class="pricing-price"><span class="currency">$</span>79<span class="period" data-i18n="tier_period">/mo</span></div>
       <p class="pricing-desc" data-i18n="tier_pro_desc">For serious traders running multiple strategies across accounts.</p>
       <ul class="pricing-features">
-        <li>5,000 API credits/month</li>
-        <li>5 trading accounts</li>
-        <li>Full L1&ndash;L3 memory pipeline</li>
-        <li>Real-time pattern alerts</li>
-        <li>90-day data retention</li>
-        <li>Priority support</li>
+        <li data-i18n="feat_pro_1">5,000 API credits/month</li>
+        <li data-i18n="feat_pro_2">5 trading accounts</li>
+        <li data-i18n="feat_all_pipeline">Full L1&ndash;L3 memory pipeline</li>
+        <li data-i18n="feat_pro_4">Real-time pattern alerts</li>
+        <li data-i18n="feat_pro_5">90-day data retention</li>
+        <li data-i18n="feat_pro_6">Priority support</li>
       </ul>
-      <div class="pricing-cta">Coming Soon</div>
+      <div class="pricing-cta" data-i18n="cta_coming_soon">Coming Soon</div>
     </div>
 
     <div class="pricing-card">
@@ -1503,14 +1503,14 @@ footer {
       <div class="pricing-price"><span class="currency">$</span>299<span class="period" data-i18n="tier_period">/mo</span></div>
       <p class="pricing-desc" data-i18n="tier_fund_desc">For prop firms and funds managing multiple traders and strategies.</p>
       <ul class="pricing-features">
-        <li>25,000 API credits/month</li>
-        <li>Unlimited trading accounts</li>
-        <li>Full L1&ndash;L3 memory pipeline</li>
-        <li>Team dashboard &amp; role management</li>
-        <li>Unlimited data retention</li>
-        <li>Dedicated support &amp; SLA</li>
+        <li data-i18n="feat_fund_1">25,000 API credits/month</li>
+        <li data-i18n="feat_fund_2">Unlimited trading accounts</li>
+        <li data-i18n="feat_all_pipeline">Full L1&ndash;L3 memory pipeline</li>
+        <li data-i18n="feat_fund_4">Team dashboard &amp; role management</li>
+        <li data-i18n="feat_fund_5">Unlimited data retention</li>
+        <li data-i18n="feat_fund_6">Dedicated support &amp; SLA</li>
       </ul>
-      <div class="pricing-cta">Coming Soon</div>
+      <div class="pricing-cta" data-i18n="cta_coming_soon">Coming Soon</div>
     </div>
   </div>
 
@@ -1519,9 +1519,9 @@ footer {
     <h3 class="credit-title" data-i18n="credit_title">Pay-as-you-go credits</h3>
     <p class="credit-desc" data-i18n="credit_desc">Need more? Buy additional credits anytime. No commitment, no expiry. Every API call &mdash; store, recall, reflect &mdash; costs 1 credit.</p>
     <div class="credit-table">
-      <div class="credit-cell header">Pack</div>
-      <div class="credit-cell header">Credits</div>
-      <div class="credit-cell header">Price</div>
+      <div class="credit-cell header" data-i18n="tbl_pack">Pack</div>
+      <div class="credit-cell header" data-i18n="tbl_credits">Credits</div>
+      <div class="credit-cell header" data-i18n="tbl_price">Price</div>
       <div class="credit-cell">Starter</div>
       <div class="credit-cell"><span class="amount">1,000</span></div>
       <div class="credit-cell">$10</div>
@@ -1629,6 +1629,15 @@ const i18n = {
     tier_fund_desc: 'For prop firms and funds managing multiple traders and strategies.',
     credit_title: 'Pay-as-you-go credits',
     credit_desc: 'Need more? Buy additional credits anytime. No commitment, no expiry. Every API call \u2014 store, recall, reflect \u2014 costs 1 credit.',
+    feat_trader_1: '1,000 API credits/month', feat_trader_2: '1 trading account',
+    feat_all_pipeline: 'Full L1\u2013L3 memory pipeline',
+    feat_trader_4: 'Daily reflection reports', feat_trader_5: '7-day data retention', feat_trader_6: 'Community support',
+    feat_pro_1: '5,000 API credits/month', feat_pro_2: '5 trading accounts',
+    feat_pro_4: 'Real-time pattern alerts', feat_pro_5: '90-day data retention', feat_pro_6: 'Priority support',
+    feat_fund_1: '25,000 API credits/month', feat_fund_2: 'Unlimited trading accounts',
+    feat_fund_4: 'Team dashboard & role management', feat_fund_5: 'Unlimited data retention', feat_fund_6: 'Dedicated support & SLA',
+    cta_coming_soon: 'Coming Soon',
+    tbl_pack: 'Pack', tbl_credits: 'Credits', tbl_price: 'Price',
     early_title: 'Get early access pricing',
     early_desc: 'Join the waitlist. Early bird subscribers get 50% off the first 3 months.',
     early_note: "No spam. We'll only email you when the hosted API launches.",
@@ -1689,9 +1698,18 @@ const i18n = {
     tier_trader_desc: '\u9069\u5408\u500b\u4eba\u4ea4\u6613\u54e1\uff0c\u904b\u884c 1\u20132 \u500b\u7b56\u7565\u65bc\u55ae\u4e00\u5e33\u6236\u3002',
     tier_pro_desc: '\u9069\u5408\u8a8d\u771f\u4ea4\u6613\u54e1\uff0c\u8de8\u5e33\u6236\u904b\u884c\u591a\u7b56\u7565\u3002',
     tier_fund_desc: '\u9069\u5408\u81ea\u71df\u4ea4\u6613\u516c\u53f8\u548c\u57fa\u91d1\uff0c\u7ba1\u7406\u591a\u4f4d\u4ea4\u6613\u54e1\u548c\u7b56\u7565\u3002',
-    credit_title: '\u96a8\u7528\u96a8\u4ed8\u9ede\u6578',
-    credit_desc: '\u9700\u8981\u66f4\u591a\uff1f\u96a8\u6642\u8cfc\u8cb7\u984d\u5916\u9ede\u6578\u3002\u7121\u7d04\u675f\u3001\u7121\u671f\u9650\u3002\u6bcf\u6b21 API \u547c\u53eb \u2014 store\u3001recall\u3001reflect \u2014 \u8017 1 \u9ede\u3002',
-    early_title: '\u53d6\u5f97\u65e9\u9ce5\u512a\u60e0',
+    credit_title: '隨用隨付點數',
+    credit_desc: '需要更多？隨時購買額外點數。無約束、無期限。每次 API 呼叫 — store、recall、reflect — 耗 1 點。',
+    feat_trader_1: '每月 1,000 API credits', feat_trader_2: '1 個交易帳戶',
+    feat_all_pipeline: '完整 L1–L3 記憶管道',
+    feat_trader_4: '每日反思報告', feat_trader_5: '7 天資料保留', feat_trader_6: '社群支援',
+    feat_pro_1: '每月 5,000 API credits', feat_pro_2: '5 個交易帳戶',
+    feat_pro_4: '即時模式警報', feat_pro_5: '90 天資料保留', feat_pro_6: '優先支援',
+    feat_fund_1: '每月 25,000 API credits', feat_fund_2: '無限交易帳戶',
+    feat_fund_4: '團隊儀表板與角色管理', feat_fund_5: '無限資料保留', feat_fund_6: '專屬支援與 SLA',
+    cta_coming_soon: '即將推出',
+    tbl_pack: '方案', tbl_credits: '點數', tbl_price: '價格',
+    early_title: '取得早鳥優惠',
     early_desc: '\u52a0\u5165\u7b49\u5019\u540d\u55ae\u3002\u65e9\u9ce5\u8a02\u95b1\u8005\u524d 3 \u500b\u6708 5 \u6298\u512a\u60e0\u3002',
     early_note: '\u4e0d\u6703\u5bc4\u5783\u573e\u4fe1\u3002\u53ea\u5728\u8a17\u7ba1 API \u4e0a\u7dda\u6642\u901a\u77e5\u60a8\u3002',
     early_success: '\u2713 \u5df2\u52a0\u5165\u540d\u55ae\uff01\u4e0a\u7dda\u6642\u6703\u901a\u77e5\u60a8\u3002',
