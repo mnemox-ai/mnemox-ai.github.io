@@ -626,11 +626,46 @@ footer {
 <!-- HOW BILLING WORKS -->
 <section class="info-section">
   <h2 data-i18n="billing_title">How does billing work?</h2>
+  <p data-i18n="billing_intro" style="margin-bottom:28px;">Credits are consumed per API call. Reads are always free — you only pay when writing or running AI analysis.</p>
+
+  <div style="overflow-x:auto; margin-bottom:32px;">
+    <table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:13px;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border-bright);">
+          <th style="text-align:left;padding:10px 16px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;" data-i18n="tbl_api">API Call</th>
+          <th style="text-align:left;padding:10px 16px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;" data-i18n="tbl_action">Action</th>
+          <th style="text-align:center;padding:10px 16px;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;" data-i18n="tbl_cost">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);"><code style="color:var(--cyan);">store_trade()</code></td>
+          <td style="padding:12px 16px;color:var(--text-dim);" data-i18n="api_store_desc">Save one trade with full context</td>
+          <td style="padding:12px 16px;text-align:center;"><span style="color:var(--amber);font-weight:700;">1 credit</span></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);"><code style="color:var(--cyan);">recall_trades()</code></td>
+          <td style="padding:12px 16px;color:var(--text-dim);" data-i18n="api_recall_desc">Query trade history with filters</td>
+          <td style="padding:12px 16px;text-align:center;"><span style="color:var(--green);font-weight:700;" data-i18n="api_free">Free</span></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);"><code style="color:var(--cyan);">get_performance()</code></td>
+          <td style="padding:12px 16px;color:var(--text-dim);" data-i18n="api_perf_desc">Win rate, PF, drawdown, Sharpe ratio</td>
+          <td style="padding:12px 16px;text-align:center;"><span style="color:var(--green);font-weight:700;" data-i18n="api_free">Free</span></td>
+        </tr>
+        <tr>
+          <td style="padding:12px 16px;color:var(--text);"><code style="color:var(--cyan);">run_reflection()</code></td>
+          <td style="padding:12px 16px;color:var(--text-dim);" data-i18n="api_reflect_desc">AI pattern analysis + strategy adjustments (L2/L3)</td>
+          <td style="padding:12px 16px;text-align:center;"><span style="color:var(--amber);font-weight:700;">5 credits</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <ul>
-    <li data-i18n="billing_1">Each <strong>store_trade()</strong> call = 1 credit</li>
-    <li data-i18n="billing_2"><strong>recall_trades()</strong> and <strong>performance()</strong> are free (unlimited reads)</li>
     <li data-i18n="billing_3">Credits reset monthly — if you hit your limit, the API returns <code>429 Too Many Requests</code></li>
     <li data-i18n="billing_4">No overage charges. No surprise bills. Just a hard monthly cap.</li>
+    <li data-i18n="billing_5"><strong>run_reflection()</strong> costs more because it runs an LLM internally to find patterns across your trade history.</li>
   </ul>
 </section>
 
@@ -736,10 +771,16 @@ const i18n = {
     diff_paid_text: 'Trade memory stored in the cloud at mcp.mnemox.ai. Desktop, laptop, VPS — your agent remembers everywhere. No setup, no databases, no backups. Just works.',
 
     billing_title: 'How does billing work?',
-    billing_1: 'Each <strong>store_trade()</strong> call = 1 credit',
-    billing_2: '<strong>recall_trades()</strong> and <strong>performance()</strong> are free (unlimited reads)',
+    billing_intro: 'Credits are consumed per API call. Reads are always free — you only pay when writing or running AI analysis.',
+    tbl_api: 'API Call', tbl_action: 'Action', tbl_cost: 'Cost',
+    api_store_desc: 'Save one trade with full context',
+    api_recall_desc: 'Query trade history with filters',
+    api_perf_desc: 'Win rate, PF, drawdown, Sharpe ratio',
+    api_reflect_desc: 'AI pattern analysis + strategy adjustments (L2/L3)',
+    api_free: 'Free',
     billing_3: 'Credits reset monthly — if you hit your limit, the API returns <code>429 Too Many Requests</code>',
     billing_4: 'No overage charges. No surprise bills. Just a hard monthly cap.',
+    billing_5: '<strong>run_reflection()</strong> costs more because it runs an LLM internally to find patterns across your trade history.',
 
     faq_title: 'Frequently Asked Questions',
     faq_subtitle: 'Everything you need to know about TradeMemory pricing.',
@@ -814,10 +855,16 @@ const i18n = {
     diff_paid_text: '交易記憶存在 mcp.mnemox.ai 雲端。桌機、筆電、VPS — 你的代理到處都記得。無需設定、無需資料庫、無需備份。就是能用。',
 
     billing_title: '計費如何運作？',
-    billing_1: '每次 <strong>store_trade()</strong> 呼叫 = 1 credit',
-    billing_2: '<strong>recall_trades()</strong> 和 <strong>performance()</strong> 免費（無限讀取）',
+    billing_intro: '每次 API 呼叫消耗 credits。讀取永遠免費 — 只有寫入或執行 AI 分析才計費。',
+    tbl_api: 'API 呼叫', tbl_action: '功能', tbl_cost: '費用',
+    api_store_desc: '儲存一筆交易與完整上下文',
+    api_recall_desc: '條件查詢歷史交易',
+    api_perf_desc: '勝率、盈虧比、回撤、Sharpe ratio',
+    api_reflect_desc: 'AI 模式分析 + 策略調整（L2/L3）',
+    api_free: '免費',
     billing_3: 'Credits 每月重置 — 達到上限後，API 回傳 <code>429 Too Many Requests</code>',
     billing_4: '沒有超額費用。沒有意外帳單。就是硬性每月上限。',
+    billing_5: '<strong>run_reflection()</strong> 費用較高，因為它內部使用 LLM 分析你的交易歷史模式。',
 
     faq_title: '常見問題',
     faq_subtitle: '關於 TradeMemory 定價的所有資訊。',
