@@ -6,7 +6,7 @@ Mnemox builds open-source infrastructure for AI-assisted decision making. We foc
 
 1. **Idea Reality Check** (idea-reality-mcp) — An MCP tool that scans GitHub, Hacker News, npm, PyPI, and Product Hunt before you build. Returns a 0-100 reality signal with evidence of existing competitors. Used by AI coding agents to prevent reinventing the wheel.
 
-2. **TradeMemory Protocol** — A platform-agnostic 3-layer memory system for AI trading agents. Provides structured trade storage (L1 raw trades, L2 patterns, L3 strategy) with LLM-powered reflection capabilities. Accepts data from MT5, Binance, Alpaca, or any trading platform.
+2. **TradeMemory Protocol** — An outcome-weighted memory system with 5 cognitive memory types (Episodic, Semantic, Procedural, Affective, Prospective) for AI trading agents. Applies ACT-R cognitive architecture and Kelly Criterion to MCP-based trade recall. 10 MCP tools, 399 tests. Accepts data from MT5, Binance, Alpaca, or any trading platform.
 
 ## Products
 
