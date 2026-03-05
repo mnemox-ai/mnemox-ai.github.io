@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TradeMemory Protocol — AI Trading Memory for MT5/Forex | Mnemox</title>
-<meta name="description" content="TradeMemory Protocol: 3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP. Works with Claude Desktop, Cursor, any MCP client.">
+<meta name="description" content="TradeMemory Protocol: outcome-weighted memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP. Works with Claude Desktop, Cursor, any MCP client.">
 <meta name="keywords" content="AI trading, MCP, memory, MT5, forex, XAUUSD, trading bot, algorithmic trading, Claude, pattern discovery, trade journal">
 <link rel="canonical" href="https://mnemox.ai/tradememory">
 <!-- Google Analytics -->
@@ -16,19 +16,19 @@
   gtag('config', 'G-3VD4L98FJP');
 </script>
 <meta property="og:title" content="TradeMemory Protocol — AI Trading Memory for MT5/Forex">
-<meta property="og:description" content="3-layer memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP.">
+<meta property="og:description" content="Outcome-weighted memory system for AI trading agents. Store trades, discover patterns, evolve strategy — via MCP.">
 <meta property="og:url" content="https://mnemox.ai/tradememory">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mnemox AI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="TradeMemory Protocol — AI Trading Memory for MT5/Forex">
-<meta name="twitter:description" content="3-layer memory for AI trading agents. Record, reflect, evolve.">
+<meta name="twitter:description" content="Outcome-weighted memory for AI trading agents. Record, reflect, evolve.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "TradeMemory Protocol",
-  "description": "3-layer memory system for AI trading agents via MCP. Stores trades, discovers patterns, and generates strategy adjustments.",
+  "description": "Outcome-weighted memory system for AI trading agents via MCP. Stores trades, discovers patterns, and generates strategy adjustments.",
   "url": "https://mnemox.ai/tradememory",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
@@ -72,6 +72,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Yes. TradeMemory includes mt5_sync.py that connects to MetaTrader 5 via the Python API, syncing closed trades automatically to the memory layer. It also supports any platform that can send trade data via the MCP protocol or REST API."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is OWM (Outcome-Weighted Memory)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "OWM is a cognitive science-based recall system that scores past trades by outcome quality, context similarity, recency, confidence, and affective state. It applies established research (ACT-R, Kelly Criterion, Bayesian updating) to AI trading agents. Full specification: docs/OWM_FRAMEWORK.md"
       }
     }
   ]
@@ -1252,15 +1260,15 @@ footer {
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stat-item">
-    <div class="stat-number">203</div>
+    <div class="stat-number">399</div>
     <div class="stat-label" data-i18n="stat_tests">Tests Passing</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">3</div>
-    <div class="stat-label" data-i18n="stat_layers">Memory Layers</div>
+    <div class="stat-number">5</div>
+    <div class="stat-label" data-i18n="stat_layers">Memory Types</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">4</div>
+    <div class="stat-number">10</div>
     <div class="stat-label" data-i18n="stat_tools">MCP Tools</div>
   </div>
   <div class="stat-item">
@@ -1577,7 +1585,7 @@ footer {
 const i18n = {
   en: {
     lang_toggle: '中文',
-    nav_features: 'Features', nav_3layer: '3-Layer', nav_install: 'Install',
+    nav_features: 'Features', nav_3layer: 'Architecture', nav_install: 'Install',
     nav_tools: 'Tools', nav_pricing: 'Pricing',
     hero_tag: 'Open Source MCP Server',
     hero_line1: 'AI Trading Memory',
@@ -1585,7 +1593,7 @@ const i18n = {
     hero_desc: 'Your AI agent forgets every trade after each session. TradeMemory gives it persistent memory \u2014 store decisions, discover patterns, evolve strategy automatically via MCP.',
     hero_cta: 'Get Started',
     hero_github: 'View on GitHub',
-    stat_tests: 'Tests Passing', stat_layers: 'Memory Layers', stat_tools: 'MCP Tools', stat_license: 'Licensed',
+    stat_tests: 'Tests Passing', stat_layers: 'Memory Types', stat_tools: 'MCP Tools', stat_license: 'Licensed',
     sec_features: 'Core Features',
     features_title: 'Everything your trading agent needs to remember.',
     features_subtitle: 'Four capabilities that turn a stateless AI into a learning trading partner.',
@@ -1648,7 +1656,7 @@ const i18n = {
   },
   zh: {
     lang_toggle: 'EN',
-    nav_features: '\u529f\u80fd', nav_3layer: '\u4e09\u5c64\u67b6\u69cb', nav_install: '\u5b89\u88dd',
+    nav_features: '\u529f\u80fd', nav_3layer: '\u67b6\u69cb', nav_install: '\u5b89\u88dd',
     nav_tools: '\u5de5\u5177', nav_pricing: '\u65b9\u6848',
     hero_tag: '\u958b\u6e90 MCP Server',
     hero_line1: 'AI \u4ea4\u6613\u8a18\u61b6',
@@ -1656,7 +1664,7 @@ const i18n = {
     hero_desc: '\u4f60\u7684 AI \u4ee3\u7406\u6bcf\u6b21 session \u7d50\u675f\u5c31\u5fd8\u8a18\u6240\u6709\u4ea4\u6613\u3002TradeMemory \u8ce6\u4e88\u5b83\u6301\u4e45\u8a18\u61b6 \u2014 \u5132\u5b58\u6c7a\u7b56\u3001\u767c\u73fe\u6a21\u5f0f\u3001\u81ea\u52d5\u9032\u5316\u7b56\u7565\uff0c\u900f\u904e MCP\u3002',
     hero_cta: '\u958b\u59cb\u4f7f\u7528',
     hero_github: 'GitHub \u67e5\u770b',
-    stat_tests: '\u6e2c\u8a66\u901a\u904e', stat_layers: '\u8a18\u61b6\u5c64', stat_tools: 'MCP \u5de5\u5177', stat_license: '\u6388\u6b0a',
+    stat_tests: '\u6e2c\u8a66\u901a\u904e', stat_layers: '\u8a18\u61b6\u985e\u578b', stat_tools: 'MCP \u5de5\u5177', stat_license: '\u6388\u6b0a',
     sec_features: '\u6838\u5fc3\u529f\u80fd',
     features_title: '\u4ea4\u6613\u4ee3\u7406\u9700\u8981\u8a18\u4f4f\u7684\u4e00\u5207\u3002',
     features_subtitle: '\u56db\u5927\u80fd\u529b\uff0c\u8b93\u7121\u72c0\u614b AI \u8b8a\u6210\u6703\u5b78\u7fd2\u7684\u4ea4\u6613\u5925\u4f34\u3002',
