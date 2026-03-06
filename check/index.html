@@ -818,6 +818,42 @@ nav {
 }
 .agent-cta a:hover { text-decoration: underline; }
 
+/* ===== PAID REPORT CTA ===== */
+.paid-report-cta {
+  background: #0a1a0f;
+  border: 1px solid #00cc6644;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 24px;
+}
+.paid-report-cta h3 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.paid-report-cta p {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
+}
+.paid-report-btn {
+  display: inline-block;
+  background: #00cc66;
+  color: #000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s;
+}
+.paid-report-btn:hover {
+  background: #00e673;
+}
+
 /* ===== ERROR ===== */
 .error {
   display: none;
@@ -998,6 +1034,12 @@ footer a { color: var(--text-dim); }
       <span class="agent-cta-icon">&#x1f527;</span>
       <span data-i18n="agent_cta">Want this running inside your AI agent?</span>
       <a href="https://github.com/mnemox-ai/idea-reality-mcp" target="_blank" rel="noopener" data-i18n="agent_cta_link">One line in Claude/Cursor config &rarr;</a>
+    </div>
+
+    <div class="paid-report-cta" id="paid-report-cta">
+      <h3>Want Deeper Insights?</h3>
+      <p>Full competitive intelligence report with crowd data, 10 competitors, and AI-powered strategy.</p>
+      <a id="paid-report-link" class="paid-report-btn" href="#" target="_blank" rel="noopener">Get Full Report &mdash; $9.99</a>
     </div>
   </div>
 
@@ -1561,6 +1603,12 @@ function renderResults(data) {
 
   // Store idea_hash for subscribe
   window._currentIdeaHash = data.idea_hash || '';
+
+  // Set paid report CTA link
+  const paidLink = $('paid-report-link');
+  if (paidLink) {
+    paidLink.href = 'https://idea-reality-mcp.onrender.com/static/report.html?idea_text=' + encodeURIComponent(textarea.value.trim());
+  }
 
   // Email gate on full report (evidence + similars + hints)
   const gatedContent = $('gated-content');
