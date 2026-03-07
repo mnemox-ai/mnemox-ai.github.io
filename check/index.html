@@ -971,11 +971,17 @@ nav {
   height: 32px;
   background: var(--border, #1a1a28);
 }
+.stat-flash { animation: statFlash 0.6s ease; }
+@keyframes statFlash { 0% { color: #fff; transform: scale(1.15); } 100% { color: var(--accent, #00b4ff); transform: scale(1); } }
 @media (max-width: 600px) {
   .hero-stats { flex-direction: column; gap: 12px; }
   .hero-stat-divider { width: 60px; height: 1px; }
   .comp-row { grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr; font-size: 11px; padding: 8px 10px; }
 }
+.github-badge { text-align: center; margin: 8px 0 4px; }
+.github-badge a { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,180,255,0.1); border: 1px solid rgba(0,180,255,0.3); border-radius: 20px; padding: 6px 16px; color: var(--accent, #00b4ff); text-decoration: none; font-size: 14px; font-family: 'JetBrains Mono', monospace; transition: background 0.2s; }
+.github-badge a:hover { background: rgba(0,180,255,0.2); }
+.badge-star { font-size: 16px; }
 
 /* ===== PAID REPORT (inline) ===== */
 /* Report loading overlay */
@@ -1282,7 +1288,19 @@ footer a { color: var(--text-dim); }
   .btn-check { width: 100%; text-align: center; }
   .evidence-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 8px; text-align: center; }
+  .waitlist-form { width: 100%; }
 }
+.waitlist-section { margin-top: 24px; }
+.waitlist-card { background: var(--bg-card, #0b1120); border: 1px solid var(--border, #1a1a28); border-radius: 12px; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.waitlist-icon { font-size: 20px; }
+.waitlist-text { color: #ccc; font-size: 14px; flex: 1; min-width: 200px; }
+.waitlist-form { display: flex; gap: 8px; flex: 1; min-width: 280px; }
+.waitlist-input { flex: 1; background: #0d1117; border: 1px solid #1a1a28; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 14px; outline: none; }
+.waitlist-input:focus { border-color: var(--accent, #00b4ff); }
+.waitlist-btn { background: var(--accent, #00b4ff); color: #000; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
+.waitlist-btn:hover { opacity: 0.9; }
+.waitlist-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.waitlist-success { color: var(--accent, #00b4ff); font-size: 14px; display: flex; align-items: center; gap: 6px; }
 </style>
 </head>
 <body>
@@ -1303,6 +1321,7 @@ footer a { color: var(--text-dim); }
   <div class="header">
     <div class="header-label">idea-reality-mcp</div>
     <h1 data-i18n="title">Reality Check</h1>
+    <div class="github-badge" id="github-badge" style="display:none"><a href="https://github.com/mnemox-ai/idea-reality-mcp" target="_blank" rel="noopener"><span class="badge-star">⭐</span> <span id="github-stars">0</span> <span data-i18n="on_github">on GitHub</span></a></div>
     <p data-i18n="subtitle">Is your idea already built? Scan GitHub, Hacker News, npm, PyPI, and Product Hunt in seconds.</p>
     <div class="hero-stats" id="hero-stats">
       <div class="hero-stat">
@@ -1318,6 +1337,11 @@ footer a { color: var(--text-dim); }
       <div class="hero-stat">
         <span class="hero-stat-num" id="stat-updated">—</span>
         <span class="hero-stat-label" data-i18n="stat_updated">Database Updated</span>
+      </div>
+      <div class="hero-stat-divider" id="countries-divider" style="display:none"></div>
+      <div class="hero-stat" id="countries-stat" style="display:none">
+        <span class="hero-stat-num" id="stat-countries">—</span>
+        <span class="hero-stat-label" data-i18n="stat_countries">Countries</span>
       </div>
     </div>
   </div>
@@ -1465,6 +1489,20 @@ footer a { color: var(--text-dim); }
           </div>
         </div>
       </div>
+
+      <div class="waitlist-section" id="waitlist-section">
+        <div class="waitlist-card">
+          <span class="waitlist-icon">📩</span>
+          <span class="waitlist-text" data-i18n="waitlist_title">Get notified when paid reports launch</span>
+          <div class="waitlist-form" id="waitlist-form">
+            <input type="email" class="waitlist-input" id="waitlist-email" placeholder="you@example.com" maxlength="100">
+            <button class="waitlist-btn" id="waitlist-btn" onclick="submitWaitlist()" data-i18n="waitlist_btn">Notify Me</button>
+          </div>
+          <div class="waitlist-success" id="waitlist-success" style="display:none">
+            <span>✓</span> <span data-i18n="waitlist_done">We'll notify you when it's ready!</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Paid Report (rendered inline after payment) -->
@@ -1553,6 +1591,7 @@ const i18n = {
     stat_ideas: 'Ideas Scanned',
     stat_sources: 'Sources / Scan',
     stat_updated: 'Database Updated',
+    stat_countries: 'Countries',
     // Blurred preview titles
     preview_subdim: 'Sub-Dimension Scores',
     preview_comp: 'Top Competitors',
@@ -1588,6 +1627,10 @@ const i18n = {
     comp_ai: 'Feed to AI agents',
     comp_ir_ai: '✓ Native',
     comp_crowd: 'Crowd intelligence',
+    on_github: 'on GitHub',
+    waitlist_title: 'Get notified when paid reports launch',
+    waitlist_btn: 'Notify Me',
+    waitlist_done: "We'll notify you when it's ready!",
   },
   zh: {
     nav_home: '\u9996\u9801',
@@ -1633,6 +1676,7 @@ const i18n = {
     stat_ideas: '已掃描點子數',
     stat_sources: '每次掃描來源',
     stat_updated: '資料庫更新時間',
+    stat_countries: '國家',
     // Blurred preview titles
     preview_subdim: '子維度評分',
     preview_comp: '競品排行',
@@ -1665,13 +1709,38 @@ const i18n = {
     comp_ir_activity: '✓ 即時',
     comp_timestamp: '數據時間戳',
     comp_ir_timestamp: '✓ 已驗證',
+    on_github: 'GitHub 星數',
     comp_ai: '接入 AI 代理',
     comp_ir_ai: '✓ 原生支援',
     comp_crowd: '群眾智慧',
+    waitlist_title: '付費報告上線時通知我',
+    waitlist_btn: '通知我',
+    waitlist_done: '收到！上線時會通知您。',
   }
 };
 
 let lang = localStorage.getItem('irm_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+
+function submitWaitlist() {
+  const email = document.getElementById('waitlist-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Please enter a valid email'); return; }
+  const btn = document.getElementById('waitlist-btn');
+  btn.disabled = true;
+  btn.textContent = '...';
+  fetch(API_BASE + '/api/subscribe', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email: email, idea_hash: 'waitlist'})
+  }).then(r => {
+    if (!r.ok) throw new Error('Failed');
+    document.getElementById('waitlist-form').style.display = 'none';
+    document.getElementById('waitlist-success').style.display = 'flex';
+  }).catch(e => {
+    btn.disabled = false;
+    btn.textContent = t('waitlist_btn');
+    alert('Something went wrong. Please try again.');
+  });
+}
 
 function t(key, vars) {
   let s = i18n[lang][key] || i18n.en[key] || key;
@@ -1991,6 +2060,15 @@ async function checkIdea() {
 
     const data = await resp.json();
     setState('results', data);
+    const _totalEl = document.getElementById('stat-total');
+    if (_totalEl) {
+      const _cur = parseInt(_totalEl.textContent.replace(/,/g, '')) || 0;
+      _totalEl.textContent = (_cur + 1).toLocaleString();
+      _totalEl.classList.add('stat-flash');
+      setTimeout(() => _totalEl.classList.remove('stat-flash'), 600);
+      const _crowdEl = document.getElementById('comp-crowd-val');
+      if (_crowdEl) _crowdEl.textContent = '\u2713 ' + (_cur + 1).toLocaleString() + '+ ideas';
+    }
   } catch (e) {
     setState('error', { message: t('err_generic') });
   }
@@ -2472,31 +2550,36 @@ applyLang();
 checkPaymentCompletion();
 
 // Fetch live stats for hero
-(async () => {
-  try {
-    const res = await fetch(`${API_BASE}/api/stats`);
-    if (res.ok) {
-      const stats = await res.json();
-      const totalEl = document.getElementById('stat-total');
-      const updatedEl = document.getElementById('stat-updated');
-      if (totalEl) totalEl.textContent = (stats.total_ideas_scanned || 0).toLocaleString();
-      // Update crowd intelligence count in comparison grid
-      const crowdEl = document.getElementById('comp-crowd-val');
-      if (crowdEl) crowdEl.textContent = `✓ ${(stats.total_ideas_scanned || 0).toLocaleString()}+ ideas`;
-      if (updatedEl) {
-        // Show "just now" style timestamp
-        const now = new Date();
-        updatedEl.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-      }
-    }
-  } catch(e) {
-    // Fallback: show current time anyway
+function fetchStats() {
+  fetch(API_BASE + '/api/stats').then(r => r.ok ? r.json() : null).then(stats => {
+    if (!stats) return;
+    const totalEl = document.getElementById('stat-total');
     const updatedEl = document.getElementById('stat-updated');
+    const crowdEl = document.getElementById('comp-crowd-val');
+    const countriesNum = document.getElementById('stat-countries');
+    if (totalEl) totalEl.textContent = (stats.total_ideas_scanned || 0).toLocaleString();
+    if (crowdEl) crowdEl.textContent = '\u2713 ' + (stats.total_ideas_scanned || 0).toLocaleString() + '+ ideas';
     if (updatedEl) {
       const now = new Date();
-      updatedEl.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+      updatedEl.textContent = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     }
-  }
+    if (countriesNum && stats.unique_countries && stats.unique_countries >= 3) {
+      countriesNum.textContent = stats.unique_countries + '+';
+      document.getElementById('countries-divider').style.display = '';
+      document.getElementById('countries-stat').style.display = '';
+    }
+  }).catch(() => {});
+}
+fetchStats();
+setInterval(fetchStats, 60000);
+
+(async () => {
+  try {
+    const res = await fetch('https://api.github.com/repos/mnemox-ai/idea-reality-mcp');
+    const json = await res.json();
+    document.getElementById('github-stars').textContent = json.stargazers_count.toLocaleString();
+    document.getElementById('github-badge').style.display = '';
+  } catch(e) {}
 })();
 </script>
 </body>
