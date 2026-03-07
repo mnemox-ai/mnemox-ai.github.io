@@ -555,6 +555,12 @@ nav {
   font-size: 12px;
   color: var(--text-dim);
 }
+.evidence-time {
+  font-size: 10px;
+  color: #444;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
 
 /* Top similars */
 .similars-section {
@@ -712,89 +718,7 @@ nav {
   user-select: none;
 }
 
-.email-gate-overlay {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 11;
-  text-align: center;
-  background: rgba(11, 17, 32, 0.95);
-  padding: 24px 32px;
-  border-radius: 12px;
-  border: 1px solid var(--cyan-dim);
-  backdrop-filter: blur(4px);
-  width: max-content;
-  max-width: 90%;
-}
-
-.email-gate-overlay p {
-  color: var(--text);
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.email-gate-form {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.email-gate-form input[type="email"] {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--cyan-dim);
-  background: rgba(0, 0, 0, 0.4);
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 14px;
-  width: 220px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.email-gate-form input[type="email"]:focus {
-  border-color: var(--cyan);
-}
-
-.email-gate-form button {
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: var(--cyan);
-  color: #000;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s;
-  white-space: nowrap;
-}
-
-.email-gate-form button:hover {
-  background: #fff;
-}
-
-.email-gate-form button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.email-gate-note {
-  color: var(--text-muted);
-  font-size: 11px;
-  margin-top: 8px;
-}
-
-@media (max-width: 600px) {
-  .email-gate-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .email-gate-form input[type="email"] {
-    width: 100%;
-  }
-}
+/* Email gate removed — 0 conversions. Replaced by blurred preview + dual CTA. */
 
 /* ===== AGENT CTA ===== */
 .agent-cta {
@@ -818,40 +742,325 @@ nav {
 }
 .agent-cta a:hover { text-decoration: underline; }
 
-/* ===== PAID REPORT CTA ===== */
-.paid-report-cta {
-  background: #0a1a0f;
-  border: 1px solid #00cc6644;
-  border-radius: 12px;
-  padding: 24px;
-  text-align: center;
+/* ===== BLURRED PREVIEW + DUAL CTA ===== */
+.blurred-preview-section {
   margin-top: 24px;
 }
-.paid-report-cta h3 {
-  font-size: 18px;
-  color: #fff;
+.preview-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 12px;
+}
+.blurred-content {
+  filter: blur(5px);
+  user-select: none;
+  pointer-events: none;
+  position: relative;
+}
+.blurred-content p {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
   margin-bottom: 8px;
 }
-.paid-report-cta p {
-  font-size: 14px;
-  color: #999;
+
+/* Sub-dimension preview bars */
+.preview-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.preview-bar-label {
+  width: 160px;
+  color: #888;
+  font-size: 12px;
+}
+.preview-bar-track {
+  flex: 1;
+  height: 6px;
+  background: #1a1a28;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.preview-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--green, #00ff88);
+}
+.preview-bar-value {
+  width: 30px;
+  text-align: right;
+  color: #888;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+/* Dual CTA */
+.dual-cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+@media (max-width: 600px) {
+  .dual-cta { grid-template-columns: 1fr; }
+}
+.cta-card {
+  background: var(--bg-card, #0b1120);
+  border: 1px solid #1a1a28;
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+}
+.cta-card.pro-cta {
+  border-color: #00ff8844;
+}
+.cta-badge {
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  background: var(--green, #00ff88);
+  color: #000;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.cta-header {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.cta-price {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.cta-price span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666;
+}
+.cta-subtitle {
+  font-size: 13px;
+  color: #666;
   margin-bottom: 16px;
 }
-.paid-report-btn {
-  display: inline-block;
-  background: #00cc66;
-  color: #000;
+.cta-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+.cta-features li {
+  font-size: 13px;
+  color: #999;
+  padding: 4px 0;
+  padding-left: 20px;
+  position: relative;
+}
+.cta-features li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--green, #00ff88);
+  font-weight: 700;
+}
+.cta-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
   border: none;
-  padding: 12px 28px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  text-decoration: none;
-  transition: background .2s;
+  transition: all 0.2s;
+  text-align: center;
 }
-.paid-report-btn:hover {
-  background: #00e673;
+.single-btn {
+  background: #1a2a1f;
+  color: var(--green, #00ff88);
+  border: 1px solid #00ff8844;
+}
+.single-btn:hover {
+  background: #1f3a25;
+}
+.pro-btn {
+  background: var(--green, #00ff88);
+  color: #000;
+}
+.pro-btn:hover {
+  background: #33ffaa;
+}
+.cta-comparison {
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+  margin-top: 16px;
+  padding: 0 20px;
+  line-height: 1.5;
+}
+
+/* ===== PAID REPORT (inline) ===== */
+#paid-report {
+  margin-top: 32px;
+}
+#paid-report .report-section {
+  background: var(--bg-card, #0b1120);
+  border: 1px solid #1a1a28;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+#paid-report .report-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green, #00ff88);
+  margin-bottom: 16px;
+}
+#paid-report .sub-dim-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+#paid-report .sub-dim-label {
+  width: 180px;
+  font-size: 13px;
+  color: #ccc;
+}
+#paid-report .sub-dim-track {
+  flex: 1;
+  height: 8px;
+  background: #1a1a28;
+  border-radius: 4px;
+  overflow: hidden;
+}
+#paid-report .sub-dim-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--green, #00ff88);
+  transition: width 0.6s ease;
+}
+#paid-report .sub-dim-value {
+  width: 40px;
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #fff;
+}
+#paid-report .competitor-card {
+  background: #0f1628;
+  border: 1px solid #1a1a28;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+#paid-report .competitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+#paid-report .competitor-name {
+  font-weight: 600;
+  color: #fff;
+}
+#paid-report .competitor-name a { color: var(--green, #00ff88); text-decoration: none; }
+#paid-report .competitor-name a:hover { text-decoration: underline; }
+#paid-report .competitor-stars {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #ffaa00;
+}
+#paid-report .competitor-desc {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+#paid-report .competitor-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: #555;
+}
+#paid-report .competitor-meta .active { color: #00ff88; }
+#paid-report .competitor-meta .stale { color: #ff6644; }
+#paid-report .strategic-text {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.7;
+}
+#paid-report .strategic-text p {
+  margin-bottom: 12px;
+}
+#paid-report .ai-prompt-section {
+  background: #0a1018;
+  border: 1px solid #1a2a28;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 16px;
+}
+#paid-report .ai-prompt-pre {
+  background: #050810;
+  border: 1px solid #1a1a28;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+#paid-report .copy-btn {
+  display: inline-block;
+  background: var(--green, #00ff88);
+  color: #000;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#paid-report .copy-btn:hover { background: #33ffaa; }
+#paid-report .download-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+#paid-report .download-btn {
+  flex: 1;
+  display: inline-block;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #1a1a28;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+#paid-report .download-btn:hover {
+  border-color: var(--green, #00ff88);
+  color: var(--green, #00ff88);
+  text-decoration: none;
 }
 
 /* ===== ERROR ===== */
@@ -1036,10 +1245,63 @@ footer a { color: var(--text-dim); }
       <a href="https://github.com/mnemox-ai/idea-reality-mcp" target="_blank" rel="noopener" data-i18n="agent_cta_link">One line in Claude/Cursor config &rarr;</a>
     </div>
 
-    <div class="paid-report-cta" id="paid-report-cta">
-      <h3>Want Deeper Insights?</h3>
-      <p>Full competitive intelligence report with crowd data, 10 competitors, and AI-powered strategy.</p>
-      <a id="paid-report-link" class="paid-report-btn" href="#" target="_blank" rel="noopener">Get Full Report &mdash; $9.99</a>
+    <!-- Blurred Preview + Dual CTA -->
+    <div id="blurred-preview" style="display:none;">
+      <div class="blurred-preview-section">
+        <h3 class="preview-section-title">Sub-Dimension Scores</h3>
+        <div class="blurred-content" id="preview-subdimensions"></div>
+      </div>
+      <div class="blurred-preview-section">
+        <h3 class="preview-section-title">Top Competitors</h3>
+        <div class="blurred-content" id="preview-competitors"></div>
+      </div>
+      <div class="blurred-preview-section">
+        <h3 class="preview-section-title">Strategic Analysis</h3>
+        <div class="blurred-content" id="preview-analysis">
+          <p>Based on our analysis of the competitive landscape, this market shows significant activity with multiple established players. The key differentiators include...</p>
+          <p>Market entry opportunities exist in underserved segments, particularly around specialized use cases that current solutions don't address effectively...</p>
+        </div>
+      </div>
+
+      <div class="dual-cta">
+        <div class="cta-card single-cta">
+          <div class="cta-header">Single Report</div>
+          <div class="cta-price">$9.99</div>
+          <div class="cta-subtitle">One-time &middot; This idea only</div>
+          <ul class="cta-features">
+            <li>4 sub-dimension scores</li>
+            <li>Verified competitors + activity</li>
+            <li>AI strategic analysis (Sonnet)</li>
+            <li>Crowd intelligence</li>
+            <li>Feed-to-AI ready format</li>
+          </ul>
+          <button class="cta-btn single-btn" onclick="startCheckout('single')">Unlock This Report</button>
+        </div>
+        <div class="cta-card pro-cta">
+          <div class="cta-badge">Best Value</div>
+          <div class="cta-header">Pro</div>
+          <div class="cta-price">$39<span>/month</span></div>
+          <div class="cta-subtitle">Unlimited reports</div>
+          <ul class="cta-features">
+            <li>Everything in Single, plus:</li>
+            <li>Multi-angle scan (3-5 perspectives)</li>
+            <li>15 competitors (vs 8 in single)</li>
+            <li>Unlimited scans per month</li>
+            <li>JSON API access</li>
+          </ul>
+          <button class="cta-btn pro-btn" onclick="startCheckout('pro')">Start Pro</button>
+        </div>
+      </div>
+
+      <div class="cta-comparison">
+        ChatGPT searches one platform at a time. We scan 5 in parallel,
+        cross-reference results, and verify every data point with timestamps.
+      </div>
+    </div>
+
+    <!-- Paid Report (rendered inline after payment) -->
+    <div id="paid-report" style="display:none;">
+      <div id="paid-report-content"></div>
     </div>
   </div>
 
@@ -1063,6 +1325,19 @@ footer a { color: var(--text-dim); }
 
 <script>
 const API_BASE = 'https://idea-reality-mcp.onrender.com';
+
+function timeAgo(isoString) {
+  try {
+    const diff = Date.now() - new Date(isoString).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  } catch { return ''; }
+}
 
 // ===== i18n =====
 const i18n = {
@@ -1103,12 +1378,6 @@ const i18n = {
     ev_top_stars: 'Top repo has {count} stars',
     agent_cta: 'Want this running inside your AI agent?',
     agent_cta_link: 'One line in Claude/Cursor config \u2192',
-    gate_title: 'Unlock full report',
-    gate_btn: 'Unlock',
-    gate_btn_loading: 'Unlocking...',
-    gate_note: 'No spam. We just want to know who finds this useful.',
-    gate_email_invalid: 'Please enter a valid email address.',
-    gate_error: 'Something went wrong. Try again?',
     lang_toggle: 'ZH',
     lang_changed: 'Language changed. Search again to update results.',
     privacy_note: 'Queries are logged anonymously to improve the service. No personal data is collected.',
@@ -1150,12 +1419,6 @@ const i18n = {
     ev_top_stars: '最高星數 {count}',
     agent_cta: '\u60f3\u8b93 AI Agent \u81ea\u52d5\u5e6b\u4f60\u67e5\uff1f',
     agent_cta_link: '\u4e00\u884c\u8a2d\u5b9a\u5373\u53ef\u63a5\u5165 Claude/Cursor \u2192',
-    gate_title: '\u89e3\u9396\u5b8c\u6574\u5831\u544a',
-    gate_btn: '\u89e3\u9396',
-    gate_btn_loading: '\u89e3\u9396\u4e2d...',
-    gate_note: '\u4e0d\u6703\u5bc4\u5783\u573e\u4fe1\u3002\u53ea\u662f\u60f3\u77e5\u9053\u8ab0\u89ba\u5f97\u6709\u7528\u3002',
-    gate_email_invalid: '\u8acb\u8f38\u5165\u6709\u6548\u7684 Email \u5730\u5740\u3002',
-    gate_error: '\u51fa\u4e86\u9ede\u554f\u984c\uff0c\u8acb\u518d\u8a66\u4e00\u6b21\uff1f',
     lang_toggle: 'EN',
     lang_changed: '語言已切換，重新搜尋可更新結果語言',
     privacy_note: '查詢記錄以匿名方式記錄用於改善服務，不收集任何個人資料。',
@@ -1542,10 +1805,12 @@ function renderResults(data) {
     const isPhSkip = src === 'producthunt' && main.detail && main.detail.includes('skipped');
     const card = document.createElement('div');
     card.className = 'evidence-card';
+    const qaTime = main.queried_at ? timeAgo(main.queried_at) : '';
     card.innerHTML = `
       <div class="evidence-source">${sourceLabels[src] || src}</div>
       <div class="evidence-count" style="color:${sourceColors[src] || 'var(--text)'}">${count.toLocaleString()}</div>
       <div class="evidence-detail">${isPhSkip ? t('ev_ph_skip') : detailText}</div>
+      ${qaTime ? `<div class="evidence-time">Verified ${qaTime}</div>` : ''}
     `;
     evidenceGrid.appendChild(card);
   });
@@ -1601,82 +1866,289 @@ function renderResults(data) {
     hintList.appendChild(item);
   });
 
-  // Store idea_hash for subscribe
+  // Store data for checkout flow
   window._currentIdeaHash = data.idea_hash || '';
+  window._currentIdeaText = textarea.value.trim();
+  window._currentSignalData = data;
 
-  // Set paid report CTA link
-  const paidLink = $('paid-report-link');
-  if (paidLink) {
-    paidLink.href = 'https://idea-reality-mcp.onrender.com/static/report.html?idea_text=' + encodeURIComponent(textarea.value.trim());
-  }
+  // Show blurred preview with fake sub-dimension data
+  const blurredPreview = $('blurred-preview');
+  if (blurredPreview) {
+    blurredPreview.style.display = 'block';
 
-  // Email gate on full report (evidence + similars + hints)
-  const gatedContent = $('gated-content');
-  const unlocked = localStorage.getItem('irm_unlocked') === 'true';
+    // Render preview sub-dimension bars (blurred)
+    const subDims = $('preview-subdimensions');
+    if (subDims) {
+      const dims = [
+        { label: 'Competition Density', value: Math.min(90, signal + 5) },
+        { label: 'Market Maturity', value: Math.max(10, signal - 10) },
+        { label: 'Community Buzz', value: Math.max(10, Math.round(signal * 0.7)) },
+        { label: 'Ecosystem Depth', value: Math.max(10, Math.round(signal * 0.6)) },
+      ];
+      subDims.innerHTML = dims.map(d => `
+        <div class="preview-bar">
+          <span class="preview-bar-label">${d.label}</span>
+          <div class="preview-bar-track"><div class="preview-bar-fill" style="width:${d.value}%"></div></div>
+          <span class="preview-bar-value">${d.value}</span>
+        </div>
+      `).join('');
+    }
 
-  // Remove any previous gate overlay
-  gatedContent.classList.remove('locked');
-  const oldOverlay = gatedContent.querySelector('.email-gate-overlay');
-  if (oldOverlay) oldOverlay.remove();
-
-  if (!unlocked) {
-    gatedContent.classList.add('locked');
-    const overlay = document.createElement('div');
-    overlay.className = 'email-gate-overlay';
-    overlay.innerHTML = `
-      <p>\ud83d\udd13 ${t('gate_title')}</p>
-      <div class="email-gate-form">
-        <input type="email" id="gate-email" placeholder="you@email.com">
-        <button id="gate-btn" onclick="unlockReport()">${t('gate_btn')}</button>
-      </div>
-      <p class="email-gate-note">${t('gate_note')}</p>
-    `;
-    gatedContent.appendChild(overlay);
+    // Render preview competitors (blurred)
+    const compPreview = $('preview-competitors');
+    if (compPreview && similars.length > 0) {
+      compPreview.innerHTML = similars.slice(0, 3).map(s => `
+        <div style="padding:8px 0;border-bottom:1px solid #1a1a28;">
+          <span style="color:#fff;font-weight:600">${s.name}</span>
+          <span style="color:#ffaa00;font-size:12px;margin-left:8px">${(s.stars||0).toLocaleString()} ★</span>
+          <div style="font-size:12px;color:#666;margin-top:4px">${(s.description||'').slice(0,80)}...</div>
+        </div>
+      `).join('');
+    }
   }
 }
 
-async function unlockReport() {
-  const emailInput = $('gate-email');
-  const btn = $('gate-btn');
-  if (!emailInput || !btn) return;
+// ===== CHECKOUT + PAID REPORT FLOW =====
 
-  const email = emailInput.value.trim();
-  if (!email || !email.includes('@') || !email.includes('.')) {
-    alert(t('gate_email_invalid'));
-    return;
-  }
-
-  btn.textContent = t('gate_btn_loading');
-  btn.disabled = true;
+async function startCheckout(tier) {
+  const ideaText = window._currentIdeaText;
+  const ideaHash = window._currentIdeaHash;
+  if (!ideaText) { alert('Please scan an idea first.'); return; }
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-    const res = await fetch(`${API_BASE}/api/subscribe`, {
+    const res = await fetch(`${API_BASE}/api/create-checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email: email,
-        idea_hash: window._currentIdeaHash || 'unknown',
+        idea_text: ideaText,
+        idea_hash: ideaHash,
+        language: lang,
+        depth: $('depth-toggle').checked ? 'deep' : 'quick',
+        success_url: window.location.origin + window.location.pathname +
+          '?checkout_complete=1&idea_hash=' + encodeURIComponent(ideaHash) +
+          '&idea_text=' + encodeURIComponent(ideaText) +
+          '&tier=' + tier,
+        tier: tier,
       }),
-      signal: controller.signal,
     });
-    clearTimeout(timeoutId);
-
-    if (res.ok) {
-      localStorage.setItem('irm_unlocked', 'true');
-      // Remove blur + overlay
-      const gatedContent = $('gated-content');
-      gatedContent.classList.remove('locked');
-      const overlay = gatedContent.querySelector('.email-gate-overlay');
-      if (overlay) overlay.remove();
-    } else {
-      throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.checkout_url) {
+      window.location.href = data.checkout_url;
     }
   } catch (err) {
-    btn.textContent = t('gate_btn');
-    btn.disabled = false;
-    alert(t('gate_error'));
+    alert('Payment system temporarily unavailable. Please try again.');
+    console.error('Checkout error:', err);
+  }
+}
+
+// Check for payment completion on page load
+async function checkPaymentCompletion() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('checkout_complete')) return;
+
+  const ideaHash = params.get('idea_hash') || '';
+  const ideaText = params.get('idea_text') || '';
+  const tier = params.get('tier') || 'single';
+
+  if (!ideaHash) return;
+
+  // Show loading state
+  const resultsDiv = $('results');
+  if (resultsDiv) resultsDiv.classList.add('visible');
+  const statusDiv = $('status');
+  if (statusDiv) {
+    statusDiv.classList.add('visible');
+    const statusText = $('status-text');
+    if (statusText) statusText.textContent = 'Generating your report...';
+  }
+
+  // Poll for report
+  let attempts = 0;
+  const maxAttempts = 20;
+  const poll = async () => {
+    attempts++;
+    try {
+      const res = await fetch(`${API_BASE}/api/checkout-status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          idea_hash: ideaHash,
+          idea_text: ideaText,
+          depth: 'deep',
+          tier: tier,
+        }),
+      });
+      const data = await res.json();
+      if (data.status === 'complete' && data.report_id) {
+        // Fetch full report
+        const reportRes = await fetch(`${API_BASE}/report/${data.report_id}`);
+        if (reportRes.ok) {
+          const reportData = await reportRes.json();
+          if (statusDiv) statusDiv.classList.remove('visible');
+          renderPaidReport(reportData, data.report_id);
+          // Clean URL
+          window.history.replaceState({}, '', window.location.pathname);
+          return;
+        }
+      }
+    } catch (e) { console.error('Poll error:', e); }
+
+    if (attempts < maxAttempts) {
+      setTimeout(poll, 3000);
+    } else {
+      if (statusDiv) statusDiv.classList.remove('visible');
+      alert('Report generation is taking longer than expected. Please refresh the page in a minute.');
+    }
+  };
+  poll();
+}
+
+function renderPaidReport(data, reportId) {
+  const report = data.report || data;
+  const signal = data.reality_signal || 0;
+  const dup = data.duplicate_likelihood || 'unknown';
+  const subScores = report.sub_scores || data.sub_scores || {};
+  const competitors = report.competitors || [];
+  const crowd = report.crowd_intelligence || {};
+  const analysis = report.strategic_analysis || '';
+  const angles = report.search_angles || [];
+  const verifiedAt = report.verified_at || new Date().toISOString();
+  const ideaText = data.idea_text || window._currentIdeaText || '';
+
+  // Hide blurred preview, show paid report
+  const blurredPreview = $('blurred-preview');
+  if (blurredPreview) blurredPreview.style.display = 'none';
+
+  const paidReport = $('paid-report');
+  paidReport.style.display = 'block';
+
+  const content = $('paid-report-content');
+
+  // Sub-dimension scores
+  const dimNames = {
+    competition_density: 'Competition Density',
+    market_maturity: 'Market Maturity',
+    community_buzz: 'Community Buzz',
+    ecosystem_depth_npm: 'Ecosystem (npm)',
+    ecosystem_depth_pypi: 'Ecosystem (PyPI)',
+    product_launches: 'Product Launches',
+  };
+  const dimBars = Object.entries(subScores)
+    .filter(([k, v]) => v !== null && v !== undefined)
+    .map(([k, v]) => `
+      <div class="sub-dim-bar">
+        <span class="sub-dim-label">${dimNames[k] || k}</span>
+        <div class="sub-dim-track"><div class="sub-dim-fill" style="width:${v}%"></div></div>
+        <span class="sub-dim-value">${v}</span>
+      </div>
+    `).join('');
+
+  // Competitors
+  const compCards = competitors.slice(0, 15).map(c => {
+    const activity = c.activity || '';
+    const isActive = activity.toLowerCase().includes('active');
+    return `
+      <div class="competitor-card">
+        <div class="competitor-header">
+          <span class="competitor-name"><a href="${c.url || '#'}" target="_blank" rel="noopener">${c.name}</a></span>
+          <span class="competitor-stars">${(c.stars||0).toLocaleString()} ★</span>
+        </div>
+        ${c.description ? `<div class="competitor-desc">${c.description.slice(0, 200)}</div>` : ''}
+        <div class="competitor-meta">
+          ${c.language ? `<span>${c.language}</span>` : ''}
+          <span class="${isActive ? 'active' : 'stale'}">${activity}</span>
+          ${(c.found_via_angles && c.found_via_angles.length > 0) ? `<span>Found via: ${c.found_via_angles.length} angles</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Strategic analysis paragraphs
+  const analysisParagraphs = analysis.split('\n\n')
+    .filter(p => p.trim())
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
+
+  // Crowd intelligence
+  const crowdHtml = crowd.total_similar ? `
+    <div class="report-section">
+      <div class="report-section-title">Crowd Intelligence</div>
+      <p style="color:#ccc;font-size:14px;">
+        <strong style="color:#fff;">${crowd.total_similar.toLocaleString()}</strong> builders scanned similar ideas.
+        ${crowd.avg_score ? `Average score: <strong style="color:#fff;">${crowd.avg_score}/100</strong>.` : ''}
+        ${crowd.your_percentile ? `Your idea scores higher than ${crowd.your_percentile}% of similar queries.` : ''}
+      </p>
+    </div>
+  ` : '';
+
+  // AI-ready prompt
+  const aiPrompt = `## Verified Market Intelligence Report
+> Generated by Mnemox Idea Reality · ${verifiedAt} · All data verified from live APIs
+
+### Idea: ${ideaText}
+### Overall Score: ${signal}/100 — ${dup} duplicate likelihood
+
+### Sub-Dimension Scores
+${Object.entries(subScores).filter(([k,v]) => v !== null).map(([k,v]) => `- ${dimNames[k] || k}: ${v}/100`).join('\n')}
+
+### Top Competitors
+${competitors.slice(0, 10).map((c, i) => `${i+1}. ${c.name} — ${(c.stars||0).toLocaleString()} ★ — ${c.activity || 'Unknown'}`).join('\n')}
+
+${crowd.total_similar ? `### Crowd Intelligence\n${crowd.total_similar} builders searched similar ideas.` : ''}
+
+### Strategic Analysis
+${analysis}
+
+---
+Based on this verified market data, help me create a product positioning plan that addresses the gaps in the competitive landscape.`;
+
+  content.innerHTML = `
+    <div class="report-section">
+      <div class="report-section-title">Sub-Dimension Scores</div>
+      ${dimBars}
+    </div>
+
+    ${crowdHtml}
+
+    <div class="report-section">
+      <div class="report-section-title">Verified Competitors (${competitors.length})</div>
+      ${compCards}
+    </div>
+
+    <div class="report-section">
+      <div class="report-section-title">Strategic Analysis</div>
+      <div class="strategic-text">${analysisParagraphs}</div>
+    </div>
+
+    <div class="ai-prompt-section">
+      <div class="report-section-title" style="color:var(--green,#00ff88);">Feed to AI Agent</div>
+      <p style="font-size:13px;color:#888;margin-bottom:12px;">Copy the text below and paste it to your AI coding agent (Claude, ChatGPT, Cursor) to generate an action plan:</p>
+      <pre class="ai-prompt-pre">${aiPrompt.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+      <button class="copy-btn" onclick="copyAiPrompt(this)">Copy to Clipboard</button>
+
+      <div class="download-btns">
+        <a class="download-btn" href="${API_BASE}/report/${reportId}/pdf" target="_blank">Download Report (HTML)</a>
+        <a class="download-btn" href="${API_BASE}/report/${reportId}/json" target="_blank">Download Data (JSON)</a>
+      </div>
+    </div>
+
+    <p style="text-align:center;font-size:11px;color:#444;margin-top:24px;">
+      Report ${(reportId || '').slice(0, 8)} · Verified ${verifiedAt.split('T')[0]} · Mnemox Idea Reality
+    </p>
+  `;
+
+  // Scroll to report
+  paidReport.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyAiPrompt(btn) {
+  const pre = btn.parentElement.querySelector('.ai-prompt-pre');
+  if (pre) {
+    navigator.clipboard.writeText(pre.textContent).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy to Clipboard'; }, 2000);
+    });
   }
 }
 
@@ -1697,6 +2169,7 @@ textarea.addEventListener('keydown', (e) => {
 
 // Init
 applyLang();
+checkPaymentCompletion();
 </script>
 </body>
 </html>

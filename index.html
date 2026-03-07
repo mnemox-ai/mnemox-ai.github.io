@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TradeMemory Protocol — Memory for AI Trading Agents | Mnemox</title>
-<meta name="description" content="TradeMemory Protocol: Outcome-weighted memory system for AI trading agents. Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.">
-<meta name="keywords" content="AI trading, MCP, memory, algorithmic trading, Claude, MT5, forex, XAUUSD, trading bot, open source">
-<meta property="og:title" content="TradeMemory Protocol — Memory for AI Trading Agents">
-<meta property="og:description" content="Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.">
+<title>Mnemox AI — Tools for Builders & Traders</title>
+<meta name="description" content="Mnemox AI builds open-source tools for AI agents. Idea Reality: pre-build market intelligence (284★). TradeMemory: persistent memory for trading agents (79★).">
+<meta name="keywords" content="AI tools, MCP, idea validation, AI trading, memory, open source, Claude, market research, competitive intelligence">
+<meta property="og:title" content="Mnemox AI — Tools for Builders & Traders">
+<meta property="og:description" content="Open-source AI tools. Idea Reality: market intelligence before you build. TradeMemory: persistent memory for trading agents.">
 <meta property="og:url" content="https://mnemox.ai">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TradeMemory Protocol — Memory for AI Trading Agents">
-<meta name="twitter:description" content="Persistent memory for AI trading agents. Record, reflect, evolve.">
+<meta name="twitter:title" content="Mnemox AI — Tools for Builders & Traders">
+<meta name="twitter:description" content="Open-source AI tools for builders and traders. Intelligence + Memory.">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VD4L98FJP"></script>
 <script>
@@ -29,10 +29,10 @@
   "@type": "Organization",
   "name": "Mnemox",
   "url": "https://mnemox.ai",
-  "description": "Memory infrastructure for AI trading agents. Stop starting from zero.",
+  "description": "Open-source AI tools for builders and traders. Market intelligence + trading memory.",
   "foundingDate": "2026",
   "areaServed": "Worldwide",
-  "knowsAbout": ["AI trading", "MCP servers", "algorithmic trading", "trading memory"],
+  "knowsAbout": ["AI tools", "MCP servers", "market intelligence", "AI trading", "trading memory"],
   "sameAs": [
     "https://github.com/mnemox-ai",
     "https://pypi.org/org/mnemox-ai/"
@@ -159,17 +159,70 @@ nav {
   color: var(--bg) !important;
 }
 
-.nav-cta {
-  color: #000 !important;
-  background: var(--cyan);
-  padding: 8px 20px;
-  font-weight: 600;
-  transition: all 0.3s !important;
+/* Nav Dropdown */
+.nav-dropdown {
+  position: relative;
 }
 
-.nav-cta:hover {
-  background: #fff;
-  transform: translateY(-1px);
+.nav-dropdown > span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.nav-dropdown > span:hover { color: var(--cyan); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 240px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  z-index: 1001;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  text-decoration: none !important;
+}
+
+.nav-dropdown-menu a:hover {
+  background: var(--bg-card-hover);
+}
+
+.nav-dropdown-menu .dd-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.nav-dropdown-menu .dd-stars {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
 }
 
 .lang-btn {
@@ -200,12 +253,101 @@ section {
 /* ===== HERO ===== */
 #hero {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   padding-top: 100px;
   position: relative;
+}
+
+.hero-products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.hero-product-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 32px 28px;
+  text-align: left;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hero-product-card:hover::before { opacity: 1; }
+.hero-product-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+
+.hero-product-card.ir::before { background: var(--green); }
+.hero-product-card.tm::before { background: var(--cyan); }
+
+.hero-product-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.hero-product-card .card-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hero-product-card .card-stats {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.hero-product-card.ir .card-stats { color: var(--green); }
+.hero-product-card.tm .card-stats { color: var(--cyan); }
+
+.hero-product-card .card-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.hero-product-card .card-cta {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: 1px solid var(--border-bright);
+  transition: all 0.3s;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.hero-product-card.ir .card-cta:hover {
+  border-color: var(--green);
+  color: var(--green);
+  text-decoration: none;
+}
+
+.hero-product-card.tm .card-cta:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  text-decoration: none;
 }
 
 .hero-left {
@@ -596,18 +738,10 @@ footer {
   nav { padding: 12px 20px; }
   .nav-links { gap: 16px; }
   section { padding: 80px 20px; }
-  #hero {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
-  }
-  .hero-left { align-items: center; }
   .hero-mascot { margin: 0 auto 16px; }
   .hero-subtitle { max-width: 100%; }
-  .hero-actions { justify-content: center; }
-  .hero-terminal { display: none; }
+  .hero-products { grid-template-columns: 1fr; }
   .social-proof { font-size: 11px; gap: 16px; }
-  .projects-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 16px; text-align: center; }
 }
 
@@ -636,95 +770,66 @@ footer {
 <nav>
   <a href="/" class="nav-logo">MNEMOX<span>.AI</span></a>
   <div class="nav-links">
+    <div class="nav-dropdown">
+      <span data-i18n="nav_products">Products</span>
+      <div class="nav-dropdown-menu">
+        <a href="/check/">
+          <span class="dd-name">Idea Reality</span>
+          <span class="dd-stars">284 ★</span>
+        </a>
+        <a href="/tradememory/">
+          <span class="dd-name">TradeMemory</span>
+          <span class="dd-stars">79 ★</span>
+        </a>
+      </div>
+    </div>
     <a href="/pricing" data-i18n="nav_pricing">Pricing</a>
     <a href="https://github.com/mnemox-ai" class="nav-github" target="_blank">GitHub</a>
-    <a href="/tradememory" class="nav-cta" data-i18n="nav_get_started">Get Started →</a>
     <button class="lang-btn" onclick="toggleLang()" id="lang-btn">中文</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-left">
-    <div class="hero-mascot">
-      <img src="mne-cat.png" alt="Mne — The Mnemox Memory Cat" />
-    </div>
-    <h1 class="hero-title" data-i18n="hero_title">Memory for AI Trading Agents.</h1>
-    <p class="hero-subtitle" data-i18n="hero_subtitle">Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.</p>
-    <div class="hero-actions">
-      <a href="/tradememory" class="btn-primary" data-i18n="hero_cta_primary">Get Started →</a>
-      <a href="https://github.com/mnemox-ai/tradememory-protocol" class="btn-secondary" target="_blank" data-i18n="hero_cta_secondary">GitHub</a>
-    </div>
+  <div class="hero-mascot">
+    <img src="mne-cat.png" alt="Mne — The Mnemox Memory Cat" />
   </div>
+  <h1 class="hero-title" data-i18n="hero_title">AI Tools for Builders & Traders.</h1>
+  <p class="hero-subtitle" data-i18n="hero_subtitle">Open-source intelligence and memory tools for AI agents. Built in Taipei.</p>
 
-  <div class="hero-terminal">
-    <div class="terminal-header">
-      <div class="terminal-dot red"></div>
-      <div class="terminal-dot amber"></div>
-      <div class="terminal-dot green"></div>
-      <span class="terminal-title">tradememory — agent session</span>
+  <div class="hero-products">
+    <div class="hero-product-card ir">
+      <div class="card-header">
+        <span class="card-name" data-i18n="card_ir_name">Idea Reality</span>
+        <span class="card-stats">284 ★ · 181 tests</span>
+      </div>
+      <p class="card-desc" data-i18n="card_ir_desc">Pre-build market reality check for AI agents. Scans 5 platforms simultaneously before you build.</p>
+      <a href="/check/" class="card-cta" data-i18n="card_ir_cta">Try Free →</a>
     </div>
-    <div class="terminal-body">
-      <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">python demo.py</span></div>
-      <div class="terminal-line"><span class="t-dim">Loading TradeMemory Protocol v0.4.0...</span></div>
-      <div class="terminal-line">&nbsp;</div>
-      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Recording 30 simulated trades</span></div>
-      <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+164 pips</span></div>
-      <div class="terminal-line"><span class="t-key">  XAUUSD SHORT</span> <span class="t-dim">asia session</span> <span class="t-error">-57 pips</span></div>
-      <div class="terminal-line"><span class="t-key">  XAUUSD LONG</span> <span class="t-dim">london session</span> <span class="t-success">+142 pips</span></div>
-      <div class="terminal-line">&nbsp;</div>
-      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Running reflection engine...</span></div>
-      <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">london_breakout win_rate=</span><span class="t-value">73%</span> <span class="t-dim">n=41</span></div>
-      <div class="terminal-line"><span class="t-arrow">→</span> <span class="t-warn">Pattern:</span> <span class="t-dim">asia_entries win_rate=</span><span class="t-error">52%</span> <span class="t-dim">n=28</span></div>
-      <div class="terminal-line">&nbsp;</div>
-      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">asia → size × 0.8</span></div>
-      <div class="terminal-line"><span class="t-success">✓</span> <span class="t-dim">Strategy adjustment:</span> <span class="t-value">london → full position</span></div>
-      <div class="terminal-line"><span class="t-dim">Agent memory updated. Ready for next session.</span> <span class="terminal-cursor"></span></div>
+
+    <div class="hero-product-card tm">
+      <div class="card-header">
+        <span class="card-name" data-i18n="card_tm_name">TradeMemory</span>
+        <span class="card-stats">79 ★ · 399 tests</span>
+      </div>
+      <p class="card-desc" data-i18n="card_tm_desc">Persistent memory for AI trading agents. Learns from losses, spots patterns, auto-adjusts sizing.</p>
+      <a href="/tradememory/" class="card-cta" data-i18n="card_tm_cta">Get Started →</a>
     </div>
   </div>
 </section>
 
 <!-- SOCIAL PROOF -->
 <div class="social-proof">
-  <span><span class="highlight">234 ★</span></span>
+  <span><span class="highlight">363 ★</span> combined</span>
   <span class="social-proof-divider"></span>
-  <span><span class="highlight">10,169</span> trades analyzed</span>
+  <span><span class="highlight">580</span> tests passing</span>
   <span class="social-proof-divider"></span>
   <span><span class="highlight">MIT</span> licensed</span>
 </div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="reveal">
-    <div class="section-label" data-i18n="sec_products">Products</div>
-    <h2 class="section-title" data-i18n="products_title">Two tools. One mission.</h2>
-    <p class="section-subtitle" data-i18n="products_subtitle">Open-source memory and intelligence tools for AI agents.</p>
-  </div>
-
-  <div class="projects-grid reveal">
-    <div class="project-card tradememory">
-      <div class="project-tag" data-i18n="proj_tm_tag">AI Memory for Traders</div>
-      <h3>TradeMemory Protocol</h3>
-      <p class="project-desc" data-i18n="proj_tm_desc">Outcome-weighted memory for AI trading agents. 10 MCP tools. Cognitive science meets quantitative finance — via MCP.</p>
-      <div class="project-links">
-        <a href="/tradememory" class="project-link" data-i18n="proj_tm_learn">Learn More →</a>
-      </div>
-    </div>
-
-    <div class="project-card idea-reality">
-      <div class="project-tag" data-i18n="proj_ir_tag">Pre-Build Reality Check</div>
-      <h3>Idea Reality Check</h3>
-      <p class="project-desc" data-i18n="proj_ir_desc">Pre-build reality check for AI agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.</p>
-      <div class="project-links">
-        <a href="/check" class="project-link" data-i18n="proj_ir_try">Try Free →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer>
-  <div class="footer-left" data-i18n-html="footer_text">© 2026 Mnemox · Built in Taipei · Memory for AI</div>
+  <div class="footer-left" data-i18n-html="footer_text">© 2026 Mnemox · Built in Taipei · Tools for AI</div>
   <div class="footer-links">
     <a href="https://github.com/mnemox-ai" target="_blank">GitHub</a>
     <a href="https://dev.to/mnemox" target="_blank">Blog</a>
@@ -737,42 +842,32 @@ footer {
 const i18n = {
   en: {
     lang_toggle: '中文',
+    nav_products: 'Products',
     nav_pricing: 'Pricing',
-    nav_get_started: 'Get Started →',
-    hero_title: 'Memory for AI Trading Agents.',
-    hero_subtitle: 'Your Claude agent forgets every trade. TradeMemory gives it persistent memory — learns from losses, spots patterns, auto-adjusts sizing.',
-    hero_cta_primary: 'Get Started →',
-    hero_cta_secondary: 'GitHub',
-    sec_products: 'Products',
-    products_title: 'Two tools. One mission.',
-    products_subtitle: 'Open-source memory and intelligence tools for AI agents.',
-    proj_tm_tag: 'AI Memory for Traders',
-    proj_tm_desc: 'Outcome-weighted memory for AI trading agents. 10 MCP tools. Cognitive science meets quantitative finance — via MCP.',
-    proj_tm_learn: 'Learn More →',
-    proj_ir_tag: 'Pre-Build Reality Check',
-    proj_ir_desc: 'Pre-build reality check for AI agents. Scans GitHub, HN, npm, PyPI, and Product Hunt before you build.',
-    proj_ir_try: 'Try Free →',
-    footer_text: '© 2026 Mnemox · Built in Taipei · Memory for AI',
+    hero_title: 'AI Tools for Builders & Traders.',
+    hero_subtitle: 'Open-source intelligence and memory tools for AI agents. Built in Taipei.',
+    card_ir_name: 'Idea Reality',
+    card_ir_desc: 'Pre-build market reality check for AI agents. Scans 5 platforms simultaneously before you build.',
+    card_ir_cta: 'Try Free →',
+    card_tm_name: 'TradeMemory',
+    card_tm_desc: 'Persistent memory for AI trading agents. Learns from losses, spots patterns, auto-adjusts sizing.',
+    card_tm_cta: 'Get Started →',
+    footer_text: '© 2026 Mnemox · Built in Taipei · Tools for AI',
     footer_pricing: 'Pricing',
   },
   zh: {
     lang_toggle: 'EN',
+    nav_products: '產品',
     nav_pricing: '定價',
-    nav_get_started: '開始使用 →',
-    hero_title: '交易 AI 代理的記憶基礎設施',
-    hero_subtitle: '你的 Claude 代理會遺忘每筆交易。TradeMemory 賦予它持久記憶 — 從虧損學習、發現模式、自動調整倉位。',
-    hero_cta_primary: '開始使用 →',
-    hero_cta_secondary: 'GitHub',
-    sec_products: '產品',
-    products_title: '兩個工具，一個使命。',
-    products_subtitle: '開源記憶與智能工具，為 AI 代理而生。',
-    proj_tm_tag: '交易員 AI 記憶',
-    proj_tm_desc: 'AI 交易代理結果加權記憶系統。10 個 MCP 工具。認知科學遇上量化金融 — 透過 MCP。',
-    proj_tm_learn: '了解更多 →',
-    proj_ir_tag: '建構前現實檢查',
-    proj_ir_desc: 'AI 代理的建構前現實檢查。在你建構之前掃描 GitHub、HN、npm、PyPI、Product Hunt。',
-    proj_ir_try: '免費試用 →',
-    footer_text: '© 2026 Mnemox · 台北打造 · AI 的記憶',
+    hero_title: '為建造者與交易員打造的 AI 工具',
+    hero_subtitle: '開源智能與記憶工具，為 AI 代理而生。台北打造。',
+    card_ir_name: 'Idea Reality',
+    card_ir_desc: 'AI 代理的建構前市場現實檢查。同時掃描 5 個平台，在你建構之前。',
+    card_ir_cta: '免費試用 →',
+    card_tm_name: 'TradeMemory',
+    card_tm_desc: 'AI 交易代理的持久記憶。從虧損學習、發現模式、自動調整倉位。',
+    card_tm_cta: '開始使用 →',
+    footer_text: '© 2026 Mnemox · 台北打造 · AI 工具',
     footer_pricing: '定價',
   }
 };
@@ -809,12 +904,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 reveals.forEach(el => observer.observe(el));
-
-// Terminal animation
-const terminalLines = document.querySelectorAll('.terminal-line');
-terminalLines.forEach((line, i) => {
-  line.style.animationDelay = `${i * 0.15}s`;
-});
 
 // Apply language on load
 applyLang();
