@@ -910,6 +910,69 @@ nav {
 }
 
 /* ===== PAID REPORT (inline) ===== */
+/* Report loading overlay */
+#report-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 32px;
+  text-align: center;
+}
+.report-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #1a1a28;
+  border-top-color: var(--green, #00ff88);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.report-loading-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+.report-loading-sub {
+  font-size: 13px;
+  color: var(--text-dim, #6a6a80);
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+.report-loading-progress {
+  width: 280px;
+  height: 4px;
+  background: #1a1a28;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.report-loading-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--green, #00ff88);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+.report-loading-step {
+  font-size: 12px;
+  color: var(--text-dim, #6a6a80);
+  font-family: 'JetBrains Mono', monospace;
+}
+
 #paid-report {
   margin-top: 32px;
 }
@@ -1953,21 +2016,50 @@ async function checkPaymentCompletion() {
 
   if (!ideaHash) return;
 
-  // Show loading state
+  // Show dedicated report loading overlay
   const resultsDiv = $('results');
   if (resultsDiv) resultsDiv.classList.add('visible');
-  const statusDiv = $('status');
-  if (statusDiv) {
-    statusDiv.classList.add('visible');
-    const statusText = $('status-text');
-    if (statusText) statusText.textContent = 'Generating your report...';
+
+  // Create report-loading overlay
+  let loadingOverlay = document.getElementById('report-loading');
+  if (!loadingOverlay) {
+    loadingOverlay = document.createElement('div');
+    loadingOverlay.id = 'report-loading';
+    loadingOverlay.innerHTML = `
+      <div class="report-loading-spinner"></div>
+      <div class="report-loading-title">Generating your report<span class="loading-dots"></span></div>
+      <div class="report-loading-sub">Analyzing competitors, scoring sub-dimensions, writing strategic analysis...</div>
+      <div class="report-loading-progress">
+        <div class="report-loading-bar"></div>
+      </div>
+      <div class="report-loading-step" id="loading-step">Connecting to API...</div>
+    `;
+    if (resultsDiv) resultsDiv.appendChild(loadingOverlay);
   }
+  loadingOverlay.style.display = 'flex';
+
+  // Hide old status if visible
+  const statusDiv = $('status');
+  if (statusDiv) statusDiv.classList.remove('visible');
+
+  // Animate loading steps
+  const steps = [
+    'Connecting to API...', 'Scanning GitHub repositories...', 'Analyzing Hacker News...',
+    'Checking npm & PyPI...', 'Scoring sub-dimensions...', 'Building competitor profiles...',
+    'Running AI strategic analysis...', 'Compiling report...'
+  ];
 
   // Poll for report
   let attempts = 0;
-  const maxAttempts = 20;
+  const maxAttempts = 30;
   const poll = async () => {
     attempts++;
+    // Update loading step text
+    const stepEl = document.getElementById('loading-step');
+    if (stepEl && attempts <= steps.length) stepEl.textContent = steps[Math.min(attempts - 1, steps.length - 1)];
+    // Update progress bar
+    const bar = loadingOverlay.querySelector('.report-loading-bar');
+    if (bar) bar.style.width = `${Math.min(attempts / maxAttempts * 100, 95)}%`;
     try {
       const res = await fetch(`${API_BASE}/api/checkout-status`, {
         method: 'POST',
@@ -1985,6 +2077,8 @@ async function checkPaymentCompletion() {
         const reportRes = await fetch(`${API_BASE}/report/${data.report_id}`);
         if (reportRes.ok) {
           const reportData = await reportRes.json();
+          // Hide loading overlay
+          if (loadingOverlay) loadingOverlay.style.display = 'none';
           if (statusDiv) statusDiv.classList.remove('visible');
           renderPaidReport(reportData, data.report_id);
           // Clean URL
@@ -1997,6 +2091,7 @@ async function checkPaymentCompletion() {
     if (attempts < maxAttempts) {
       setTimeout(poll, 3000);
     } else {
+      if (loadingOverlay) loadingOverlay.style.display = 'none';
       if (statusDiv) statusDiv.classList.remove('visible');
       alert('Report generation is taking longer than expected. Please refresh the page in a minute.');
     }
@@ -2005,10 +2100,12 @@ async function checkPaymentCompletion() {
 }
 
 function renderPaidReport(data, reportId) {
-  const report = data.report || data;
-  const signal = data.reality_signal || 0;
-  const dup = data.duplicate_likelihood || 'unknown';
-  const subScores = report.sub_scores || data.sub_scores || {};
+  // API returns { report_data: { reality_signal, report: { competitors, ... } } }
+  const rd = data.report_data || data;
+  const report = rd.report || rd;
+  const signal = rd.reality_signal || data.score || 0;
+  const dup = rd.duplicate_likelihood || 'unknown';
+  const subScores = report.sub_scores || rd.sub_scores || {};
   const competitors = report.competitors || [];
   const crowd = report.crowd_intelligence || {};
   const analysis = report.strategic_analysis || '';
@@ -2046,18 +2143,23 @@ function renderPaidReport(data, reportId) {
 
   // Competitors
   const compCards = competitors.slice(0, 15).map(c => {
-    const activity = c.activity || '';
-    const isActive = activity.toLowerCase().includes('active');
+    // activity can be object {badge, label, days_since_update} or string
+    const act = c.activity || {};
+    const actLabel = typeof act === 'string' ? act : (act.label || '');
+    const actBadge = typeof act === 'object' ? (act.badge || '') : '';
+    const actDays = typeof act === 'object' ? act.days_since_update : null;
+    const isActive = actLabel.toLowerCase().includes('active');
+    const daysStr = actDays !== null && actDays !== undefined ? ` · Updated ${actDays}d ago` : '';
     return `
       <div class="competitor-card">
         <div class="competitor-header">
-          <span class="competitor-name"><a href="${c.url || '#'}" target="_blank" rel="noopener">${c.name}</a></span>
+          <span class="competitor-name"><a href="${c.url || '#'}" target="_blank" rel="noopener">${actBadge} ${c.name}</a></span>
           <span class="competitor-stars">${(c.stars||0).toLocaleString()} ★</span>
         </div>
         ${c.description ? `<div class="competitor-desc">${c.description.slice(0, 200)}</div>` : ''}
         <div class="competitor-meta">
           ${c.language ? `<span>${c.language}</span>` : ''}
-          <span class="${isActive ? 'active' : 'stale'}">${activity}</span>
+          <span class="${isActive ? 'active' : 'stale'}">${actLabel}${daysStr}</span>
           ${(c.found_via_angles && c.found_via_angles.length > 0) ? `<span>Found via: ${c.found_via_angles.length} angles</span>` : ''}
         </div>
       </div>
@@ -2093,7 +2195,12 @@ function renderPaidReport(data, reportId) {
 ${Object.entries(subScores).filter(([k,v]) => v !== null).map(([k,v]) => `- ${dimNames[k] || k}: ${v}/100`).join('\n')}
 
 ### Top Competitors
-${competitors.slice(0, 10).map((c, i) => `${i+1}. ${c.name} — ${(c.stars||0).toLocaleString()} ★ — ${c.activity || 'Unknown'}`).join('\n')}
+${competitors.slice(0, 10).map((c, i) => {
+    const a = c.activity || {};
+    const lbl = typeof a === 'string' ? a : (a.label || 'Unknown');
+    const d = typeof a === 'object' && a.days_since_update != null ? ` (${a.days_since_update}d)` : '';
+    return `${i+1}. ${c.name} — ${(c.stars||0).toLocaleString()} ★ — ${lbl}${d}`;
+  }).join('\n')}
 
 ${crowd.total_similar ? `### Crowd Intelligence\n${crowd.total_similar} builders searched similar ideas.` : ''}
 
