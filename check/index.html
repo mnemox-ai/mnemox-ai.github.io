@@ -900,13 +900,81 @@ nav {
 .pro-btn:hover {
   background: #33ffaa;
 }
+.coming-soon-btn {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  background: #333 !important;
+  color: #888 !important;
+}
 .cta-comparison {
-  text-align: center;
+  margin-top: 24px;
+  padding: 0;
+}
+.comparison-grid {
+  background: var(--bg-card, #0b1120);
+  border: 1px solid var(--border, #1a1a28);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.comp-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border, #1a1a28);
+  color: var(--text-dim, #6a6a80);
+}
+.comp-row:last-child { border-bottom: none; }
+.comp-header-row {
+  font-weight: 700;
+  color: var(--text, #e0e0e8);
   font-size: 12px;
-  color: #555;
-  margin-top: 16px;
-  padding: 0 20px;
-  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(0, 180, 255, 0.05);
+}
+.comp-header-row span:nth-child(2) { color: var(--accent, #00b4ff); }
+.comp-win {
+  color: var(--accent, #00b4ff) !important;
+  font-weight: 600;
+}
+/* Hero live stats */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: rgba(0, 180, 255, 0.05);
+  border: 1px solid rgba(0, 180, 255, 0.15);
+  border-radius: 8px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent, #00b4ff);
+}
+.hero-stat-label {
+  display: block;
+  font-size: 10px;
+  color: var(--text-dim, #6a6a80);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.hero-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border, #1a1a28);
+}
+@media (max-width: 600px) {
+  .hero-stats { flex-direction: column; gap: 12px; }
+  .hero-stat-divider { width: 60px; height: 1px; }
+  .comp-row { grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr; font-size: 11px; padding: 8px 10px; }
 }
 
 /* ===== PAID REPORT (inline) ===== */
@@ -1236,6 +1304,22 @@ footer a { color: var(--text-dim); }
     <div class="header-label">idea-reality-mcp</div>
     <h1 data-i18n="title">Reality Check</h1>
     <p data-i18n="subtitle">Is your idea already built? Scan GitHub, Hacker News, npm, PyPI, and Product Hunt in seconds.</p>
+    <div class="hero-stats" id="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-total">—</span>
+        <span class="hero-stat-label" data-i18n="stat_ideas">Ideas Scanned</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">5</span>
+        <span class="hero-stat-label" data-i18n="stat_sources">Sources / Scan</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="stat-updated">—</span>
+        <span class="hero-stat-label" data-i18n="stat_updated">Database Updated</span>
+      </div>
+    </div>
   </div>
 
   <!-- INPUT -->
@@ -1311,15 +1395,15 @@ footer a { color: var(--text-dim); }
     <!-- Blurred Preview + Dual CTA -->
     <div id="blurred-preview" style="display:none;">
       <div class="blurred-preview-section">
-        <h3 class="preview-section-title">Sub-Dimension Scores</h3>
+        <h3 class="preview-section-title" data-i18n="preview_subdim">Sub-Dimension Scores</h3>
         <div class="blurred-content" id="preview-subdimensions"></div>
       </div>
       <div class="blurred-preview-section">
-        <h3 class="preview-section-title">Top Competitors</h3>
+        <h3 class="preview-section-title" data-i18n="preview_comp">Top Competitors</h3>
         <div class="blurred-content" id="preview-competitors"></div>
       </div>
       <div class="blurred-preview-section">
-        <h3 class="preview-section-title">Strategic Analysis</h3>
+        <h3 class="preview-section-title" data-i18n="preview_strat">Strategic Analysis</h3>
         <div class="blurred-content" id="preview-analysis">
           <p>Based on our analysis of the competitive landscape, this market shows significant activity with multiple established players. The key differentiators include...</p>
           <p>Market entry opportunities exist in underserved segments, particularly around specialized use cases that current solutions don't address effectively...</p>
@@ -1328,37 +1412,58 @@ footer a { color: var(--text-dim); }
 
       <div class="dual-cta">
         <div class="cta-card single-cta">
-          <div class="cta-header">Single Report</div>
+          <div class="cta-header" data-i18n="cta_single_title">Full Report</div>
           <div class="cta-price">$9.99</div>
-          <div class="cta-subtitle">One-time &middot; This idea only</div>
+          <div class="cta-subtitle" data-i18n="cta_single_sub">One-time &middot; This idea only</div>
           <ul class="cta-features">
-            <li>4 sub-dimension scores</li>
-            <li>Verified competitors + activity</li>
-            <li>AI strategic analysis (Sonnet)</li>
-            <li>Crowd intelligence</li>
-            <li>Feed-to-AI ready format</li>
+            <li data-i18n="cta_s1">4 sub-dimension scores</li>
+            <li data-i18n="cta_s2">Verified competitors + activity</li>
+            <li data-i18n="cta_s3">AI strategic analysis (Sonnet)</li>
+            <li data-i18n="cta_s4">Crowd intelligence</li>
+            <li data-i18n="cta_s5">Feed-to-AI ready format</li>
           </ul>
-          <button class="cta-btn single-btn" onclick="startCheckout('single')">Unlock This Report</button>
+          <button class="cta-btn single-btn coming-soon-btn" disabled data-i18n="coming_soon">Coming Soon</button>
         </div>
         <div class="cta-card pro-cta">
-          <div class="cta-badge">Best Value</div>
-          <div class="cta-header">Pro</div>
-          <div class="cta-price">$39<span>/month</span></div>
-          <div class="cta-subtitle">Unlimited reports</div>
+          <div class="cta-badge" data-i18n="cta_best_value">Best Value</div>
+          <div class="cta-header" data-i18n="cta_pro_title">Pro</div>
+          <div class="cta-price">$39<span data-i18n="cta_per_month">/month</span></div>
+          <div class="cta-subtitle" data-i18n="cta_pro_sub">Unlimited reports</div>
           <ul class="cta-features">
-            <li>Everything in Single, plus:</li>
-            <li>Multi-angle scan (3-5 perspectives)</li>
-            <li>15 competitors (vs 8 in single)</li>
-            <li>Unlimited scans per month</li>
-            <li>JSON API access</li>
+            <li data-i18n="cta_p1">Everything in Full, plus:</li>
+            <li data-i18n="cta_p2">Multi-angle scan (3-5 perspectives)</li>
+            <li data-i18n="cta_p3">15 competitors (vs 8 in single)</li>
+            <li data-i18n="cta_p4">Unlimited scans per month</li>
+            <li data-i18n="cta_p5">JSON API access</li>
           </ul>
-          <button class="cta-btn pro-btn" onclick="startCheckout('pro')">Start Pro</button>
+          <button class="cta-btn pro-btn coming-soon-btn" disabled data-i18n="coming_soon">Coming Soon</button>
         </div>
       </div>
 
       <div class="cta-comparison">
-        ChatGPT searches one platform at a time. We scan 5 in parallel,
-        cross-reference results, and verify every data point with timestamps.
+        <div class="comparison-grid">
+          <div class="comp-row comp-header-row">
+            <span></span><span>Idea Reality</span><span>ChatGPT</span><span>Google</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_sources">Sources scanned</span><span class="comp-win" data-i18n="comp_ir_sources">5 in parallel</span><span data-i18n="comp_gpt_sources">1 at a time</span><span data-i18n="comp_g_sources">Web only</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_xref">Cross-referencing</span><span class="comp-win">✓ Auto</span><span>✗ Manual</span><span>✗ None</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_activity">Competitor activity</span><span class="comp-win" data-i18n="comp_ir_activity">✓ Real-time</span><span>✗ No</span><span>✗ No</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_timestamp">Data timestamps</span><span class="comp-win" data-i18n="comp_ir_timestamp">✓ Verified</span><span>✗ No</span><span>✗ No</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">✓ Native</span><span>—</span><span>✗ No</span>
+          </div>
+          <div class="comp-row">
+            <span data-i18n="comp_crowd">Crowd intelligence</span><span class="comp-win" id="comp-crowd-val">✓ 998+ ideas</span><span>✗ No</span><span>✗ No</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1444,6 +1549,45 @@ const i18n = {
     lang_toggle: 'ZH',
     lang_changed: 'Language changed. Search again to update results.',
     privacy_note: 'Queries are logged anonymously to improve the service. No personal data is collected.',
+    // Hero stats
+    stat_ideas: 'Ideas Scanned',
+    stat_sources: 'Sources / Scan',
+    stat_updated: 'Database Updated',
+    // Blurred preview titles
+    preview_subdim: 'Sub-Dimension Scores',
+    preview_comp: 'Top Competitors',
+    preview_strat: 'Strategic Analysis',
+    // CTA cards
+    cta_single_title: 'Full Report',
+    cta_single_sub: 'One-time · This idea only',
+    cta_s1: '4 sub-dimension scores',
+    cta_s2: 'Verified competitors + activity',
+    cta_s3: 'AI strategic analysis (Sonnet)',
+    cta_s4: 'Crowd intelligence',
+    cta_s5: 'Feed-to-AI ready format',
+    cta_best_value: 'Best Value',
+    cta_pro_title: 'Pro',
+    cta_per_month: '/month',
+    cta_pro_sub: 'Unlimited reports',
+    cta_p1: 'Everything in Full, plus:',
+    cta_p2: 'Multi-angle scan (3-5 perspectives)',
+    cta_p3: '15 competitors (vs 8 in single)',
+    cta_p4: 'Unlimited scans per month',
+    cta_p5: 'JSON API access',
+    coming_soon: 'Coming Soon',
+    // Comparison grid
+    comp_sources: 'Sources scanned',
+    comp_ir_sources: '5 in parallel',
+    comp_gpt_sources: '1 at a time',
+    comp_g_sources: 'Web only',
+    comp_xref: 'Cross-referencing',
+    comp_activity: 'Competitor activity',
+    comp_ir_activity: '✓ Real-time',
+    comp_timestamp: 'Data timestamps',
+    comp_ir_timestamp: '✓ Verified',
+    comp_ai: 'Feed to AI agents',
+    comp_ir_ai: '✓ Native',
+    comp_crowd: 'Crowd intelligence',
   },
   zh: {
     nav_home: '\u9996\u9801',
@@ -1485,6 +1629,45 @@ const i18n = {
     lang_toggle: 'EN',
     lang_changed: '語言已切換，重新搜尋可更新結果語言',
     privacy_note: '查詢記錄以匿名方式記錄用於改善服務，不收集任何個人資料。',
+    // Hero stats
+    stat_ideas: '已掃描點子數',
+    stat_sources: '每次掃描來源',
+    stat_updated: '資料庫更新時間',
+    // Blurred preview titles
+    preview_subdim: '子維度評分',
+    preview_comp: '競品排行',
+    preview_strat: '策略分析',
+    // CTA cards
+    cta_single_title: '完整報告',
+    cta_single_sub: '一次性購買 · 僅限此點子',
+    cta_s1: '4 個子維度評分',
+    cta_s2: '已驗證競品 + 活躍度',
+    cta_s3: 'AI 策略分析 (Sonnet)',
+    cta_s4: '群眾智慧數據',
+    cta_s5: 'AI 可直接讀取格式',
+    cta_best_value: '最超值',
+    cta_pro_title: 'Pro',
+    cta_per_month: '/月',
+    cta_pro_sub: '無限次報告',
+    cta_p1: '包含完整報告所有功能，另加：',
+    cta_p2: '多角度掃描（3-5 個視角）',
+    cta_p3: '15 個競品（單次僅 8 個）',
+    cta_p4: '每月無限次掃描',
+    cta_p5: 'JSON API 存取',
+    coming_soon: '即將推出',
+    // Comparison grid
+    comp_sources: '掃描來源數',
+    comp_ir_sources: '5 個同時掃描',
+    comp_gpt_sources: '一次一個',
+    comp_g_sources: '僅搜尋網頁',
+    comp_xref: '交叉比對',
+    comp_activity: '競品活躍度',
+    comp_ir_activity: '✓ 即時',
+    comp_timestamp: '數據時間戳',
+    comp_ir_timestamp: '✓ 已驗證',
+    comp_ai: '接入 AI 代理',
+    comp_ir_ai: '✓ 原生支援',
+    comp_crowd: '群眾智慧',
   }
 };
 
@@ -2287,6 +2470,34 @@ textarea.addEventListener('keydown', (e) => {
 // Init
 applyLang();
 checkPaymentCompletion();
+
+// Fetch live stats for hero
+(async () => {
+  try {
+    const res = await fetch(`${API_BASE}/api/stats`);
+    if (res.ok) {
+      const stats = await res.json();
+      const totalEl = document.getElementById('stat-total');
+      const updatedEl = document.getElementById('stat-updated');
+      if (totalEl) totalEl.textContent = (stats.total_ideas_scanned || 0).toLocaleString();
+      // Update crowd intelligence count in comparison grid
+      const crowdEl = document.getElementById('comp-crowd-val');
+      if (crowdEl) crowdEl.textContent = `✓ ${(stats.total_ideas_scanned || 0).toLocaleString()}+ ideas`;
+      if (updatedEl) {
+        // Show "just now" style timestamp
+        const now = new Date();
+        updatedEl.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      }
+    }
+  } catch(e) {
+    // Fallback: show current time anyway
+    const updatedEl = document.getElementById('stat-updated');
+    if (updatedEl) {
+      const now = new Date();
+      updatedEl.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+    }
+  }
+})();
 </script>
 </body>
 </html>
