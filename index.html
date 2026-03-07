@@ -53,8 +53,8 @@
   --cyan: #00e5ff;
   --cyan-dim: #00e5ff33;
   --cyan-glow: #00e5ff15;
-  --green: #00ff88;
-  --green-dim: #00ff8833;
+  --accent: #00b4ff;
+  --accent-dim: #00b4ff33;
   --red: #ff3366;
   --red-dim: #ff336633;
   --amber: #ffaa00;
@@ -293,7 +293,7 @@ section {
 .hero-product-card:hover::before { opacity: 1; }
 .hero-product-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
 
-.hero-product-card.ir::before { background: var(--green); }
+.hero-product-card.ir::before { background: var(--accent); }
 .hero-product-card.tm::before { background: var(--cyan); }
 
 .hero-product-card .card-header {
@@ -315,7 +315,7 @@ section {
   color: var(--text-dim);
 }
 
-.hero-product-card.ir .card-stats { color: var(--green); }
+.hero-product-card.ir .card-stats { color: var(--accent); }
 .hero-product-card.tm .card-stats { color: var(--cyan); }
 
 .hero-product-card .card-desc {
@@ -339,8 +339,8 @@ section {
 }
 
 .hero-product-card.ir .card-cta:hover {
-  border-color: var(--green);
-  color: var(--green);
+  border-color: var(--accent);
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -487,7 +487,7 @@ section {
 }
 .terminal-dot.red { background: var(--red); }
 .terminal-dot.amber { background: var(--amber); }
-.terminal-dot.green { background: var(--green); }
+.terminal-dot.green { background: var(--accent); }
 
 .terminal-title {
   margin-left: 12px;
@@ -514,7 +514,7 @@ section {
 .t-cmd { color: #fff; }
 .t-dim { color: var(--text-dim); }
 .t-key { color: var(--text); }
-.t-success { color: var(--green); }
+.t-success { color: var(--accent); }
 .t-warn { color: var(--amber); }
 .t-error { color: var(--red); }
 .t-value { color: var(--cyan); font-weight: 600; }
@@ -639,7 +639,7 @@ section {
 .project-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
 
 .project-card.tradememory::before { background: var(--cyan); }
-.project-card.idea-reality::before { background: var(--green); }
+.project-card.idea-reality::before { background: var(--accent); }
 
 .project-tag {
   font-family: var(--font-mono);
@@ -658,8 +658,8 @@ section {
 }
 
 .project-card.idea-reality .project-tag {
-  color: var(--green);
-  background: var(--green-dim);
+  color: var(--accent);
+  background: var(--accent-dim);
 }
 
 .project-card h3 {
@@ -697,8 +697,8 @@ section {
 }
 
 .project-card.idea-reality .project-link:hover {
-  border-color: var(--green);
-  color: var(--green);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ===== FOOTER ===== */

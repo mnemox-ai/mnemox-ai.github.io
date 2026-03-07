@@ -105,8 +105,8 @@
   --cyan: #00e5ff;
   --cyan-dim: #00e5ff33;
   --cyan-glow: #00e5ff15;
-  --green: #00ff88;
-  --green-dim: #00ff8833;
+  --accent: #00b4ff;
+  --accent-dim: #00b4ff33;
   --red: #ff3366;
   --red-dim: #ff336633;
   --amber: #ffaa00;
@@ -496,7 +496,7 @@ nav {
   margin-top: 12px;
 }
 
-.likelihood-low { background: var(--green-dim); color: var(--green); }
+.likelihood-low { background: var(--accent-dim); color: var(--accent); }
 .likelihood-medium { background: var(--amber-dim); color: var(--amber); }
 .likelihood-high { background: var(--red-dim); color: var(--red); }
 
@@ -790,7 +790,7 @@ nav {
 .preview-bar-fill {
   height: 100%;
   border-radius: 3px;
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
 }
 .preview-bar-value {
   width: 30px;
@@ -818,13 +818,13 @@ nav {
   position: relative;
 }
 .cta-card.pro-cta {
-  border-color: #00ff8844;
+  border-color: #00b4ff44;
 }
 .cta-badge {
   position: absolute;
   top: -10px;
   right: 16px;
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
   color: #000;
   font-size: 11px;
   font-weight: 700;
@@ -870,7 +870,7 @@ nav {
   content: '\2713';
   position: absolute;
   left: 0;
-  color: var(--green, #00ff88);
+  color: var(--accent, #00b4ff);
   font-weight: 700;
 }
 .cta-btn {
@@ -887,14 +887,14 @@ nav {
 }
 .single-btn {
   background: #1a2a1f;
-  color: var(--green, #00ff88);
-  border: 1px solid #00ff8844;
+  color: var(--accent, #00b4ff);
+  border: 1px solid #00b4ff44;
 }
 .single-btn:hover {
   background: #1f3a25;
 }
 .pro-btn {
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
   color: #000;
 }
 .pro-btn:hover {
@@ -923,7 +923,7 @@ nav {
   width: 48px;
   height: 48px;
   border: 3px solid #1a1a28;
-  border-top-color: var(--green, #00ff88);
+  border-top-color: var(--accent, #00b4ff);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 24px;
@@ -963,7 +963,7 @@ nav {
 .report-loading-bar {
   height: 100%;
   width: 0%;
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
   border-radius: 2px;
   transition: width 0.5s ease;
 }
@@ -988,7 +988,7 @@ nav {
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--green, #00ff88);
+  color: var(--accent, #00b4ff);
   margin-bottom: 16px;
 }
 #paid-report .sub-dim-bar {
@@ -1012,7 +1012,7 @@ nav {
 #paid-report .sub-dim-fill {
   height: 100%;
   border-radius: 4px;
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
   transition: width 0.6s ease;
 }
 #paid-report .sub-dim-value {
@@ -1039,7 +1039,7 @@ nav {
   font-weight: 600;
   color: #fff;
 }
-#paid-report .competitor-name a { color: var(--green, #00ff88); text-decoration: none; }
+#paid-report .competitor-name a { color: var(--accent, #00b4ff); text-decoration: none; }
 #paid-report .competitor-name a:hover { text-decoration: underline; }
 #paid-report .competitor-stars {
   font-family: 'JetBrains Mono', monospace;
@@ -1058,7 +1058,7 @@ nav {
   font-size: 11px;
   color: #555;
 }
-#paid-report .competitor-meta .active { color: #00ff88; }
+#paid-report .competitor-meta .active { color: #00b4ff; }
 #paid-report .competitor-meta .stale { color: #ff6644; }
 #paid-report .strategic-text {
   font-size: 14px;
@@ -1092,7 +1092,7 @@ nav {
 }
 #paid-report .copy-btn {
   display: inline-block;
-  background: var(--green, #00ff88);
+  background: var(--accent, #00b4ff);
   color: #000;
   border: none;
   padding: 10px 24px;
@@ -1121,8 +1121,8 @@ nav {
   transition: all 0.2s;
 }
 #paid-report .download-btn:hover {
-  border-color: var(--green, #00ff88);
-  color: var(--green, #00ff88);
+  border-color: var(--accent, #00b4ff);
+  color: var(--accent, #00b4ff);
   text-decoration: none;
 }
 
@@ -1817,7 +1817,7 @@ function renderResults(data) {
   const signal = data.reality_signal || 0;
   const circumference = 2 * Math.PI * 78;
   const offset = circumference - (signal / 100) * circumference;
-  const gaugeColor = signal < 30 ? 'var(--green)' : signal < 61 ? 'var(--amber)' : 'var(--red)';
+  const gaugeColor = signal < 30 ? 'var(--accent)' : signal < 61 ? 'var(--amber)' : 'var(--red)';
 
   const gaugeFill = $('gauge-fill');
   gaugeFill.style.stroke = gaugeColor;
@@ -1846,7 +1846,7 @@ function renderResults(data) {
   const evidenceGrid = $('evidence-grid');
   evidenceGrid.innerHTML = '';
   const sourceLabels = { github: 'GitHub', hackernews: 'Hacker News', npm: 'npm', pypi: 'PyPI', producthunt: 'Product Hunt' };
-  const sourceColors = { github: 'var(--text)', hackernews: 'var(--amber)', npm: 'var(--red)', pypi: 'var(--cyan)', producthunt: 'var(--green)' };
+  const sourceColors = { github: 'var(--text)', hackernews: 'var(--amber)', npm: 'var(--red)', pypi: 'var(--cyan)', producthunt: 'var(--accent)' };
 
   const evidenceBySource = {};
   (data.evidence || []).forEach(e => {
@@ -2080,6 +2080,16 @@ async function checkPaymentCompletion() {
           // Hide loading overlay
           if (loadingOverlay) loadingOverlay.style.display = 'none';
           if (statusDiv) statusDiv.classList.remove('visible');
+
+          // Populate textarea with idea text
+          if (ideaText && textarea) textarea.value = ideaText;
+
+          // Restore free results (score, evidence, similars, pivots) from report_data
+          const rd = reportData.report_data || reportData;
+          rd.idea_hash = rd.idea_hash || reportData.idea_hash || ideaHash;
+          try { renderResults(rd); } catch(e) { console.warn('renderResults fallback:', e); }
+
+          // Then render paid report on top
           renderPaidReport(reportData, data.report_id);
           // Clean URL
           window.history.replaceState({}, '', window.location.pathname);
@@ -2229,7 +2239,7 @@ Based on this verified market data, help me create a product positioning plan th
     </div>
 
     <div class="ai-prompt-section">
-      <div class="report-section-title" style="color:var(--green,#00ff88);">Feed to AI Agent</div>
+      <div class="report-section-title" style="color:var(--accent,#00b4ff);">Feed to AI Agent</div>
       <p style="font-size:13px;color:#888;margin-bottom:12px;">Copy the text below and paste it to your AI coding agent (Claude, ChatGPT, Cursor) to generate an action plan:</p>
       <pre class="ai-prompt-pre">${aiPrompt.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
       <button class="copy-btn" onclick="copyAiPrompt(this)">Copy to Clipboard</button>
