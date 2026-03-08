@@ -1877,6 +1877,7 @@ function stopSuggestionRotation() {
 
 // ===== App Logic =====
 const $ = (id) => document.getElementById(id);
+function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 const textarea = $('idea-input');
 const charCount = $('char-count');
 
@@ -2167,8 +2168,8 @@ function renderResults(data) {
       const stars = s.stars ? `${s.stars.toLocaleString()} ${t('stars')}` : '';
       item.innerHTML = `
         <div class="similar-info">
-          <div class="similar-name"><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></div>
-          ${s.description ? `<div class="similar-desc">${s.description}</div>` : ''}
+          <div class="similar-name"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a></div>
+          ${s.description ? `<div class="similar-desc">${esc(s.description)}</div>` : ''}
         </div>
         ${stars ? `<div class="similar-meta">${stars}</div>` : ''}
       `;
@@ -2223,9 +2224,9 @@ function renderResults(data) {
     if (compPreview && similars.length > 0) {
       compPreview.innerHTML = similars.slice(0, 3).map(s => `
         <div style="padding:8px 0;border-bottom:1px solid #1a1a28;">
-          <span style="color:#fff;font-weight:600">${s.name}</span>
+          <span style="color:#fff;font-weight:600">${esc(s.name)}</span>
           <span style="color:#ffaa00;font-size:12px;margin-left:8px">${(s.stars||0).toLocaleString()} ★</span>
-          <div style="font-size:12px;color:#666;margin-top:4px">${(s.description||'').slice(0,80)}...</div>
+          <div style="font-size:12px;color:#666;margin-top:4px">${esc((s.description||'').slice(0,80))}...</div>
         </div>
       `).join('');
     }
@@ -2250,7 +2251,6 @@ async function startCheckout(tier) {
         depth: $('depth-toggle').checked ? 'deep' : 'quick',
         success_url: window.location.origin + window.location.pathname +
           '?checkout_complete=1&idea_hash=' + encodeURIComponent(ideaHash) +
-          '&idea_text=' + encodeURIComponent(ideaText) +
           '&tier=' + tier,
         tier: tier,
       }),
@@ -2258,6 +2258,7 @@ async function startCheckout(tier) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (data.checkout_url) {
+      localStorage.setItem('ir_pending_idea', ideaText);
       window.location.href = data.checkout_url;
     }
   } catch (err) {
@@ -2272,7 +2273,7 @@ async function checkPaymentCompletion() {
   if (!params.has('checkout_complete')) return;
 
   const ideaHash = params.get('idea_hash') || '';
-  const ideaText = params.get('idea_text') || '';
+  const ideaText = params.get('idea_text') || localStorage.getItem('ir_pending_idea') || '';
   const tier = params.get('tier') || 'single';
 
   if (!ideaHash) return;
@@ -2352,6 +2353,7 @@ async function checkPaymentCompletion() {
 
           // Then render paid report on top
           renderPaidReport(reportData, data.report_id);
+          localStorage.removeItem('ir_pending_idea');
           // Clean URL
           window.history.replaceState({}, '', window.location.pathname);
           return;
@@ -2421,13 +2423,14 @@ function renderPaidReport(data, reportId) {
     const actDays = typeof act === 'object' ? act.days_since_update : null;
     const isActive = actLabel.toLowerCase().includes('active');
     const daysStr = actDays !== null && actDays !== undefined ? ` · Updated ${actDays}d ago` : '';
+    const safeUrl = (c.url && c.url.startsWith('http')) ? c.url : '#';
     return `
       <div class="competitor-card">
         <div class="competitor-header">
-          <span class="competitor-name"><a href="${c.url || '#'}" target="_blank" rel="noopener">${actBadge} ${c.name}</a></span>
+          <span class="competitor-name"><a href="${esc(safeUrl)}" target="_blank" rel="noopener">${actBadge} ${esc(c.name)}</a></span>
           <span class="competitor-stars">${(c.stars||0).toLocaleString()} ★</span>
         </div>
-        ${c.description ? `<div class="competitor-desc">${c.description.slice(0, 200)}</div>` : ''}
+        ${c.description ? `<div class="competitor-desc">${esc(c.description.slice(0, 200))}</div>` : ''}
         <div class="competitor-meta">
           ${c.language ? `<span>${c.language}</span>` : ''}
           <span class="${isActive ? 'active' : 'stale'}">${actLabel}${daysStr}</span>
@@ -2440,7 +2443,7 @@ function renderPaidReport(data, reportId) {
   // Strategic analysis paragraphs
   const analysisParagraphs = analysis.split('\n\n')
     .filter(p => p.trim())
-    .map(p => `<p>${p.trim()}</p>`)
+    .map(p => '<p>' + esc(p.trim()) + '</p>')
     .join('');
 
   // Crowd intelligence
