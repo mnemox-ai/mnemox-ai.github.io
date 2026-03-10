@@ -1434,8 +1434,8 @@ footer a { color: var(--text-dim); }
         </div>
       </div>
 
-      <div class="dual-cta">
-        <div class="cta-card single-cta">
+      <div class="dual-cta" style="justify-content:center;">
+        <div class="cta-card single-cta" style="max-width:400px;">
           <div class="cta-header" data-i18n="cta_single_title">Full Report</div>
           <div class="cta-price">$9.99</div>
           <div class="cta-subtitle" data-i18n="cta_single_sub">One-time &middot; This idea only</div>
@@ -1446,21 +1446,9 @@ footer a { color: var(--text-dim); }
             <li data-i18n="cta_s4">Crowd intelligence</li>
             <li data-i18n="cta_s5">Feed-to-AI ready format</li>
           </ul>
-          <button class="cta-btn single-btn coming-soon-btn" disabled data-i18n="coming_soon">Coming Soon</button>
-        </div>
-        <div class="cta-card pro-cta">
-          <div class="cta-badge" data-i18n="cta_best_value">Best Value</div>
-          <div class="cta-header" data-i18n="cta_pro_title">Pro</div>
-          <div class="cta-price">$39<span data-i18n="cta_per_month">/month</span></div>
-          <div class="cta-subtitle" data-i18n="cta_pro_sub">Unlimited reports</div>
-          <ul class="cta-features">
-            <li data-i18n="cta_p1">Everything in Full, plus:</li>
-            <li data-i18n="cta_p2">Multi-angle scan (3-5 perspectives)</li>
-            <li data-i18n="cta_p3">15 competitors (vs 8 in single)</li>
-            <li data-i18n="cta_p4">Unlimited scans per month</li>
-            <li data-i18n="cta_p5">JSON API access</li>
-          </ul>
-          <button class="cta-btn pro-btn coming-soon-btn" disabled data-i18n="coming_soon">Coming Soon</button>
+          <a href="https://www.paypal.com/ncp/payment/BQ7JRSKRJZV2Y" target="_blank" rel="noopener"
+             class="cta-btn single-btn" style="display:inline-block;text-align:center;text-decoration:none;cursor:pointer;opacity:1;"
+             data-i18n="cta_buy_now">Get Full Report &rarr;</a>
         </div>
       </div>
 
@@ -1492,14 +1480,14 @@ footer a { color: var(--text-dim); }
 
       <div class="waitlist-section" id="waitlist-section">
         <div class="waitlist-card">
-          <span class="waitlist-icon">📩</span>
-          <span class="waitlist-text" data-i18n="waitlist_title">Get notified when paid reports launch</span>
+          <span class="waitlist-icon">✅</span>
+          <span class="waitlist-text" data-i18n="claim_title">Already paid? Enter your email to receive the full report.</span>
           <div class="waitlist-form" id="waitlist-form">
-            <input type="email" class="waitlist-input" id="waitlist-email" placeholder="you@example.com" maxlength="100">
-            <button class="waitlist-btn" id="waitlist-btn" onclick="submitWaitlist()" data-i18n="waitlist_btn">Notify Me</button>
+            <input type="email" class="waitlist-input" id="waitlist-email" placeholder="your PayPal email" maxlength="100">
+            <button class="waitlist-btn" id="waitlist-btn" onclick="submitClaim()" data-i18n="claim_btn">Claim Report</button>
           </div>
           <div class="waitlist-success" id="waitlist-success" style="display:none">
-            <span>✓</span> <span data-i18n="waitlist_done">We'll notify you when it's ready!</span>
+            <span>✓</span> <span data-i18n="claim_done">Got it! We'll send your full report within 24 hours.</span>
           </div>
         </div>
       </div>
@@ -1628,9 +1616,10 @@ const i18n = {
     comp_ir_ai: '✓ Native',
     comp_crowd: 'Crowd intelligence',
     on_github: 'on GitHub',
-    waitlist_title: 'Get notified when paid reports launch',
-    waitlist_btn: 'Notify Me',
-    waitlist_done: "We'll notify you when it's ready!",
+    claim_title: 'Already paid? Enter your email to receive the full report.',
+    claim_btn: 'Claim Report',
+    claim_done: "Got it! We'll send your full report within 24 hours.",
+    cta_buy_now: 'Get Full Report →',
   },
   zh: {
     nav_home: '\u9996\u9801',
@@ -1713,31 +1702,34 @@ const i18n = {
     comp_ai: '接入 AI 代理',
     comp_ir_ai: '✓ 原生支援',
     comp_crowd: '群眾智慧',
-    waitlist_title: '付費報告上線時通知我',
-    waitlist_btn: '通知我',
-    waitlist_done: '收到！上線時會通知您。',
+    claim_title: '已付款？輸入 email 領取完整報告。',
+    claim_btn: '領取報告',
+    claim_done: '收到！24 小時內寄出完整報告。',
+    cta_buy_now: '取得完整報告 →',
   }
 };
 
 let lang = localStorage.getItem('irm_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
 
-function submitWaitlist() {
+function submitClaim() {
   const email = document.getElementById('waitlist-email').value.trim();
   if (!email || !email.includes('@')) { alert('Please enter a valid email'); return; }
   const btn = document.getElementById('waitlist-btn');
   btn.disabled = true;
   btn.textContent = '...';
-  fetch(API_BASE + '/api/subscribe', {
+  const ideaHash = window._currentIdeaHash || '';
+  const ideaText = window._currentIdeaText || '';
+  fetch(API_BASE + '/api/claim-report', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({email: email, idea_hash: 'waitlist'})
+    body: JSON.stringify({email: email, idea_hash: ideaHash, idea_text: ideaText})
   }).then(r => {
     if (!r.ok) throw new Error('Failed');
     document.getElementById('waitlist-form').style.display = 'none';
     document.getElementById('waitlist-success').style.display = 'flex';
   }).catch(e => {
     btn.disabled = false;
-    btn.textContent = t('waitlist_btn');
+    btn.textContent = t('claim_btn');
     alert('Something went wrong. Please try again.');
   });
 }
