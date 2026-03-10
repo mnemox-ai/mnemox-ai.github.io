@@ -353,12 +353,24 @@ nav {
   color: var(--text-muted);
 }
 
+.depth-desc {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 6px 0 0 0;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+.depth-desc.is-deep {
+  color: var(--cyan);
+}
 .llm-hint {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-dim);
   text-align: center;
-  margin: 8px 0 0 0;
+  margin: 4px 0 0 0;
   letter-spacing: 0.3px;
   opacity: 0.7;
 }
@@ -1377,6 +1389,7 @@ footer a { color: var(--text-dim); }
       <span class="char-count" id="char-count">0 / 500</span>
       <button class="btn-check" id="btn-check" onclick="checkIdea()" data-i18n="check_btn">Check Reality</button>
     </div>
+    <p class="depth-desc" id="depth-desc" data-i18n="depth_desc_quick">Free — GitHub + Hacker News</p>
     <p class="llm-hint" data-i18n="llm_hint">Powered by <a href="https://claude.ai" target="_blank" rel="noopener" class="claude-link">Claude</a> — understands your intent, not just keywords.</p>
   </div>
 
@@ -1548,6 +1561,36 @@ footer a { color: var(--text-dim); }
 <script>
 const API_BASE = 'https://idea-reality-mcp.onrender.com';
 
+// ===== Funnel Analytics =====
+const _sid = crypto.randomUUID();
+const _eventBuffer = [];
+const _sessionStart = Date.now();
+
+function _ua() {
+  const ua = navigator.userAgent;
+  const mobile = /Mobi|Android|iPhone|iPad/.test(ua);
+  const browser = /Chrome/.test(ua) ? 'chrome' : /Firefox/.test(ua) ? 'firefox' : /Safari/.test(ua) ? 'safari' : 'other';
+  return { ua_device: mobile ? 'mobile' : 'desktop', ua_browser: browser };
+}
+
+function trackEvent(name, meta) {
+  _eventBuffer.push({ event_name: name, metadata: meta || {}, ts: Date.now() });
+}
+
+function flushEvents() {
+  if (_eventBuffer.length === 0) return;
+  const payload = JSON.stringify({ session_id: _sid, events: _eventBuffer.splice(0) });
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(API_BASE + '/api/event', new Blob([payload], { type: 'application/json' }));
+  } else {
+    fetch(API_BASE + '/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+  }
+}
+
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushEvents(); });
+window.addEventListener('pagehide', flushEvents);
+setInterval(() => { if (_eventBuffer.length > 0) flushEvents(); }, 30000);
+
 function timeAgo(isoString) {
   try {
     const diff = Date.now() - new Date(isoString).getTime();
@@ -1571,6 +1614,8 @@ const i18n = {
     quick: 'Quick',
     deep: 'Deep',
     llm_hint: 'Powered by <a href="https://claude.ai" target="_blank" rel="noopener" class="claude-link">Claude</a> \u2014 understands your intent, not just keywords.',
+    depth_desc_quick: 'Free \u2014 GitHub + Hacker News',
+    depth_desc_deep: '5 sources + AI analysis + full report \u2014 $9.99',
     check_btn: 'Check Reality',
     reality_signal: 'Reality Signal',
     evidence: 'Evidence',
@@ -1661,6 +1706,8 @@ const i18n = {
     quick: '\u5feb\u901f',
     deep: '\u6df1\u5ea6',
     llm_hint: '\u7531 <a href="https://claude.ai" target="_blank" rel="noopener" class="claude-link">Claude</a> \u9a45\u52d5 \u2014 \u7406\u89e3\u4f60\u7684\u610f\u5716\uff0c\u4e0d\u53ea\u662f\u5339\u914d\u95dc\u9375\u5b57\u3002',
+    depth_desc_quick: '\u514d\u8cbb \u2014 GitHub + Hacker News',
+    depth_desc_deep: '5 \u5927\u5e73\u53f0 + AI \u5206\u6790 + \u5b8c\u6574\u5831\u544a \u2014 $9.99',
     check_btn: '\u958b\u59cb\u6aa2\u6e2c',
     reality_signal: '\u73fe\u5be6\u4fe1\u865f',
     evidence: '\u8b49\u64da',
@@ -1748,6 +1795,9 @@ const i18n = {
 let lang = localStorage.getItem('irm_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
 
 function onPayPalClick() {
+  trackEvent('paypal_click', { score: window._currentSignalData?.reality_signal || 0, depth: $('depth-toggle').checked ? 'deep' : 'quick', idea_hash: window._currentIdeaHash || '' });
+  flushEvents();
+  gtag('event', 'paypal_intent', { score: window._currentSignalData?.reality_signal || 0 });
   // Show unlock section with countdown
   const sec = document.getElementById('unlock-section');
   if (sec) sec.style.display = 'block';
@@ -1777,17 +1827,24 @@ async function unlockReport() {
   if (!ideaText) { alert('Please scan an idea first.'); return; }
 
   try {
+    trackEvent('unlock_start', { idea_hash: window._currentIdeaHash || '' });
+    flushEvents();
     const res = await fetch(API_BASE + '/api/unlock-report', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-session-id': _sid },
       body: JSON.stringify({ idea_text: ideaText, lang: lang }),
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
+    trackEvent('unlock_complete', { score: data.score || 0 });
+    flushEvents();
+    gtag('event', 'report_unlocked', { score: data.score || 0 });
     // Render the full paid report inline
     renderPaidReport(data, '');
   } catch (e) {
     console.error('Unlock error:', e);
+    trackEvent('unlock_fail', { error: (e.message || 'unknown').slice(0, 100) });
+    flushEvents();
     if (btn) { btn.disabled = false; btn.textContent = t('unlock_ready') || 'Unlock Full Report'; }
     alert('Report generation failed. Please try the email fallback below.');
   }
@@ -1796,6 +1853,8 @@ async function unlockReport() {
 function submitClaim() {
   const email = document.getElementById('waitlist-email').value.trim();
   if (!email || !email.includes('@')) { alert('Please enter a valid email'); return; }
+  trackEvent('claim_report', { has_idea_hash: !!window._currentIdeaHash });
+  flushEvents();
   const btn = document.getElementById('waitlist-btn');
   btn.disabled = true;
   btn.textContent = '...';
@@ -1956,19 +2015,38 @@ const $ = (id) => document.getElementById(id);
 function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 const textarea = $('idea-input');
 const charCount = $('char-count');
+let _focusTracked = false;
+let _inputTracked = false;
 
 textarea.addEventListener('input', () => {
   charCount.textContent = `${textarea.value.length} / 500`;
   if (textarea.value.length > 0) {
     stopSuggestionRotation();
+    if (!_inputTracked) { trackEvent('textarea_input', { time_since_load_ms: Date.now() - _sessionStart }); _inputTracked = true; }
   } else {
     startSuggestionRotation();
   }
 });
 
 textarea.addEventListener('focus', () => {
+  if (!_focusTracked) { trackEvent('textarea_focus', { time_since_load_ms: Date.now() - _sessionStart }); _focusTracked = true; }
   if (textarea.value.length === 0) startSuggestionRotation();
 });
+
+$('depth-toggle').addEventListener('change', function() {
+  trackEvent('depth_toggle', { new_value: this.checked ? 'deep' : 'quick' });
+  updateDepthDesc();
+});
+
+function updateDepthDesc() {
+  const desc = $('depth-desc');
+  if (!desc) return;
+  const isDeep = $('depth-toggle').checked;
+  const key = isDeep ? 'depth_desc_deep' : 'depth_desc_quick';
+  desc.textContent = t(key);
+  desc.dataset.i18n = key;
+  desc.classList.toggle('is-deep', isDeep);
+}
 
 // Start rotation on page load
 startSuggestionRotation();
@@ -1977,6 +2055,7 @@ let lastResultData = null;
 
 function copyToAI() {
   if (!lastResultData) return;
+  trackEvent('copy_to_ai', { score: lastResultData.reality_signal || 0 });
   const d = lastResultData;
   const idea = textarea.value.trim();
   const signal = d.reality_signal;
@@ -2105,6 +2184,10 @@ async function checkIdea() {
 
   const depth = $('depth-toggle').checked ? 'deep' : 'quick';
 
+  trackEvent('scan_start', { depth, idea_length: ideaText.length, lang });
+  flushEvents();
+  gtag('event', 'scan_initiated', { depth });
+
   setState('waking');
 
   const awake = await waitForServer();
@@ -2118,7 +2201,7 @@ async function checkIdea() {
   try {
     const resp = await fetch(`${API_BASE}/api/check`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-session-id': _sid },
       body: JSON.stringify({ idea_text: ideaText, depth, lang }),
     });
 
@@ -2137,6 +2220,8 @@ async function checkIdea() {
 
     const data = await resp.json();
     setState('results', data);
+    trackEvent('scan_complete', { depth, score: data.reality_signal, duplicate_likelihood: data.duplicate_likelihood, top_similar_count: (data.top_similars || []).length });
+    gtag('event', 'scan_result', { score: data.reality_signal, depth, likelihood: data.duplicate_likelihood });
     const _totalEl = document.getElementById('stat-total');
     if (_totalEl) {
       const _cur = parseInt(_totalEl.textContent.replace(/,/g, '')) || 0;
@@ -2276,6 +2361,13 @@ function renderResults(data) {
   const blurredPreview = $('blurred-preview');
   if (blurredPreview) {
     blurredPreview.style.display = 'block';
+    // Track scroll into blurred preview (once per session)
+    if (!window._scrollObserver) {
+      window._scrollObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { trackEvent('results_scroll', { score: window._currentSignalData?.reality_signal || 0 }); window._scrollObserver.disconnect(); }
+      }, { threshold: 0.3 });
+    }
+    window._scrollObserver.observe(blurredPreview);
 
     // Render preview sub-dimension bars (blurred)
     const subDims = $('preview-subdimensions');
@@ -2610,6 +2702,7 @@ function copyAiPrompt(btn) {
 }
 
 function resetForm() {
+  trackEvent('reset_form', { had_results: !!lastResultData });
   setState('idle');
   $('gauge-fill').style.strokeDashoffset = 490;
   $('gauge-number').textContent = '0';
@@ -2660,6 +2753,9 @@ setInterval(fetchStats, 60000);
     document.getElementById('github-badge').style.display = '';
   } catch(e) {}
 })();
+
+// page_load event (last — everything above is initialized)
+trackEvent('page_load', { ..._ua(), referrer: document.referrer.slice(0, 200), lang: lang, depth_default: $('depth-toggle').checked ? 'deep' : 'quick' });
 </script>
 </body>
 </html>
