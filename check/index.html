@@ -1554,6 +1554,51 @@ footer a { color: var(--text-dim); }
 
 </div>
 
+<section id="static-content" style="background:#0a0e1a; color:#e0e0e0; padding:3rem 2rem; font-family:sans-serif; line-height:1.7; max-width:800px; margin:0 auto;">
+
+  <h2 style="color:#ffffff;">What is Idea Reality Check?</h2>
+  <p>Idea Reality Check is a pre-build validation tool that scans GitHub, Hacker News, npm, PyPI, and Product Hunt to measure how crowded your software idea's market already is. It returns a reality signal score from 0 to 100, helping developers and AI agents decide whether to build, pivot, or kill an idea before writing any code.</p>
+
+  <h2 style="color:#ffffff;">How It Works</h2>
+  <ol>
+    <li><strong>Enter your idea</strong> — Describe your software concept in plain English (e.g., "CLI tool for converting CSV to JSON").</li>
+    <li><strong>We scan 5 sources</strong> — The engine searches GitHub repos, Hacker News posts, npm packages, PyPI packages, and Product Hunt launches in parallel.</li>
+    <li><strong>Get your reality signal</strong> — A score from 0 (no competition found) to 100 (highly saturated market), with a breakdown by source and actionable recommendations.</li>
+  </ol>
+
+  <h2 style="color:#ffffff;">Comparison</h2>
+  <table style="width:100%; border-collapse:collapse; margin:1rem 0;">
+    <thead>
+      <tr style="border-bottom:2px solid #333;">
+        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Feature</th>
+        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Idea Reality Check</th>
+        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Google Search</th>
+        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">ChatGPT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="border:1px solid #333; padding:8px 12px;">Developer-focused sources</td><td style="border:1px solid #333; padding:8px 12px;">GitHub, npm, PyPI, HN, PH</td><td style="border:1px solid #333; padding:8px 12px;">General web pages</td><td style="border:1px solid #333; padding:8px 12px;">Training data (stale)</td></tr>
+      <tr><td style="border:1px solid #333; padding:8px 12px;">Quantified score</td><td style="border:1px solid #333; padding:8px 12px;">0–100 reality signal</td><td style="border:1px solid #333; padding:8px 12px;">No score</td><td style="border:1px solid #333; padding:8px 12px;">No score</td></tr>
+      <tr><td style="border:1px solid #333; padding:8px 12px;">Real-time data</td><td style="border:1px solid #333; padding:8px 12px;">Yes (live API calls)</td><td style="border:1px solid #333; padding:8px 12px;">Yes</td><td style="border:1px solid #333; padding:8px 12px;">No (knowledge cutoff)</td></tr>
+      <tr><td style="border:1px solid #333; padding:8px 12px;">MCP / AI agent integration</td><td style="border:1px solid #333; padding:8px 12px;">Yes (MCP tool)</td><td style="border:1px solid #333; padding:8px 12px;">No</td><td style="border:1px solid #333; padding:8px 12px;">No</td></tr>
+      <tr><td style="border:1px solid #333; padding:8px 12px;">Actionable recommendation</td><td style="border:1px solid #333; padding:8px 12px;">Build / Pivot / Kill</td><td style="border:1px solid #333; padding:8px 12px;">Manual analysis</td><td style="border:1px solid #333; padding:8px 12px;">Subjective opinion</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="color:#ffffff;">Pricing</h2>
+  <ul style="list-style:none; padding:0;">
+    <li style="margin-bottom:0.5rem;"><strong>Quick Check</strong> — Free (GitHub + Hacker News)</li>
+    <li><strong>Deep Check</strong> — $9.99 (GitHub + HN + npm + PyPI + Product Hunt)</li>
+  </ul>
+
+  <h2 style="color:#ffffff;">Install as MCP Tool</h2>
+  <p>Install via pip and add to your MCP client configuration:</p>
+  <pre style="background:#111827; color:#a5f3fc; padding:1rem; border-radius:6px; overflow-x:auto;"><code>pip install idea-reality-mcp</code></pre>
+  <p>Then run as an MCP stdio server:</p>
+  <pre style="background:#111827; color:#a5f3fc; padding:1rem; border-radius:6px; overflow-x:auto;"><code>python -m idea_reality_mcp</code></pre>
+
+</section>
+
 <footer>
   <span>Mnemox AI</span>
   <span data-i18n="powered_by">Powered by</span>&nbsp;<a href="https://github.com/mnemox-ai/idea-reality-mcp">idea-reality-mcp</a>
