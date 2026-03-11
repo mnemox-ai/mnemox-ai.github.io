@@ -1631,11 +1631,12 @@ function trackEvent(name, meta) {
 function flushEvents() {
   if (_eventBuffer.length === 0) return;
   const payload = JSON.stringify({ session_id: _sid, events: _eventBuffer.splice(0) });
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(API_BASE + '/api/event', new Blob([payload], { type: 'application/json' }));
-  } else {
-    fetch(API_BASE + '/api/event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
-  }
+  fetch(API_BASE + '/api/event', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: payload,
+    keepalive: true
+  }).catch(err => console.warn('[track] flush failed:', err.message));
 }
 
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushEvents(); });
