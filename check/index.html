@@ -1508,10 +1508,10 @@ footer a { color: var(--text-dim); }
             <span data-i18n="comp_sources">Sources scanned</span><span class="comp-win" data-i18n="comp_ir_sources">5 in parallel</span><span data-i18n="comp_gpt_sources">1 at a time</span><span data-i18n="comp_g_sources">Web only</span>
           </div>
           <div class="comp-row">
-            <span>Market trend detection</span><span class="comp-win">&#x2197; / &#x2192; / &#x2198;</span><span>&#x2717; No</span><span>&#x2717; No</span>
+            <span data-i18n="comp_trend">Market trend</span><span class="comp-win" data-i18n="comp_ir_trend">&#x2197; / &#x2192; / &#x2198;</span><span>&#x2717;</span><span>&#x2717;</span>
           </div>
           <div class="comp-row">
-            <span>Temporal analysis</span><span class="comp-win">Recency + momentum</span><span>&#x2717; No</span><span>&#x2717; No</span>
+            <span data-i18n="comp_temporal">Temporal analysis</span><span class="comp-win" data-i18n="comp_ir_temporal">Recency + momentum</span><span>&#x2717;</span><span>&#x2717;</span>
           </div>
           <div class="comp-row">
             <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">&#x2713; MCP native</span><span>—</span><span>&#x2717; No</span>
@@ -1555,52 +1555,52 @@ footer a { color: var(--text-dim); }
 
 <section id="static-content" style="background:#0a0e1a; color:#e0e0e0; padding:3rem 2rem; font-family:sans-serif; line-height:1.7; max-width:800px; margin:0 auto;">
 
-  <h2 style="color:#ffffff;">What is Idea Reality Check?</h2>
-  <p>Pre-build validation for developers and AI agents. Scans 5 live sources, scores your idea 0-100, and tells you whether the market is accelerating, stable, or declining — in 15 seconds.</p>
+  <h2 style="color:#ffffff;" data-i18n="sc_what_title">What is Idea Reality Check?</h2>
+  <p data-i18n="sc_what_desc">Pre-build validation for developers and AI agents. Scans 5 live sources, scores your idea 0-100, and tells you whether the market is accelerating, stable, or declining — in 15 seconds.</p>
 
-  <h2 style="color:#ffffff;">How It Works</h2>
+  <h2 style="color:#ffffff;" data-i18n="sc_how_title">How It Works</h2>
   <ol>
-    <li><strong>Enter your idea</strong> — Describe your software concept in plain English.</li>
-    <li><strong>We scan 5 sources in parallel</strong> — GitHub repos, Hacker News, npm, PyPI, Product Hunt.</li>
-    <li><strong>Get your reality signal</strong> — A 0-100 score with sub-dimension breakdown, market momentum tracking, and trend detection.</li>
+    <li data-i18n="sc_how_1"><strong>Enter your idea</strong> — Describe your software concept in plain English.</li>
+    <li data-i18n="sc_how_2"><strong>We scan 5 sources in parallel</strong> — GitHub repos, Hacker News, npm, PyPI, Product Hunt.</li>
+    <li data-i18n="sc_how_3"><strong>Get your reality signal</strong> — A 0-100 score with sub-dimension breakdown, market momentum tracking, and trend detection.</li>
   </ol>
 
   <details style="margin:1.5rem 0; border:1px solid #222; border-radius:8px; padding:0;">
     <summary style="cursor:pointer; padding:12px 16px; color:#00b4ff; font-weight:600; font-size:15px; list-style:none; display:flex; align-items:center; gap:8px;">
-      <span style="transition:transform 0.2s; display:inline-block;">&#9654;</span> How we compare to Google Search &amp; ChatGPT
+      <span style="transition:transform 0.2s; display:inline-block;">&#9654;</span> <span data-i18n="sc_compare_title">How we compare to Google Search &amp; ChatGPT</span>
     </summary>
     <div style="padding:0 16px 16px;">
       <table style="width:100%; border-collapse:collapse; margin:0.5rem 0; font-size:14px;">
         <thead>
           <tr style="border-bottom:2px solid #333;">
-            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">Feature</th>
+            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;" data-i18n="sc_th_feature">Feature</th>
             <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#00b4ff;">Idea Reality</th>
             <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">Google</th>
             <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">ChatGPT</th>
           </tr>
         </thead>
         <tbody style="color:#ccc;">
-          <tr><td style="border:1px solid #222; padding:8px 10px;">Data sources</td><td style="border:1px solid #222; padding:8px 10px;">5 developer platforms (live API)</td><td style="border:1px solid #222; padding:8px 10px;">General web</td><td style="border:1px solid #222; padding:8px 10px;">Training data (stale)</td></tr>
-          <tr><td style="border:1px solid #222; padding:8px 10px;">Quantified score</td><td style="border:1px solid #222; padding:8px 10px;">0-100 + sub-dimensions</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
-          <tr><td style="border:1px solid #222; padding:8px 10px;">Market trend detection</td><td style="border:1px solid #222; padding:8px 10px;">Accelerating / Stable / Declining</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
-          <tr><td style="border:1px solid #222; padding:8px 10px;">Temporal analysis</td><td style="border:1px solid #222; padding:8px 10px;">Repo recency, HN trend, launch timing</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
-          <tr><td style="border:1px solid #222; padding:8px 10px;">MCP / AI agent native</td><td style="border:1px solid #222; padding:8px 10px;">Yes (MCP tool)</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
-          <tr><td style="border:1px solid #222; padding:8px 10px;">Output</td><td style="border:1px solid #222; padding:8px 10px;">Build / Pivot / Kill + evidence</td><td style="border:1px solid #222; padding:8px 10px;">Links to read</td><td style="border:1px solid #222; padding:8px 10px;">Subjective opinion</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_sources">Data sources</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_sources">5 developer platforms (live API)</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_g_sources">General web</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_gpt_sources">Training data (stale)</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_score">Quantified score</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_score">0-100 + sub-dimensions</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_trend">Market trend detection</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_trend">Accelerating / Stable / Declining</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_temporal">Temporal analysis</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_temporal">Repo recency, HN trend, launch timing</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_mcp">MCP / AI agent native</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_mcp">Yes (MCP tool)</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_no">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_row_output">Output</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_ir_output">Build / Pivot / Kill + evidence</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_g_output">Links to read</td><td style="border:1px solid #222; padding:8px 10px;" data-i18n="sc_gpt_output">Subjective opinion</td></tr>
         </tbody>
       </table>
     </div>
   </details>
 
-  <h2 style="color:#ffffff;">Pricing</h2>
+  <h2 style="color:#ffffff;" data-i18n="sc_pricing_title">Pricing</h2>
   <ul style="list-style:none; padding:0;">
-    <li style="margin-bottom:0.5rem;"><strong>Quick Check</strong> — Free (GitHub + Hacker News + trend detection)</li>
-    <li><strong>Deep Check</strong> — $9.99 (all 5 sources + full temporal analysis + market momentum)</li>
+    <li style="margin-bottom:0.5rem;" data-i18n="sc_pricing_quick"><strong>Quick Check</strong> — Free (GitHub + Hacker News + trend detection)</li>
+    <li data-i18n="sc_pricing_deep"><strong>Deep Check</strong> — $9.99 (all 5 sources + full temporal analysis + market momentum)</li>
   </ul>
 
-  <h2 style="color:#ffffff;">Install as MCP Tool</h2>
-  <p>Install via pip and add to your MCP client configuration:</p>
+  <h2 style="color:#ffffff;" data-i18n="sc_install_title">Install as MCP Tool</h2>
+  <p data-i18n="sc_install_desc">Install via pip and add to your MCP client configuration:</p>
   <pre style="background:#111827; color:#a5f3fc; padding:1rem; border-radius:6px; overflow-x:auto;"><code>pip install idea-reality-mcp</code></pre>
-  <p>Then run as an MCP stdio server:</p>
+  <p data-i18n="sc_install_then">Then run as an MCP stdio server:</p>
   <pre style="background:#111827; color:#a5f3fc; padding:1rem; border-radius:6px; overflow-x:auto;"><code>python -m idea_reality_mcp</code></pre>
 
 </section>
@@ -1742,10 +1742,46 @@ const i18n = {
     comp_ir_activity: '✓ Real-time',
     comp_timestamp: 'Data timestamps',
     comp_ir_timestamp: '✓ Verified',
+    comp_trend: 'Market trend',
+    comp_ir_trend: '\u2197 / \u2192 / \u2198',
+    comp_temporal: 'Temporal analysis',
+    comp_ir_temporal: 'Recency + momentum',
     comp_ai: 'Feed to AI agents',
-    comp_ir_ai: '✓ Native',
+    comp_ir_ai: '\u2713 MCP native',
     comp_crowd: 'Crowd intelligence',
     on_github: 'on GitHub',
+    // Static content (bottom section)
+    sc_what_title: 'What is Idea Reality Check?',
+    sc_what_desc: 'Pre-build validation for developers and AI agents. Scans 5 live sources, scores your idea 0-100, and tells you whether the market is accelerating, stable, or declining \u2014 in 15 seconds.',
+    sc_how_title: 'How It Works',
+    sc_how_1: '<strong>Enter your idea</strong> \u2014 Describe your software concept in plain English.',
+    sc_how_2: '<strong>We scan 5 sources in parallel</strong> \u2014 GitHub repos, Hacker News, npm, PyPI, Product Hunt.',
+    sc_how_3: '<strong>Get your reality signal</strong> \u2014 A 0-100 score with sub-dimension breakdown, market momentum tracking, and trend detection.',
+    sc_compare_title: 'How we compare to Google Search & ChatGPT',
+    sc_th_feature: 'Feature',
+    sc_row_sources: 'Data sources',
+    sc_ir_sources: '5 developer platforms (live API)',
+    sc_g_sources: 'General web',
+    sc_gpt_sources: 'Training data (stale)',
+    sc_row_score: 'Quantified score',
+    sc_ir_score: '0-100 + sub-dimensions',
+    sc_no: 'No',
+    sc_row_trend: 'Market trend detection',
+    sc_ir_trend: 'Accelerating / Stable / Declining',
+    sc_row_temporal: 'Temporal analysis',
+    sc_ir_temporal: 'Repo recency, HN trend, launch timing',
+    sc_row_mcp: 'MCP / AI agent native',
+    sc_ir_mcp: 'Yes (MCP tool)',
+    sc_row_output: 'Output',
+    sc_ir_output: 'Build / Pivot / Kill + evidence',
+    sc_g_output: 'Links to read',
+    sc_gpt_output: 'Subjective opinion',
+    sc_pricing_title: 'Pricing',
+    sc_pricing_quick: '<strong>Quick Check</strong> \u2014 Free (GitHub + Hacker News + trend detection)',
+    sc_pricing_deep: '<strong>Deep Check</strong> \u2014 $9.99 (all 5 sources + full temporal analysis + market momentum)',
+    sc_install_title: 'Install as MCP Tool',
+    sc_install_desc: 'Install via pip and add to your MCP client configuration:',
+    sc_install_then: 'Then run as an MCP stdio server:',
     claim_title: "Report didn't load? Enter your PayPal email and we'll send it manually.",
     claim_btn: 'Send Report',
     claim_done: "Got it! We'll send your full report within 24 hours.",
@@ -1835,9 +1871,45 @@ const i18n = {
     comp_timestamp: '數據時間戳',
     comp_ir_timestamp: '✓ 已驗證',
     on_github: 'GitHub 星數',
+    comp_trend: '市場趨勢',
+    comp_ir_trend: '\u2197 / \u2192 / \u2198',
+    comp_temporal: '時間維度分析',
+    comp_ir_temporal: '新鮮度 + 動能',
     comp_ai: '接入 AI 代理',
-    comp_ir_ai: '✓ 原生支援',
+    comp_ir_ai: '\u2713 原生支援',
     comp_crowd: '群眾智慧',
+    // Static content (bottom section)
+    sc_what_title: '什麼是 Idea Reality Check？',
+    sc_what_desc: '開發者和 AI Agent 的預建驗證工具。同時掃描 5 個即時來源，為你的點子評分 0-100，並告訴你市場正在加速、穩定還是衰退 — 只要 15 秒。',
+    sc_how_title: '運作方式',
+    sc_how_1: '<strong>輸入你的點子</strong> — 用自然語言描述你的軟體概念。',
+    sc_how_2: '<strong>同時掃描 5 個來源</strong> — GitHub 儲存庫、Hacker News、npm、PyPI、Product Hunt。',
+    sc_how_3: '<strong>取得現實信號</strong> — 0-100 分數，含子維度拆分、市場動能追蹤和趨勢偵測。',
+    sc_compare_title: '跟 Google 搜尋和 ChatGPT 的比較',
+    sc_th_feature: '功能',
+    sc_row_sources: '資料來源',
+    sc_ir_sources: '5 個開發者平台（即時 API）',
+    sc_g_sources: '一般網頁',
+    sc_gpt_sources: '訓練資料（過時）',
+    sc_row_score: '量化評分',
+    sc_ir_score: '0-100 + 子維度拆分',
+    sc_no: '無',
+    sc_row_trend: '市場趨勢偵測',
+    sc_ir_trend: '加速 / 穩定 / 衰退',
+    sc_row_temporal: '時間維度分析',
+    sc_ir_temporal: 'Repo 新鮮度、HN 趨勢、上架時間',
+    sc_row_mcp: 'MCP / AI Agent 原生',
+    sc_ir_mcp: '支援（MCP tool）',
+    sc_row_output: '輸出結果',
+    sc_ir_output: '做 / 轉向 / 放棄 + 證據',
+    sc_g_output: '連結自己看',
+    sc_gpt_output: '主觀意見',
+    sc_pricing_title: '定價',
+    sc_pricing_quick: '<strong>快速檢測</strong> — 免費（GitHub + Hacker News + 趨勢偵測）',
+    sc_pricing_deep: '<strong>深度檢測</strong> — $9.99（5 大平台 + 完整時間維度分析 + 市場動能）',
+    sc_install_title: '安裝為 MCP 工具',
+    sc_install_desc: '透過 pip 安裝並加入 MCP 客戶端設定：',
+    sc_install_then: '然後作為 MCP stdio server 執行：',
     claim_title: '報告沒出來？填入 PayPal email，我們手動寄給你。',
     claim_btn: '寄送報告',
     claim_done: '收到！24 小時內寄出完整報告。',
