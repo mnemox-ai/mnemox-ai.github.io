@@ -1508,19 +1508,16 @@ footer a { color: var(--text-dim); }
             <span data-i18n="comp_sources">Sources scanned</span><span class="comp-win" data-i18n="comp_ir_sources">5 in parallel</span><span data-i18n="comp_gpt_sources">1 at a time</span><span data-i18n="comp_g_sources">Web only</span>
           </div>
           <div class="comp-row">
-            <span data-i18n="comp_xref">Cross-referencing</span><span class="comp-win">✓ Auto</span><span>✗ Manual</span><span>✗ None</span>
+            <span>Market trend detection</span><span class="comp-win">&#x2197; / &#x2192; / &#x2198;</span><span>&#x2717; No</span><span>&#x2717; No</span>
           </div>
           <div class="comp-row">
-            <span data-i18n="comp_activity">Competitor activity</span><span class="comp-win" data-i18n="comp_ir_activity">✓ Real-time</span><span>✗ No</span><span>✗ No</span>
+            <span>Temporal analysis</span><span class="comp-win">Recency + momentum</span><span>&#x2717; No</span><span>&#x2717; No</span>
           </div>
           <div class="comp-row">
-            <span data-i18n="comp_timestamp">Data timestamps</span><span class="comp-win" data-i18n="comp_ir_timestamp">✓ Verified</span><span>✗ No</span><span>✗ No</span>
+            <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">&#x2713; MCP native</span><span>—</span><span>&#x2717; No</span>
           </div>
           <div class="comp-row">
-            <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">✓ Native</span><span>—</span><span>✗ No</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_crowd">Crowd intelligence</span><span class="comp-win" id="comp-crowd-val">✓ 998+ ideas</span><span>✗ No</span><span>✗ No</span>
+            <span data-i18n="comp_crowd">Crowd intelligence</span><span class="comp-win" id="comp-crowd-val">&#x2713; 998+ ideas</span><span>&#x2717; No</span><span>&#x2717; No</span>
           </div>
         </div>
       </div>
@@ -1559,38 +1556,45 @@ footer a { color: var(--text-dim); }
 <section id="static-content" style="background:#0a0e1a; color:#e0e0e0; padding:3rem 2rem; font-family:sans-serif; line-height:1.7; max-width:800px; margin:0 auto;">
 
   <h2 style="color:#ffffff;">What is Idea Reality Check?</h2>
-  <p>Idea Reality Check is a pre-build validation tool that scans GitHub, Hacker News, npm, PyPI, and Product Hunt to measure how crowded your software idea's market already is. It returns a reality signal score from 0 to 100, helping developers and AI agents decide whether to build, pivot, or kill an idea before writing any code.</p>
+  <p>Pre-build validation for developers and AI agents. Scans 5 live sources, scores your idea 0-100, and tells you whether the market is accelerating, stable, or declining — in 15 seconds.</p>
 
   <h2 style="color:#ffffff;">How It Works</h2>
   <ol>
-    <li><strong>Enter your idea</strong> — Describe your software concept in plain English (e.g., "CLI tool for converting CSV to JSON").</li>
-    <li><strong>We scan 5 sources</strong> — The engine searches GitHub repos, Hacker News posts, npm packages, PyPI packages, and Product Hunt launches in parallel.</li>
-    <li><strong>Get your reality signal</strong> — A score from 0 (no competition found) to 100 (highly saturated market), with a breakdown by source and actionable recommendations.</li>
+    <li><strong>Enter your idea</strong> — Describe your software concept in plain English.</li>
+    <li><strong>We scan 5 sources in parallel</strong> — GitHub repos, Hacker News, npm, PyPI, Product Hunt.</li>
+    <li><strong>Get your reality signal</strong> — A 0-100 score with sub-dimension breakdown, market momentum tracking, and trend detection.</li>
   </ol>
 
-  <h2 style="color:#ffffff;">Comparison</h2>
-  <table style="width:100%; border-collapse:collapse; margin:1rem 0;">
-    <thead>
-      <tr style="border-bottom:2px solid #333;">
-        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Feature</th>
-        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Idea Reality Check</th>
-        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">Google Search</th>
-        <th style="border:1px solid #333; padding:8px 12px; text-align:left;">ChatGPT</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td style="border:1px solid #333; padding:8px 12px;">Developer-focused sources</td><td style="border:1px solid #333; padding:8px 12px;">GitHub, npm, PyPI, HN, PH</td><td style="border:1px solid #333; padding:8px 12px;">General web pages</td><td style="border:1px solid #333; padding:8px 12px;">Training data (stale)</td></tr>
-      <tr><td style="border:1px solid #333; padding:8px 12px;">Quantified score</td><td style="border:1px solid #333; padding:8px 12px;">0–100 reality signal</td><td style="border:1px solid #333; padding:8px 12px;">No score</td><td style="border:1px solid #333; padding:8px 12px;">No score</td></tr>
-      <tr><td style="border:1px solid #333; padding:8px 12px;">Real-time data</td><td style="border:1px solid #333; padding:8px 12px;">Yes (live API calls)</td><td style="border:1px solid #333; padding:8px 12px;">Yes</td><td style="border:1px solid #333; padding:8px 12px;">No (knowledge cutoff)</td></tr>
-      <tr><td style="border:1px solid #333; padding:8px 12px;">MCP / AI agent integration</td><td style="border:1px solid #333; padding:8px 12px;">Yes (MCP tool)</td><td style="border:1px solid #333; padding:8px 12px;">No</td><td style="border:1px solid #333; padding:8px 12px;">No</td></tr>
-      <tr><td style="border:1px solid #333; padding:8px 12px;">Actionable recommendation</td><td style="border:1px solid #333; padding:8px 12px;">Build / Pivot / Kill</td><td style="border:1px solid #333; padding:8px 12px;">Manual analysis</td><td style="border:1px solid #333; padding:8px 12px;">Subjective opinion</td></tr>
-    </tbody>
-  </table>
+  <details style="margin:1.5rem 0; border:1px solid #222; border-radius:8px; padding:0;">
+    <summary style="cursor:pointer; padding:12px 16px; color:#00b4ff; font-weight:600; font-size:15px; list-style:none; display:flex; align-items:center; gap:8px;">
+      <span style="transition:transform 0.2s; display:inline-block;">&#9654;</span> How we compare to Google Search &amp; ChatGPT
+    </summary>
+    <div style="padding:0 16px 16px;">
+      <table style="width:100%; border-collapse:collapse; margin:0.5rem 0; font-size:14px;">
+        <thead>
+          <tr style="border-bottom:2px solid #333;">
+            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">Feature</th>
+            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#00b4ff;">Idea Reality</th>
+            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">Google</th>
+            <th style="border:1px solid #222; padding:8px 10px; text-align:left; color:#888;">ChatGPT</th>
+          </tr>
+        </thead>
+        <tbody style="color:#ccc;">
+          <tr><td style="border:1px solid #222; padding:8px 10px;">Data sources</td><td style="border:1px solid #222; padding:8px 10px;">5 developer platforms (live API)</td><td style="border:1px solid #222; padding:8px 10px;">General web</td><td style="border:1px solid #222; padding:8px 10px;">Training data (stale)</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;">Quantified score</td><td style="border:1px solid #222; padding:8px 10px;">0-100 + sub-dimensions</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;">Market trend detection</td><td style="border:1px solid #222; padding:8px 10px;">Accelerating / Stable / Declining</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;">Temporal analysis</td><td style="border:1px solid #222; padding:8px 10px;">Repo recency, HN trend, launch timing</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;">MCP / AI agent native</td><td style="border:1px solid #222; padding:8px 10px;">Yes (MCP tool)</td><td style="border:1px solid #222; padding:8px 10px;">No</td><td style="border:1px solid #222; padding:8px 10px;">No</td></tr>
+          <tr><td style="border:1px solid #222; padding:8px 10px;">Output</td><td style="border:1px solid #222; padding:8px 10px;">Build / Pivot / Kill + evidence</td><td style="border:1px solid #222; padding:8px 10px;">Links to read</td><td style="border:1px solid #222; padding:8px 10px;">Subjective opinion</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
 
   <h2 style="color:#ffffff;">Pricing</h2>
   <ul style="list-style:none; padding:0;">
-    <li style="margin-bottom:0.5rem;"><strong>Quick Check</strong> — Free (GitHub + Hacker News)</li>
-    <li><strong>Deep Check</strong> — $9.99 (GitHub + HN + npm + PyPI + Product Hunt)</li>
+    <li style="margin-bottom:0.5rem;"><strong>Quick Check</strong> — Free (GitHub + Hacker News + trend detection)</li>
+    <li><strong>Deep Check</strong> — $9.99 (all 5 sources + full temporal analysis + market momentum)</li>
   </ul>
 
   <h2 style="color:#ffffff;">Install as MCP Tool</h2>
