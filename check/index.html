@@ -2349,6 +2349,13 @@ function renderResults(data) {
   const offset = circumference - (signal / 100) * circumference;
   const gaugeColor = signal < 30 ? 'var(--accent)' : signal < 61 ? 'var(--amber)' : 'var(--red)';
 
+  // Only show Full Report CTA + comparison table for deep mode
+  const isDeep = $('depth-toggle').checked;
+  const ctaSection = document.querySelector('.dual-cta');
+  if (ctaSection) ctaSection.style.display = isDeep ? '' : 'none';
+  const ctaComp = document.querySelector('.cta-comparison');
+  if (ctaComp) ctaComp.style.display = isDeep ? '' : 'none';
+
   const gaugeFill = $('gauge-fill');
   gaugeFill.style.stroke = gaugeColor;
   gaugeFill.style.strokeDashoffset = offset;
