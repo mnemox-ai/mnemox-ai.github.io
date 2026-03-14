@@ -1426,6 +1426,49 @@ footer a { color: var(--text-dim); }
       <div id="likelihood-badge"></div>
     </div>
 
+    <div class="dual-cta" style="justify-content:center;">
+      <div class="cta-card single-cta" style="max-width:400px;">
+        <div class="cta-header" data-i18n="cta_single_title">Full Report</div>
+        <div class="cta-price">$9.99</div>
+        <div class="cta-subtitle" data-i18n="cta_single_sub">One-time &middot; This idea only</div>
+        <ul class="cta-features">
+          <li data-i18n="cta_s1">4 sub-dimension scores</li>
+          <li data-i18n="cta_s2">Verified competitors + activity</li>
+          <li data-i18n="cta_s3">AI strategic analysis (Sonnet)</li>
+          <li data-i18n="cta_s4">Crowd intelligence</li>
+          <li data-i18n="cta_s5">Feed-to-AI ready format</li>
+        </ul>
+        <button class="cta-btn single-btn" id="paypal-btn"
+           style="display:inline-block;text-align:center;cursor:pointer;opacity:1;border:none;"
+           onclick="startPayPalCheckout()"
+           data-i18n="cta_buy_now">Get Full Report &rarr;</button>
+        <p style="color:#666;font-size:12px;margin-top:12px;">Secure checkout via PayPal</p>
+      </div>
+    </div>
+
+    <div class="cta-comparison">
+      <div class="comparison-grid">
+        <div class="comp-row comp-header-row">
+          <span></span><span>Idea Reality</span><span>ChatGPT</span><span>Google</span>
+        </div>
+        <div class="comp-row">
+          <span data-i18n="comp_sources">Sources scanned</span><span class="comp-win" data-i18n="comp_ir_sources">5 in parallel</span><span data-i18n="comp_gpt_sources">1 at a time</span><span data-i18n="comp_g_sources">Web only</span>
+        </div>
+        <div class="comp-row">
+          <span data-i18n="comp_trend">Market trend</span><span class="comp-win" data-i18n="comp_ir_trend">&#x2197; / &#x2192; / &#x2198;</span><span>&#x2717;</span><span>&#x2717;</span>
+        </div>
+        <div class="comp-row">
+          <span data-i18n="comp_temporal">Temporal analysis</span><span class="comp-win" data-i18n="comp_ir_temporal">Recency + momentum</span><span>&#x2717;</span><span>&#x2717;</span>
+        </div>
+        <div class="comp-row">
+          <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">&#x2713; MCP native</span><span>—</span><span>&#x2717; No</span>
+        </div>
+        <div class="comp-row">
+          <span data-i18n="comp_crowd">Crowd intelligence</span><span class="comp-win" id="comp-crowd-val">&#x2713; 998+ ideas</span><span>&#x2717; No</span><span>&#x2717; No</span>
+        </div>
+      </div>
+    </div>
+
     <div class="gated-content" id="gated-content">
       <div class="evidence-section">
         <div class="section-label" data-i18n="evidence">Evidence</div>
@@ -1472,62 +1515,12 @@ footer a { color: var(--text-dim); }
         </div>
       </div>
 
-      <div class="dual-cta" style="justify-content:center;">
-        <div class="cta-card single-cta" style="max-width:400px;">
-          <div class="cta-header" data-i18n="cta_single_title">Full Report</div>
-          <div class="cta-price">$9.99</div>
-          <div class="cta-subtitle" data-i18n="cta_single_sub">One-time &middot; This idea only</div>
-          <ul class="cta-features">
-            <li data-i18n="cta_s1">4 sub-dimension scores</li>
-            <li data-i18n="cta_s2">Verified competitors + activity</li>
-            <li data-i18n="cta_s3">AI strategic analysis (Sonnet)</li>
-            <li data-i18n="cta_s4">Crowd intelligence</li>
-            <li data-i18n="cta_s5">Feed-to-AI ready format</li>
-          </ul>
-          <a href="https://www.paypal.com/ncp/payment/BQ7JRSKRJZV2Y" target="_blank" rel="noopener"
-             class="cta-btn single-btn" id="paypal-btn"
-             style="display:inline-block;text-align:center;text-decoration:none;cursor:pointer;opacity:1;"
-             onclick="onPayPalClick()"
-             data-i18n="cta_buy_now">Get Full Report &rarr;</a>
-          <div id="unlock-section" style="display:none;margin-top:20px;text-align:center;">
-            <p style="color:#aaa;font-size:13px;margin-bottom:12px;" data-i18n="unlock_hint">Completed payment on PayPal?</p>
-            <button class="cta-btn single-btn" id="unlock-btn" disabled
-                    style="opacity:0.4;cursor:not-allowed;"
-                    onclick="unlockReport()"
-                    data-i18n="unlock_btn">Unlock Full Report (<span id="unlock-countdown">15</span>s)</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="cta-comparison">
-        <div class="comparison-grid">
-          <div class="comp-row comp-header-row">
-            <span></span><span>Idea Reality</span><span>ChatGPT</span><span>Google</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_sources">Sources scanned</span><span class="comp-win" data-i18n="comp_ir_sources">5 in parallel</span><span data-i18n="comp_gpt_sources">1 at a time</span><span data-i18n="comp_g_sources">Web only</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_trend">Market trend</span><span class="comp-win" data-i18n="comp_ir_trend">&#x2197; / &#x2192; / &#x2198;</span><span>&#x2717;</span><span>&#x2717;</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_temporal">Temporal analysis</span><span class="comp-win" data-i18n="comp_ir_temporal">Recency + momentum</span><span>&#x2717;</span><span>&#x2717;</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_ai">Feed to AI agents</span><span class="comp-win" data-i18n="comp_ir_ai">&#x2713; MCP native</span><span>—</span><span>&#x2717; No</span>
-          </div>
-          <div class="comp-row">
-            <span data-i18n="comp_crowd">Crowd intelligence</span><span class="comp-win" id="comp-crowd-val">&#x2713; 998+ ideas</span><span>&#x2717; No</span><span>&#x2717; No</span>
-          </div>
-        </div>
-      </div>
-
       <div class="waitlist-section" id="waitlist-section">
         <div class="waitlist-card">
           <span class="waitlist-icon">📩</span>
-          <span class="waitlist-text" data-i18n="claim_title">Report didn't load? Enter your PayPal email and we'll send it manually.</span>
+          <span class="waitlist-text" data-i18n="claim_title">Report didn't load? Enter your email and we'll send it manually.</span>
           <div class="waitlist-form" id="waitlist-form">
-            <input type="email" class="waitlist-input" id="waitlist-email" placeholder="your PayPal email" maxlength="100">
+            <input type="email" class="waitlist-input" id="waitlist-email" placeholder="your email" maxlength="100">
             <button class="waitlist-btn" id="waitlist-btn" onclick="submitClaim()" data-i18n="claim_btn">Claim Report</button>
           </div>
           <div class="waitlist-success" id="waitlist-success" style="display:none">
@@ -1782,7 +1775,7 @@ const i18n = {
     sc_install_title: 'Install as MCP Tool',
     sc_install_desc: 'Install via pip and add to your MCP client configuration:',
     sc_install_then: 'Then run as an MCP stdio server:',
-    claim_title: "Report didn't load? Enter your PayPal email and we'll send it manually.",
+    claim_title: "Report didn't load? Enter your email and we'll send it manually.",
     claim_btn: 'Send Report',
     claim_done: "Got it! We'll send your full report within 24 hours.",
     cta_buy_now: 'Get Full Report →',
@@ -1910,7 +1903,7 @@ const i18n = {
     sc_install_title: '安裝為 MCP 工具',
     sc_install_desc: '透過 pip 安裝並加入 MCP 客戶端設定：',
     sc_install_then: '然後作為 MCP stdio server 執行：',
-    claim_title: '報告沒出來？填入 PayPal email，我們手動寄給你。',
+    claim_title: '報告沒出來？填入 email，我們手動寄給你。',
     claim_btn: '寄送報告',
     claim_done: '收到！24 小時內寄出完整報告。',
     cta_buy_now: '取得完整報告 →',
@@ -1922,60 +1915,46 @@ const i18n = {
 
 let lang = localStorage.getItem('irm_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
 
-function onPayPalClick() {
-  trackEvent('paypal_click', { score: window._currentSignalData?.reality_signal || 0, depth: $('depth-toggle').checked ? 'deep' : 'quick', idea_hash: window._currentIdeaHash || '' });
-  flushEvents();
-  gtag('event', 'paypal_intent', { score: window._currentSignalData?.reality_signal || 0 });
-  // Show unlock section with countdown
-  const sec = document.getElementById('unlock-section');
-  if (sec) sec.style.display = 'block';
-  const btn = document.getElementById('unlock-btn');
-  const span = document.getElementById('unlock-countdown');
-  let remaining = 15;
-  const timer = setInterval(() => {
-    remaining--;
-    if (span) span.textContent = remaining;
-    if (remaining <= 0) {
-      clearInterval(timer);
-      if (btn) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-        btn.innerHTML = t('unlock_ready') || 'Unlock Full Report';
-      }
-    }
-  }, 1000);
-}
-
-async function unlockReport() {
-  const btn = document.getElementById('unlock-btn');
-  if (btn) { btn.disabled = true; btn.textContent = 'Generating report...'; }
-
+async function startPayPalCheckout() {
   const ideaText = window._currentIdeaText;
+  const ideaHash = window._currentIdeaHash || '';
+  const depth = $('depth-toggle').checked ? 'deep' : 'quick';
+
   if (!ideaText) { alert('Please scan an idea first.'); return; }
 
+  trackEvent('paypal_click', { score: window._currentSignalData?.reality_signal || 0, depth, idea_hash: ideaHash });
+  flushEvents();
+  gtag('event', 'paypal_intent', { score: window._currentSignalData?.reality_signal || 0 });
+
+  const btn = document.getElementById('paypal-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting to PayPal...'; }
+
   try {
-    trackEvent('unlock_start', { idea_hash: window._currentIdeaHash || '' });
-    flushEvents();
-    const res = await fetch(API_BASE + '/api/unlock-report', {
+    const res = await fetch(API_BASE + '/api/create-paypal-order', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-session-id': _sid },
-      body: JSON.stringify({ idea_text: ideaText, lang: lang }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idea_text: ideaText, idea_hash: ideaHash, depth }),
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    trackEvent('unlock_complete', { score: data.score || 0 });
-    flushEvents();
-    gtag('event', 'report_unlocked', { score: data.score || 0 });
-    // Render the full paid report inline
-    renderPaidReport(data, '');
+
+    localStorage.setItem('ir_pending_idea', ideaText);
+    localStorage.setItem('ir_pending_hash', ideaHash);
+    localStorage.setItem('ir_pending_depth', depth);
+
+    window.location.href = data.approve_url;
   } catch (e) {
-    console.error('Unlock error:', e);
-    trackEvent('unlock_fail', { error: (e.message || 'unknown').slice(0, 100) });
+    console.error('PayPal checkout error:', e);
+    trackEvent('paypal_checkout_fail', { error: (e.message || 'unknown').slice(0, 100) });
     flushEvents();
-    if (btn) { btn.disabled = false; btn.textContent = t('unlock_ready') || 'Unlock Full Report'; }
-    alert('Report generation failed. Please try the email fallback below.');
+    if (btn) { btn.disabled = false; btn.textContent = t('cta_buy_now') || 'Get Full Report →'; }
+    alert('Payment system temporarily unavailable. Please try again.');
   }
+}
+
+// unlockReport() removed — payment verification now handled server-side via PayPal Checkout API
+function unlockReport() {
+  alert('Please use the payment button above.');
 }
 
 function submitClaim() {
@@ -2563,6 +2542,72 @@ async function startCheckout(tier) {
   }
 }
 
+// Handle PayPal Checkout API return
+async function handlePayPalReturn() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('paypal_complete')) return;
+
+  const orderId = params.get('token'); // PayPal passes order_id as "token"
+  const ideaText = localStorage.getItem('ir_pending_idea') || '';
+  const ideaHash = localStorage.getItem('ir_pending_hash') || '';
+  const depth = localStorage.getItem('ir_pending_depth') || 'quick';
+
+  if (!orderId) return;
+
+  // Show dedicated report loading overlay
+  const resultsDiv = $('results');
+  if (resultsDiv) resultsDiv.classList.add('visible');
+
+  let loadingOverlay = document.getElementById('report-loading');
+  if (!loadingOverlay) {
+    loadingOverlay = document.createElement('div');
+    loadingOverlay.id = 'report-loading';
+    loadingOverlay.innerHTML = `
+      <div class="report-loading-spinner"></div>
+      <div class="report-loading-title">Generating your report<span class="loading-dots"></span></div>
+      <div class="report-loading-sub">Capturing payment and generating full analysis...</div>
+      <div class="report-loading-progress">
+        <div class="report-loading-bar"></div>
+      </div>
+      <div class="report-loading-step" id="loading-step">Verifying payment...</div>
+    `;
+    if (resultsDiv) resultsDiv.appendChild(loadingOverlay);
+  }
+  loadingOverlay.style.display = 'flex';
+
+  try {
+    const res = await fetch(API_BASE + '/api/capture-paypal-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: orderId, idea_hash: ideaHash, idea_text: ideaText, depth }),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    if (data.status === 'complete') {
+      trackEvent('paypal_capture_complete', { idea_hash: ideaHash });
+      flushEvents();
+      gtag('event', 'report_unlocked', { method: 'paypal_checkout' });
+      renderPaidReport(data.report_data, data.report_id);
+    } else {
+      throw new Error('Payment not completed: ' + (data.status || 'unknown'));
+    }
+  } catch (e) {
+    console.error('PayPal capture error:', e);
+    trackEvent('paypal_capture_fail', { error: (e.message || 'unknown').slice(0, 100) });
+    flushEvents();
+    if (loadingOverlay) loadingOverlay.style.display = 'none';
+    alert('Payment verification failed. Please contact support or use the email fallback below.');
+  } finally {
+    // Clean up localStorage and URL
+    localStorage.removeItem('ir_pending_idea');
+    localStorage.removeItem('ir_pending_hash');
+    localStorage.removeItem('ir_pending_depth');
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+}
+
 // Check for payment completion on page load
 async function checkPaymentCompletion() {
   const params = new URLSearchParams(window.location.search);
@@ -2847,7 +2892,11 @@ textarea.addEventListener('keydown', (e) => {
 
 // Init
 applyLang();
-checkPaymentCompletion();
+if (new URLSearchParams(window.location.search).has('paypal_complete')) {
+  handlePayPalReturn();
+} else {
+  checkPaymentCompletion();
+}
 
 // Fetch live stats for hero
 function fetchStats() {
