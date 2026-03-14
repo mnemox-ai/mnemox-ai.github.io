@@ -1941,10 +1941,7 @@ async function startPayPalCheckout() {
     localStorage.setItem('ir_pending_idea', ideaText);
     localStorage.setItem('ir_pending_hash', ideaHash);
     localStorage.setItem('ir_pending_depth', depth);
-    // Save search results so we can restore them after PayPal redirect
-    if (window._currentSignalData) {
-      try { localStorage.setItem('ir_pending_results', JSON.stringify(window._currentSignalData)); } catch(e) {}
-    }
+    localStorage.setItem('ir_pending_lang', lang);
 
     window.location.href = data.approve_url;
   } catch (e) {
@@ -2561,35 +2558,28 @@ async function handlePayPalReturn() {
   const orderId = params.get('token'); // PayPal passes order_id as "token"
   const ideaText = localStorage.getItem('ir_pending_idea') || '';
   const ideaHash = localStorage.getItem('ir_pending_hash') || '';
-  const depth = localStorage.getItem('ir_pending_depth') || 'quick';
+  const depth = localStorage.getItem('ir_pending_depth') || 'deep';
+  const language = localStorage.getItem('ir_pending_lang') || lang || 'en';
 
   if (!orderId) return;
 
-  // Restore free search results from before PayPal redirect
-  const savedResults = (() => { try { return JSON.parse(localStorage.getItem('ir_pending_results') || 'null'); } catch(e) { return null; } })();
-  if (savedResults) {
-    // Set depth toggle to match
-    const depthToggle = $('depth-toggle');
-    if (depthToggle) depthToggle.checked = (depth === 'deep');
-    // Fill textarea with original idea
-    const ta = document.querySelector('textarea');
-    if (ta && ideaText) ta.value = ideaText;
-    // Render free results
-    window._currentIdeaText = ideaText;
-    window._currentIdeaHash = ideaHash;
-    window._currentSignalData = savedResults;
-    setState('results', savedResults);
-    renderResults(savedResults);
-    // Hide CTA — user already paid
-    const ctaSection = document.querySelector('.dual-cta');
-    if (ctaSection) ctaSection.style.display = 'none';
-    const ctaComp = document.querySelector('.cta-comparison');
-    if (ctaComp) ctaComp.style.display = 'none';
-    const blurredPreview = $('blurred-preview');
-    if (blurredPreview) blurredPreview.style.display = 'none';
-  }
+  // Hide everything except results area — show only spinner
+  const searchSection = document.querySelector('.input-section');
+  if (searchSection) searchSection.style.display = 'none';
+  const ctaSection = document.querySelector('.dual-cta');
+  if (ctaSection) ctaSection.style.display = 'none';
+  const ctaComp = document.querySelector('.cta-comparison');
+  if (ctaComp) ctaComp.style.display = 'none';
+  const blurredPreview = $('blurred-preview');
+  if (blurredPreview) blurredPreview.style.display = 'none';
+  const signalSection = document.querySelector('.signal-section');
+  if (signalSection) signalSection.style.display = 'none';
+  const evidenceSection = $('evidence-grid');
+  if (evidenceSection) evidenceSection.style.display = 'none';
+  const similarsSection = $('similars-section');
+  if (similarsSection) similarsSection.style.display = 'none';
 
-  // Show dedicated report loading overlay
+  // Show results container with loading overlay
   const resultsDiv = $('results');
   if (resultsDiv) resultsDiv.classList.add('visible');
 
@@ -2599,26 +2589,45 @@ async function handlePayPalReturn() {
     loadingOverlay.id = 'report-loading';
     loadingOverlay.innerHTML = `
       <div class="report-loading-spinner"></div>
-      <div class="report-loading-title">Generating your report<span class="loading-dots"></span></div>
-      <div class="report-loading-sub">Capturing payment and generating full analysis...</div>
+      <div class="report-loading-title">${language === 'zh' ? '正在生成報告' : 'Generating your report'}<span class="loading-dots"></span></div>
+      <div class="report-loading-sub">${language === 'zh' ? '正在驗證付款並生成完整分析報告...' : 'Capturing payment and generating full analysis...'}</div>
+      <div style="margin:16px 0;padding:12px 20px;background:#0b1120;border:1px solid #1a1a28;border-radius:8px;text-align:left;">
+        <div style="color:#00b4ff;font-size:13px;font-weight:600;margin-bottom:4px;">${language === 'zh' ? '你的點子' : 'Your idea'}</div>
+        <div style="color:#ccc;font-size:14px;">${ideaText ? esc(ideaText) : '—'}</div>
+      </div>
       <div class="report-loading-progress">
         <div class="report-loading-bar"></div>
       </div>
-      <div class="report-loading-step" id="loading-step">Verifying payment...</div>
-      <div style="color:#666;font-size:12px;margin-top:8px;">This typically takes 1–2 minutes</div>
+      <div class="report-loading-step" id="loading-step">${language === 'zh' ? '驗證付款中...' : 'Verifying payment...'}</div>
+      <div style="color:#666;font-size:12px;margin-top:8px;">${language === 'zh' ? '通常需要 1–2 分鐘' : 'This typically takes 1–2 minutes'}</div>
     `;
     if (resultsDiv) resultsDiv.appendChild(loadingOverlay);
   }
   loadingOverlay.style.display = 'flex';
 
+  // Animate loading steps
+  const loadSteps = language === 'zh'
+    ? ['驗證付款中...', '掃描 GitHub 資料庫...', '分析 Hacker News...', '檢查 npm & PyPI...', '評分子維度...', '建立競爭者檔案...', 'AI 策略分析中...', '編譯報告...']
+    : ['Verifying payment...', 'Scanning GitHub...', 'Analyzing Hacker News...', 'Checking npm & PyPI...', 'Scoring sub-dimensions...', 'Building competitor profiles...', 'Running AI strategic analysis...', 'Compiling report...'];
+  let stepIdx = 0;
+  const stepTimer = setInterval(() => {
+    stepIdx = Math.min(stepIdx + 1, loadSteps.length - 1);
+    const el = document.getElementById('loading-step');
+    if (el) el.textContent = loadSteps[stepIdx];
+    const bar = document.querySelector('.report-loading-bar');
+    if (bar) bar.style.width = Math.min(((stepIdx + 1) / loadSteps.length) * 90, 90) + '%';
+  }, 8000);
+
   try {
     const res = await fetch(API_BASE + '/api/capture-paypal-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order_id: orderId, idea_hash: ideaHash, idea_text: ideaText, depth }),
+      body: JSON.stringify({ order_id: orderId, idea_hash: ideaHash, idea_text: ideaText, depth, language }),
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
+
+    clearInterval(stepTimer);
 
     if (data.status === 'complete') {
       trackEvent('paypal_capture_complete', { idea_hash: ideaHash });
@@ -2629,16 +2638,22 @@ async function handlePayPalReturn() {
       throw new Error('Payment not completed: ' + (data.status || 'unknown'));
     }
   } catch (e) {
+    clearInterval(stepTimer);
     console.error('PayPal capture error:', e);
     trackEvent('paypal_capture_fail', { error: (e.message || 'unknown').slice(0, 100) });
     flushEvents();
     if (loadingOverlay) loadingOverlay.style.display = 'none';
-    alert('Payment verification failed. Please contact support or use the email fallback below.');
+    // Restore UI so user can retry
+    if (searchSection) searchSection.style.display = '';
+    alert(language === 'zh'
+      ? '付款驗證失敗，請聯繫 support@mnemox.ai 並附上訂單資訊。'
+      : 'Payment verification failed. Please contact support@mnemox.ai with your order details.');
   } finally {
     // Clean up localStorage and URL
     localStorage.removeItem('ir_pending_idea');
     localStorage.removeItem('ir_pending_hash');
     localStorage.removeItem('ir_pending_depth');
+    localStorage.removeItem('ir_pending_lang');
     localStorage.removeItem('ir_pending_results');
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState({}, document.title, cleanUrl);
