@@ -1941,6 +1941,10 @@ async function startPayPalCheckout() {
     localStorage.setItem('ir_pending_idea', ideaText);
     localStorage.setItem('ir_pending_hash', ideaHash);
     localStorage.setItem('ir_pending_depth', depth);
+    // Save search results so we can restore them after PayPal redirect
+    if (window._currentSignalData) {
+      try { localStorage.setItem('ir_pending_results', JSON.stringify(window._currentSignalData)); } catch(e) {}
+    }
 
     window.location.href = data.approve_url;
   } catch (e) {
@@ -2561,6 +2565,30 @@ async function handlePayPalReturn() {
 
   if (!orderId) return;
 
+  // Restore free search results from before PayPal redirect
+  const savedResults = (() => { try { return JSON.parse(localStorage.getItem('ir_pending_results') || 'null'); } catch(e) { return null; } })();
+  if (savedResults) {
+    // Set depth toggle to match
+    const depthToggle = $('depth-toggle');
+    if (depthToggle) depthToggle.checked = (depth === 'deep');
+    // Fill textarea with original idea
+    const ta = document.querySelector('textarea');
+    if (ta && ideaText) ta.value = ideaText;
+    // Render free results
+    window._currentIdeaText = ideaText;
+    window._currentIdeaHash = ideaHash;
+    window._currentSignalData = savedResults;
+    setState('results', savedResults);
+    renderResults(savedResults);
+    // Hide CTA — user already paid
+    const ctaSection = document.querySelector('.dual-cta');
+    if (ctaSection) ctaSection.style.display = 'none';
+    const ctaComp = document.querySelector('.cta-comparison');
+    if (ctaComp) ctaComp.style.display = 'none';
+    const blurredPreview = $('blurred-preview');
+    if (blurredPreview) blurredPreview.style.display = 'none';
+  }
+
   // Show dedicated report loading overlay
   const resultsDiv = $('results');
   if (resultsDiv) resultsDiv.classList.add('visible');
@@ -2577,6 +2605,7 @@ async function handlePayPalReturn() {
         <div class="report-loading-bar"></div>
       </div>
       <div class="report-loading-step" id="loading-step">Verifying payment...</div>
+      <div style="color:#666;font-size:12px;margin-top:8px;">This typically takes 1–2 minutes</div>
     `;
     if (resultsDiv) resultsDiv.appendChild(loadingOverlay);
   }
@@ -2610,6 +2639,7 @@ async function handlePayPalReturn() {
     localStorage.removeItem('ir_pending_idea');
     localStorage.removeItem('ir_pending_hash');
     localStorage.removeItem('ir_pending_depth');
+    localStorage.removeItem('ir_pending_results');
     const cleanUrl = window.location.origin + window.location.pathname;
     window.history.replaceState({}, document.title, cleanUrl);
   }
