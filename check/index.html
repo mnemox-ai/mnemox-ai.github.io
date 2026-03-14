@@ -2734,6 +2734,10 @@ function renderPaidReport(data, reportId) {
   const verifiedAt = report.verified_at || new Date().toISOString();
   const ideaText = data.idea_text || window._currentIdeaText || '';
 
+  // Hide loading overlay
+  const loadingOverlay = document.getElementById('report-loading');
+  if (loadingOverlay) loadingOverlay.style.display = 'none';
+
   // Hide blurred preview, show paid report
   const blurredPreview = $('blurred-preview');
   if (blurredPreview) blurredPreview.style.display = 'none';
