@@ -592,8 +592,23 @@ section {
 .feature-card:nth-child(2) .feature-code { border-left-color: var(--amber-dim); }
 .feature-card:nth-child(3) .feature-code { border-left-color: var(--green-dim); }
 .feature-card:nth-child(4) .feature-code { border-left-color: rgba(167,139,250,0.3); }
+.feature-card:nth-child(5)::before { background: linear-gradient(90deg, #fb923c, transparent); }
+.feature-card:nth-child(5) .feature-icon { background: rgba(251,146,60,0.2); color: #fb923c; }
+.feature-card:nth-child(5) .feature-tag { color: #fb923c; }
 .feature-card:nth-child(5) .feature-code { border-left-color: rgba(251,146,60,0.3); }
+.feature-card:nth-child(6)::before { background: linear-gradient(90deg, #f472b6, transparent); }
+.feature-card:nth-child(6) .feature-icon { background: rgba(244,114,182,0.2); color: #f472b6; }
+.feature-card:nth-child(6) .feature-tag { color: #f472b6; }
 .feature-card:nth-child(6) .feature-code { border-left-color: rgba(244,114,182,0.3); }
+
+.feature-card.evolution { grid-column: 1 / -1; }
+.feature-card.evolution::before { background: linear-gradient(90deg, var(--green), var(--cyan), transparent); }
+.feature-card.evolution .feature-icon { background: var(--green-dim); color: var(--green); }
+.feature-card.evolution .feature-tag { color: var(--green); }
+.feature-card.evolution .feature-code { border-left-color: var(--green-dim); }
+.feature-card.evolution .evo-result { margin-top: 12px; padding: 12px 16px; background: rgba(0,255,136,0.05); border: 1px solid var(--green-dim); font-family: var(--font-mono); font-size: 12px; }
+.feature-card.evolution .evo-result .t-key { color: var(--cyan); }
+.feature-card.evolution .evo-result .t-value { color: var(--green); }
 
 /* ===== LAYERS ===== */
 .layers-grid {
@@ -1267,7 +1282,7 @@ footer {
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stat-item">
-    <div class="stat-number">399</div>
+    <div class="stat-number">1,055</div>
     <div class="stat-label" data-i18n="stat_tests">Tests Passing</div>
   </div>
   <div class="stat-item">
@@ -1275,7 +1290,7 @@ footer {
     <div class="stat-label" data-i18n="stat_layers">Memory Types</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">10</div>
+    <div class="stat-number">15</div>
     <div class="stat-label" data-i18n="stat_tools">MCP Tools</div>
   </div>
   <div class="stat-item">
@@ -1289,7 +1304,7 @@ footer {
   <div class="reveal">
     <div class="section-label" data-i18n="sec_features">Core Features</div>
     <h2 class="section-title" data-i18n="features_title">Everything your trading agent needs to remember.</h2>
-    <p class="section-subtitle" data-i18n="features_subtitle">Six capabilities that turn a stateless AI into a learning trading partner.</p>
+    <p class="section-subtitle" data-i18n="features_subtitle">Seven capabilities that turn a stateless AI into a learning trading partner.</p>
   </div>
 
   <div class="features-grid reveal">
@@ -1358,6 +1373,20 @@ footer {
         <span class="t-key">recommended_size:</span> <span class="t-value">0.03 lots</span>
       </div>
     </div>
+
+    <div class="feature-card evolution">
+      <div class="feature-icon">&#9851;</div>
+      <div class="feature-tag" data-i18n="feat7_tag">NEW &mdash; Evolution Engine</div>
+      <h3 class="feature-title" data-i18n="feat7_title">Strategy Evolution</h3>
+      <p class="feature-desc" data-i18n="feat7_desc">Discover trading strategies from raw price data. LLM-powered hypothesis generation + vectorized backtesting + Darwinian selection.</p>
+      <div class="feature-code">
+        <span class="t-dim">$</span> <span class="t-cmd">evolve_strategies</span> <span class="t-dim">--pair BTC/USDT --tf 1H</span><br>
+        <span class="t-success">&#10003;</span> <span class="t-dim">discover</span> <span class="t-arrow">&#8594;</span> <span class="t-dim">hypothesize</span> <span class="t-arrow">&#8594;</span> <span class="t-dim">backtest</span> <span class="t-arrow">&#8594;</span> <span class="t-success">select</span>
+      </div>
+      <div class="evo-result">
+        <span class="t-key">result:</span> <span class="t-value">BTC/USDT 1H</span> <span class="t-dim">22mo</span> &middot; <span class="t-key">Sharpe</span> <span class="t-value">3.84</span> &middot; <span class="t-key">trades</span> <span class="t-value">477</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1413,7 +1442,13 @@ footer {
       <h3 class="layer-title" data-i18n="owm_title">Outcome-Weighted Recall</h3>
       <p class="layer-desc" data-i18n="owm_desc">5 memory types scored by outcome quality, context similarity, recency, confidence, and affective state. Based on ACT-R cognitive architecture.</p>
       <div class="layer-code">
-        Score = Q &times; Sim &times; Rec &times; Conf &times; Aff
+        <span class="t-key">Episodic</span> <span class="t-dim">&mdash; what happened (individual trades)</span><br>
+        <span class="t-key">Semantic</span> <span class="t-dim">&mdash; what it means (aggregated patterns)</span><br>
+        <span class="t-key">Procedural</span> <span class="t-dim">&mdash; how you traded (behavioral habits)</span><br>
+        <span class="t-warn">Affective</span> <span class="t-dim">&mdash; how it felt (confidence &amp; drawdown)</span><br>
+        <span class="t-success">Prospective</span> <span class="t-dim">&mdash; what to do next (conditional plans)</span><br>
+        <br>
+        <span class="t-dim">Score =</span> <span class="t-value">Q</span> <span class="t-dim">&times;</span> <span class="t-value">Sim</span> <span class="t-dim">&times;</span> <span class="t-value">Rec</span> <span class="t-dim">&times;</span> <span class="t-value">Conf</span> <span class="t-dim">&times;</span> <span class="t-value">Aff</span>
       </div>
     </div>
   </div>
@@ -1480,7 +1515,7 @@ footer {
 <section id="tools">
   <div class="reveal">
     <div class="section-label" data-i18n="sec_tools">MCP Tools</div>
-    <h2 class="section-title" data-i18n="tools_title">10 tools. Full cognitive memory pipeline.</h2>
+    <h2 class="section-title" data-i18n="tools_title">15 tools. Full cognitive memory + evolution pipeline.</h2>
     <p class="section-subtitle" data-i18n="tools_subtitle">Core tools for storage and analysis. OWM tools for cognitive recall, behavioral analysis, and position sizing. Your AI agent calls these tools via the Model Context Protocol.</p>
   </div>
 
@@ -1525,6 +1560,27 @@ footer {
     <div class="tool-item">
       <div class="tool-name">check_active_plans</div>
       <div class="tool-desc" data-i18n="tool10_desc">Match active plans against current market context, auto-expire old plans.</div>
+    </div>
+    <div style="grid-column:1/-1;border-top:1px solid var(--border);margin:16px 0;padding-top:8px;"><span style="color:var(--green);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;">Evolution Engine (v0.5.0)</span></div>
+    <div class="tool-item">
+      <div class="tool-name">evolve_strategies</div>
+      <div class="tool-desc" data-i18n="tool11_desc">Run full evolution cycle: discover signals, generate hypotheses, backtest, select survivors.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">discover_signals</div>
+      <div class="tool-desc" data-i18n="tool12_desc">Scan raw price data for candidate trading signals and market patterns.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">generate_hypothesis</div>
+      <div class="tool-desc" data-i18n="tool13_desc">LLM-powered hypothesis generation from discovered signals and market context.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">run_backtest</div>
+      <div class="tool-desc" data-i18n="tool14_desc">Vectorized backtesting engine for fast strategy evaluation across historical data.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">select_survivors</div>
+      <div class="tool-desc" data-i18n="tool15_desc">Darwinian selection: rank strategies by Sharpe, filter by drawdown, promote to production.</div>
     </div>
   </div>
 </section>
@@ -1660,7 +1716,7 @@ const i18n = {
     stat_tests: 'Tests Passing', stat_layers: 'Memory Types', stat_tools: 'MCP Tools', stat_license: 'Licensed',
     sec_features: 'Core Features',
     features_title: 'Everything your trading agent needs to remember.',
-    features_subtitle: 'Six capabilities that turn a stateless AI into a learning trading partner.',
+    features_subtitle: 'Seven capabilities that turn a stateless AI into a learning trading partner.',
     feat1_tag: 'OWM Architecture', feat1_title: 'Outcome-Weighted Memory',
     feat1_desc: '5 cognitive memory types: Episodic, Semantic, Procedural, Affective, Prospective. Each trade scored by outcome quality, context similarity, recency, and confidence.',
     feat2_tag: 'AI Reflection', feat2_title: 'Reflection Engine',
@@ -1673,6 +1729,8 @@ const i18n = {
     feat5_desc: 'Procedural memory tracks trading behaviors. Detects overtrading, revenge trading, and session-specific biases from your trade history.',
     feat6_tag: 'Position Sizing', feat6_title: 'Kelly-from-Memory',
     feat6_desc: 'Context-weighted Kelly Criterion using recalled win rates and payoff ratios. Quarter-Kelly default with risk appetite adjustment.',
+    feat7_tag: 'NEW \u2014 Evolution Engine', feat7_title: 'Strategy Evolution',
+    feat7_desc: 'Discover trading strategies from raw price data. LLM-powered hypothesis generation + vectorized backtesting + Darwinian selection.',
     sec_arch: 'Architecture',
     arch_title: 'Dual Architecture',
     arch_subtitle: 'Legacy L1→L2→L3 pipeline plus OWM cognitive memory. Both work side by side.',
@@ -1692,7 +1750,7 @@ const i18n = {
     inst2_title: 'Claude Code', inst2_desc: 'One command to add TradeMemory as an MCP server.',
     inst3_title: 'pip install', inst3_desc: 'Install from PyPI for custom integrations or development.',
     sec_tools: 'MCP Tools',
-    tools_title: '10 tools. Full cognitive memory pipeline.',
+    tools_title: '15 tools. Full cognitive memory + evolution pipeline.',
     tools_subtitle: 'Core tools for storage and analysis. OWM tools for cognitive recall, behavioral analysis, and position sizing. Your AI agent calls these tools via the Model Context Protocol.',
     tool1_desc: 'Record a trade with full context: instrument, direction, lots, prices, P&L, strategy, reasoning.',
     tool2_desc: 'Query trade history with filters: date range, instrument, strategy, session, direction.',
@@ -1704,6 +1762,11 @@ const i18n = {
     tool8_desc: 'Affective state: confidence, risk appetite, drawdown tracking, recommended action.',
     tool9_desc: 'Prospective memory: conditional plans triggered by market conditions.',
     tool10_desc: 'Match active plans against current market context, auto-expire old plans.',
+    tool11_desc: 'Run full evolution cycle: discover signals, generate hypotheses, backtest, select survivors.',
+    tool12_desc: 'Scan raw price data for candidate trading signals and market patterns.',
+    tool13_desc: 'LLM-powered hypothesis generation from discovered signals and market context.',
+    tool14_desc: 'Vectorized backtesting engine for fast strategy evaluation across historical data.',
+    tool15_desc: 'Darwinian selection: rank strategies by Sharpe, filter by drawdown, promote to production.',
     sec_pricing: 'Pricing', pricing_badge: 'Coming Soon',
     pricing_title: 'Hosted API. Zero infrastructure.',
     pricing_subtitle: 'Self-host free forever. Or let us handle the infrastructure \u2014 cloud API with guaranteed uptime, auto-scaling, and team dashboards.',
@@ -1743,7 +1806,7 @@ const i18n = {
     stat_tests: '\u6e2c\u8a66\u901a\u904e', stat_layers: '\u8a18\u61b6\u985e\u578b', stat_tools: 'MCP \u5de5\u5177', stat_license: '\u6388\u6b0a',
     sec_features: '\u6838\u5fc3\u529f\u80fd',
     features_title: '\u4ea4\u6613\u4ee3\u7406\u9700\u8981\u8a18\u4f4f\u7684\u4e00\u5207\u3002',
-    features_subtitle: '六大能力，讓無狀態 AI 變成會學習的交易夥伴。',
+    features_subtitle: '七大能力，讓無狀態 AI 變成會學習的交易夥伴。',
     feat1_tag: 'OWM 架構', feat1_title: '結果加權記憶',
     feat1_desc: '5 種認知記憶類型：情節記憶、語意記憶、程序記憶、情感狀態、前瞻計劃。每筆交易依結果品質、情境相似度、時效性和信心度評分。',
     feat2_tag: 'AI \u53cd\u601d', feat2_title: '\u53cd\u601d\u5f15\u64ce',
@@ -1756,6 +1819,8 @@ const i18n = {
     feat5_desc: '程序記憶追蹤交易行為。從交易歷史中偵測過度交易、報復性交易和盤別偏差。',
     feat6_tag: '倉位管理', feat6_title: '記憶驅動 Kelly',
     feat6_desc: '使用回憶的勝率和賠率進行情境加權 Kelly 計算。預設 quarter-Kelly，可調整風險偏好。',
+    feat7_tag: '新功能 — 進化引擎', feat7_title: '策略進化',
+    feat7_desc: '從原始價格數據發現交易策略。LLM 驅動的假說生成 + 向量化回測 + 達爾文式選擇。',
     sec_arch: '\u67b6\u69cb',
     arch_title: '雙層架構',
     arch_subtitle: '經典 L1→L2→L3 管線加上 OWM 認知記憶。兩者並行運作。',
@@ -1775,7 +1840,7 @@ const i18n = {
     inst2_title: 'Claude Code', inst2_desc: '\u4e00\u884c\u6307\u4ee4\u5c07 TradeMemory \u52a0\u70ba MCP server\u3002',
     inst3_title: 'pip install', inst3_desc: '\u5f9e PyPI \u5b89\u88dd\uff0c\u9069\u7528\u65bc\u81ea\u8a02\u6574\u5408\u6216\u958b\u767c\u3002',
     sec_tools: 'MCP \u5de5\u5177',
-    tools_title: '10 個工具，完整認知記憶管線。',
+    tools_title: '15 個工具，完整認知記憶 + 進化管線。',
     tools_subtitle: '核心工具負責儲存與分析。OWM 工具負責認知召回、行為分析和倉位管理。你的 AI 代理透過 Model Context Protocol 呼叫這些工具。',
     tool1_desc: '\u8a18\u9304\u4ea4\u6613\u8207\u5b8c\u6574\u4e0a\u4e0b\u6587\uff1a\u5546\u54c1\u3001\u65b9\u5411\u3001\u624b\u6578\u3001\u50f9\u683c\u3001\u640d\u76ca\u3001\u7b56\u7565\u3001\u63a8\u7406\u3002',
     tool2_desc: '\u4f9d\u7be9\u9078\u689d\u4ef6\u67e5\u8a62\u4ea4\u6613\u6b77\u53f2\uff1a\u65e5\u671f\u7bc4\u570d\u3001\u5546\u54c1\u3001\u7b56\u7565\u3001\u76e4\u5225\u3001\u65b9\u5411\u3002',
@@ -1787,6 +1852,11 @@ const i18n = {
     tool8_desc: '情感狀態：信心度、風險偏好、回撤追蹤、建議行動。',
     tool9_desc: '前瞻記憶：依市場條件觸發的條件計劃。',
     tool10_desc: '比對活躍計劃與當前市場情境，自動過期舊計劃。',
+    tool11_desc: '執行完整進化循環：發現訊號、生成假說、回測、篩選倖存者。',
+    tool12_desc: '掃描原始價格數據，尋找候選交易訊號和市場模式。',
+    tool13_desc: 'LLM 驅動的假說生成，從發現的訊號和市場情境中產生策略。',
+    tool14_desc: '向量化回測引擎，快速評估策略在歷史數據上的表現。',
+    tool15_desc: '達爾文式篩選：依 Sharpe 排名、依回撤過濾、晉升至生產環境。',
     sec_pricing: '\u65b9\u6848', pricing_badge: '\u5373\u5c07\u63a8\u51fa',
     pricing_title: '\u8a17\u7ba1 API\uff0c\u96f6\u57fa\u790e\u8a2d\u65bd\u3002',
     pricing_subtitle: '\u81ea\u67b6\u6c38\u4e45\u514d\u8cbb\u3002\u6216\u8b93\u6211\u5011\u8655\u7406\u57fa\u790e\u8a2d\u65bd \u2014 \u96f2\u7aef API\uff0c\u4fdd\u8b49\u7a69\u5b9a\u3001\u81ea\u52d5\u64f4\u5c55\u3001\u5718\u968a\u5100\u8868\u677f\u3002',
